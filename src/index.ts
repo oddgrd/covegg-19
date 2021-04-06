@@ -6,8 +6,9 @@ const app: express.Application = express();
 // Connect to mongoDB
 // connectDB();
 
-// Express built-in JSON body-parser
+// Express built-in body-parser
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Middleware to sanitize user input
 app.use(
