@@ -7,10 +7,9 @@ const ProblemSchema: Schema = new Schema({
     ref: 'users'
   },
   name: {
-    type: String,
-    required: true
+    type: String
   },
-  problem_name: {
+  title: {
     type: String,
     required: true
   },
@@ -49,8 +48,7 @@ const ProblemSchema: Schema = new Schema({
         ref: 'users'
       },
       name: {
-        type: String,
-        required: true
+        type: String
       },
       attempts: {
         type: String,
@@ -66,10 +64,16 @@ const ProblemSchema: Schema = new Schema({
       }
     }
   ],
+  dataUrl: {
+    type: String,
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-export const Problem: Model<IProblem> = model('Problem', ProblemSchema);
+const Problem: Model<IProblem> = model('Problem', ProblemSchema);
+
+export default Problem;

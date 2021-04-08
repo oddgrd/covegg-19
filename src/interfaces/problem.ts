@@ -1,9 +1,9 @@
-import { Document, Schema, ObjectId } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 export default interface IProblem extends Document {
   user: Schema.Types.ObjectId;
   name: string;
-  problem_name: string;
+  title: string;
   grade: string;
   set_by: string;
   first_ascent: string;
@@ -12,6 +12,6 @@ export default interface IProblem extends Document {
   board_version: string;
   rules: string;
   ascents: object[];
-  _id: ObjectId;
+  dataUrl: string;
   date: Date;
 }

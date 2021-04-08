@@ -62,14 +62,13 @@ app.use(
 );
 
 // Routes
-app.use('api/users', userRoutes);
-app.use('api/problems', problemRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/problems', problemRoutes);
 
 // Error handling
-app.use((_req, res, next) => {
+app.use((_req, res, _next) => {
   const error = new Error('Not found');
-  return res.status(404).json({ message: error.message });
-  next();
+  res.status(404).json({ message: error.message });
 });
 
 // Create the server
