@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import logging from '../config/logging';
 
-const NAMESPACE = 'Sample Controller';
+const NAMESPACE = 'Users Controller';
 
 const sampleHealthCheck = (
   _req: Request,

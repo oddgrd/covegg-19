@@ -10,8 +10,20 @@ const SERVER = {
   port: SERVER_PORT
 };
 
+const connectionString = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@covegg19.we7sa.mongodb.net/Covegg19?retryWrites=true&w=majority`;
+
+const MONGO = {
+  url: connectionString,
+  opt: {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  }
+};
 const config = {
-  server: SERVER
+  server: SERVER,
+  mongo: MONGO
 };
 
 export default config;

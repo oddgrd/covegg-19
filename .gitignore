@@ -1,5 +1,5 @@
 dist/
 node_modules/
-config/default.json
-
+src/config/default.json
 yarn-error.log
+.env

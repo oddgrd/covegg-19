@@ -2,13 +2,25 @@ import http from 'http';
 import express from 'express';
 import logging from './config/logging';
 import config from './config/config';
-import sampleRoutes from './routes/sample';
+import userRoutes from './routes/user';
+import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
+import mongoose from 'mongoose';
 
 const NAMESPACE = 'Server';
 const app = express();
 
-// Logging the request
+// Connect to mongoDB
+mongoose
+  .connect(config.mongo.url, config.mongo.opt)
+  .then(() => {
+    logging.info(NAMESPACE, 'Connected to MongoDB...');
+  })
+  .catch((error) => {
+    logging.error(NAMESPACE, error.message, error);
+  });
+
+// Logging the requests
 app.use((req, res, next) => {
   logging.info(
     NAMESPACE,
@@ -50,8 +62,8 @@ app.use(
 );
 
 // Routes
-app.use('/sample', sampleRoutes);
-// app.use('/api/auth', require('./routes/api/auth'));
+app.use('api/users', userRoutes);
+app.use('api/problems', problemRoutes);
 
 // Error handling
 app.use((_req, res, next) => {
@@ -66,6 +78,6 @@ const httpServer = http.createServer(app);
 httpServer.listen(config.server.port, () =>
   logging.info(
     NAMESPACE,
-    `Server is running ${config.server.hostname}:${config.server.port}`
+    `Server is running on ${config.server.hostname}:${config.server.port}`
   )
 );
