@@ -14,7 +14,11 @@ router.get('/', controller.getAllProblems);
 // @access   Public (todo: private)
 router.post(
   '/',
-  [check('title', 'Title is required').not().isEmpty()],
+  [
+    check('title', 'Title is required').not().isEmpty(),
+    check('setBy', 'Set By info is required').not().isEmpty(),
+    check('firstAscent', 'First Ascentionist is required').not().isEmpty()
+  ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
 
