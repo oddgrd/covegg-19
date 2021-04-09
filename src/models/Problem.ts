@@ -17,11 +17,11 @@ const ProblemSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  set_by: {
+  setby: {
     type: String,
     required: true
   },
-  first_ascent: {
+  firstascent: {
     type: String,
     required: true
   },
@@ -33,7 +33,7 @@ const ProblemSchema: Schema = new Schema({
     type: Number,
     required: true
   },
-  board_version: {
+  boardversion: {
     type: String,
     required: true
   },
@@ -64,7 +64,7 @@ const ProblemSchema: Schema = new Schema({
       }
     }
   ],
-  dataUrl: {
+  dataurl: {
     type: String,
     required: true
   },

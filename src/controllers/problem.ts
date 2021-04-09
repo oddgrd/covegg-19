@@ -7,19 +7,19 @@ const NAMESPACE = 'Problem Controller';
 // @desc - Add new problem
 // @method - POST
 const addProblem = async (req: Request, res: Response, _next: NextFunction) => {
-  logging.info(NAMESPACE, `Add problem route called.`);
+  logging.info(NAMESPACE, `Adding problem`);
   const {
     name,
     title,
     grade,
-    setBy,
-    firstAscent,
+    setby,
+    firstascent,
     attempts,
     rating,
-    boardVersion,
+    boardversion,
     rules,
     ascents,
-    dataUrl
+    dataurl
   } = req.body;
 
   try {
@@ -27,14 +27,14 @@ const addProblem = async (req: Request, res: Response, _next: NextFunction) => {
       name,
       title,
       grade,
-      setBy,
-      firstAscent,
+      setby,
+      firstascent,
       attempts,
       rating,
-      boardVersion,
+      boardversion,
       rules,
       ascents,
-      dataUrl
+      dataurl
     });
     await newProblem.save();
     res.status(200).json(newProblem);
@@ -54,7 +54,7 @@ const getAllProblems = async (
   res: Response,
   _next: NextFunction
 ) => {
-  logging.info(NAMESPACE, `Get all problems route called.`);
+  logging.info(NAMESPACE, `Getting all problems`);
 
   try {
     const problems = await Problem.find().sort({ date: -1 });
