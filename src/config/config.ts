@@ -11,7 +11,6 @@ const SERVER = {
 };
 
 const connectionString = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@covegg19.we7sa.mongodb.net/Covegg19?retryWrites=true&w=majority`;
-
 const MONGO = {
   url: connectionString,
   opt: {
@@ -21,9 +20,16 @@ const MONGO = {
     useCreateIndex: true
   }
 };
+
+const GOOGLE = {
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET
+};
+
 const config = {
   server: SERVER,
-  mongo: MONGO
+  mongo: MONGO,
+  google: GOOGLE
 };
 
 export default config;

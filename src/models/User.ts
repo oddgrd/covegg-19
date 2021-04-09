@@ -1,24 +1,12 @@
-import { model, Schema, Model, Document, ObjectId } from 'mongoose';
-
-interface board {
-  type: Schema.Types.ObjectId;
-}
-export interface IUser extends Document {
-  name: string;
-  given_name: string;
-  email: string;
-  avatar_url?: string;
-  boards: Array<board>;
-  _id: ObjectId;
-  date: Date;
-}
+import { model, Schema, Model } from 'mongoose';
+import IUser from '../interfaces/user';
 
 const UserSchema: Schema = new Schema({
   name: {
     type: String,
     required: true
   },
-  given_name: {
+  givenName: {
     type: String,
     required: true
   },
@@ -26,19 +14,19 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  avatar_url: {
+  googleId: {
+    type: String,
+    required: true
+  },
+  avatarUrl: {
     type: String
   },
-  boards: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Board'
-    }
-  ],
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-export const User: Model<IUser> = model('User', UserSchema);
+const User: Model<IUser> = model('User', UserSchema);
+
+export default User;
