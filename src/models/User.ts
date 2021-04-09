@@ -6,10 +6,6 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  givenName: {
-    type: String,
-    required: true
-  },
   email: {
     type: String,
     required: true
@@ -17,9 +13,6 @@ const UserSchema: Schema = new Schema({
   googleId: {
     type: String,
     required: true
-  },
-  avatarUrl: {
-    type: String
   },
   date: {
     type: Date,

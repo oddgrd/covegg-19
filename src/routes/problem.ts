@@ -34,14 +34,3 @@ router.post(
 );
 
 export = router;
-// name,
-//     title,
-//     grade,
-//     set_by,
-//     first_ascent,
-//     attempts,
-//     rating,
-//     board_version,
-//     rules,
-//     ascents,
-//     dataUrl

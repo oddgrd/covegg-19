@@ -1,14 +1,70 @@
 import http from 'http';
 import express from 'express';
+import mongoose from 'mongoose';
+import passport from 'passport';
+import cookieSession from 'cookie-session';
+import { Strategy } from 'passport-google-oauth20';
+import User from './models/User';
 import logging from './config/logging';
 import config from './config/config';
+import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
-import mongoose from 'mongoose';
 
 const NAMESPACE = 'Server';
 const app = express();
+
+// Configure passport
+passport.use(
+  new Strategy(
+    {
+      clientID: config.google.clientID as string,
+      clientSecret: config.google.clientSecret as string,
+      callbackURL: 'http://localhost:5000/api/auth/google/callback'
+    },
+    async (_accessToken, _refreshToken, profile: any, done) => {
+      const user = await User.findOne({ googleId: profile.id });
+
+      if (user) {
+        done(null, user);
+      } else {
+        try {
+          const newUser = new User({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            googleId: profile.id
+          });
+          await newUser.save();
+          done(null, newUser);
+        } catch (error) {
+          done(error);
+        }
+      }
+    }
+  )
+);
+
+passport.serializeUser(function (user: any, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});
+
+app.use(
+  cookieSession({
+    // milliseconds of a day
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [config.cookie.cookieKey]
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Connect to mongoDB
 mongoose
@@ -62,6 +118,7 @@ app.use(
 );
 
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/problems', problemRoutes);
 
