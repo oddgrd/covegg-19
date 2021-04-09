@@ -6,9 +6,6 @@ const ProblemSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-  name: {
-    type: String
-  },
   title: {
     type: String,
     required: true
@@ -17,11 +14,11 @@ const ProblemSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  setby: {
+  setBy: {
     type: String,
     required: true
   },
-  firstascent: {
+  firstAscent: {
     type: String,
     required: true
   },
@@ -33,7 +30,7 @@ const ProblemSchema: Schema = new Schema({
     type: Number,
     required: true
   },
-  boardversion: {
+  boardVersion: {
     type: String,
     required: true
   },
@@ -64,7 +61,7 @@ const ProblemSchema: Schema = new Schema({
       }
     }
   ],
-  dataurl: {
+  dataUrl: {
     type: String,
     required: true
   },

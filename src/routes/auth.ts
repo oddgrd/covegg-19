@@ -1,5 +1,6 @@
 import express from 'express';
 import passport from 'passport';
+import IUser from 'src/interfaces/user';
 const router = express.Router();
 
 router.get(
@@ -13,7 +14,8 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect('/api/problems');
+    const { _id } = req.user as IUser;
+    res.send(_id);
   }
 );
 
