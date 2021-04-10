@@ -1,8 +1,9 @@
 import http from 'http';
 import express from 'express';
+import expressSession from 'express-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
-import cookieSession from 'cookie-session';
+// import cookieSession from 'cookie-session';
 import { Strategy } from 'passport-google-oauth20';
 import User from './models/User';
 import logging from './config/logging';
@@ -56,10 +57,11 @@ passport.deserializeUser((id, done) => {
 });
 
 app.use(
-  cookieSession({
-    // milliseconds of a day
-    maxAge: 24 * 60 * 60 * 1000,
-    keys: [config.cookie.cookieKey]
+  expressSession({
+    secret: config.cookie.cookieKey,
+    cookie: { maxAge: 60000 },
+    resave: true,
+    saveUninitialized: true
   })
 );
 

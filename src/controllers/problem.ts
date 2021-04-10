@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import Problem from '../models/Problem';
 import logging from '../config/logging';
 import IUser from 'src/interfaces/user';
-import { post } from 'src/routes/auth';
 
 const NAMESPACE = 'Problem Controller';
 
@@ -97,7 +96,7 @@ const getProblemById = async (
   }
 };
 
-// @desc - Get problem by object ID
+// @desc - Delete problem by object ID
 // @method - DELETE
 const deleteProblem = async (
   req: Request,
@@ -105,8 +104,8 @@ const deleteProblem = async (
   _next: NextFunction
 ) => {
   logging.info(NAMESPACE, `Deleting problem`);
-  const { _id } = req.user as IUser;
   try {
+    const { _id } = req.user as IUser;
     const problem = await Problem.findById(req.params.id);
     if (!problem) {
       res.status(404).json({ message: 'Problem not found' });
@@ -119,7 +118,7 @@ const deleteProblem = async (
   } catch (error) {
     console.error(error.message);
     if (error.kind === 'ObjectId') {
-      res.status(404).json({ msg: 'Post not found' });
+      res.status(404).json({ msg: 'Problem not found' });
     }
     res.status(500).json({
       message: error.message,

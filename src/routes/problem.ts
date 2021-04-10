@@ -2,7 +2,8 @@ import express from 'express';
 import { check, validationResult } from 'express-validator';
 import passport from 'passport';
 import controller from '../controllers/problem';
-
+import auth from '../middleware/auth';
+import { ensureLoggedIn } from 'connect-ensure-login';
 const router = express.Router();
 
 // @route    POST api/problems
@@ -38,6 +39,11 @@ router.get('/', controller.getAllProblems);
 // @route    GET api/problems/:id
 // @desc     Get problem by object ID
 // @access   Public
-router.get('/:id', controller.getProblemById);
+router.get('/:id', ensureLoggedIn(), controller.getProblemById);
+
+// @route    DELETE api/problems/:id
+// @desc     Delete problem by object ID
+// @access   Private
+router.delete('/:id', ensureLoggedIn(), controller.deleteProblem);
 
 export = router;
