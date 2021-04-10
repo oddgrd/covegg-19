@@ -27,7 +27,7 @@ router.post(
       next();
     }
   },
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  auth,
   controller.addProblem
 );
 
@@ -39,11 +39,11 @@ router.get('/', controller.getAllProblems);
 // @route    GET api/problems/:id
 // @desc     Get problem by object ID
 // @access   Public
-router.get('/:id', ensureLoggedIn(), controller.getProblemById);
+router.get('/:id', auth, controller.getProblemById);
 
 // @route    DELETE api/problems/:id
 // @desc     Delete problem by object ID
 // @access   Private
-router.delete('/:id', ensureLoggedIn(), controller.deleteProblem);
+router.delete('/:id', auth, controller.deleteProblem);
 
 export = router;

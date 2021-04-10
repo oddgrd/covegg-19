@@ -12,10 +12,9 @@ router.get(
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    const { _id } = req.user as IUser;
-    res.send(_id);
+    res.redirect('/');
   }
 );
 
