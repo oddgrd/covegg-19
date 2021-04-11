@@ -11,8 +11,7 @@ router.post(
   '/',
   [
     check('title', 'Title is required').not().isEmpty(),
-    check('setBy', 'Set By info is required').not().isEmpty(),
-    check('firstAscent', 'First Ascentionist is required').not().isEmpty()
+    check('setBy', 'Set By info is required').not().isEmpty()
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
@@ -37,7 +36,7 @@ router.get('/', controller.getAllProblems);
 // @route    GET api/problems/:id
 // @desc     Get problem by object ID
 // @access   Public
-router.get('/:id', auth, controller.getProblemById);
+router.get('/:id', controller.getProblemById);
 
 // @route    DELETE api/problems/:id
 // @desc     Delete problem by object ID
