@@ -10,24 +10,8 @@ const ProblemSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  grade: {
-    type: String,
-    required: true
-  },
   setBy: {
     type: String,
-    required: true
-  },
-  firstAscent: {
-    type: String,
-    required: true
-  },
-  attempts: {
-    type: String,
-    required: true
-  },
-  rating: {
-    type: Number,
     required: true
   },
   boardVersion: {
@@ -61,13 +45,13 @@ const ProblemSchema: Schema = new Schema({
       }
     }
   ],
-  dataUrl: {
-    type: String,
-    required: true
-  },
   date: {
     type: Date,
     default: Date.now
+  },
+  dataUrl: {
+    type: String,
+    required: true
   }
 });
 

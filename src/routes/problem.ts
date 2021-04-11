@@ -1,9 +1,7 @@
 import express from 'express';
 import { check, validationResult } from 'express-validator';
-import passport from 'passport';
 import controller from '../controllers/problem';
 import auth from '../middleware/auth';
-import { ensureLoggedIn } from 'connect-ensure-login';
 const router = express.Router();
 
 // @route    POST api/problems
