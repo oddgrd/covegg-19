@@ -47,7 +47,52 @@ router.get('/:id', controller.getProblemById);
 // @route    POST api/problems/:id
 // @desc     Add ascent to problem
 // @access   Private
-router.post('/:id', auth, controller.addAscent);
+router.post(
+  '/:id',
+  [
+    check('attempts', 'Attempts is required').not().isEmpty(),
+    check('rating', 'Rating is required').not().isEmpty(),
+    check('grade', 'Rating is required').not().isEmpty()
+  ],
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const error = validationResult(req).formatWith(({ msg }) => msg);
+
+    const hasError = !error.isEmpty();
+
+    if (hasError) {
+      res.status(422).json({ error: error.array() });
+    } else {
+      next();
+    }
+  },
+  auth,
+  controller.addAscent
+);
+
+// @route    PUT api/problems/:id/:ascent_id
+// @desc     Edit ascent
+// @access   Private
+router.put(
+  '/:id/:ascent_id',
+  [
+    check('attempts', 'Attempts is required').not().isEmpty(),
+    check('rating', 'Rating is required').not().isEmpty(),
+    check('grade', 'Rating is required').not().isEmpty()
+  ],
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const error = validationResult(req).formatWith(({ msg }) => msg);
+
+    const hasError = !error.isEmpty();
+
+    if (hasError) {
+      res.status(422).json({ error: error.array() });
+    } else {
+      next();
+    }
+  },
+  auth,
+  controller.editAscent
+);
 
 // @route    DELETE api/problems/:id/:ascent_id
 // @desc     Delete ascent by problem and ascent id

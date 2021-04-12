@@ -8,11 +8,11 @@ interface Ascent {
   grade: string;
   rating: number;
   comment?: string;
-  date: Date;
 }
 
 export default interface IProblem extends Document {
   user: Schema.Types.ObjectId;
+  _id: Schema.Types.ObjectId;
   title: string;
   grade: string;
   setBy: string;

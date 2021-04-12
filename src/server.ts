@@ -3,7 +3,6 @@ import express from 'express';
 import expressSession from 'express-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
-// import cookieSession from 'cookie-session';
 import { Strategy } from 'passport-google-oauth20';
 import User from './models/User';
 import logging from './config/logging';
@@ -61,6 +60,7 @@ app.use(
     secret: config.cookie.cookieKey,
     cookie: { maxAge: 60000 },
     resave: true,
+    rolling: true,
     saveUninitialized: true
   })
 );

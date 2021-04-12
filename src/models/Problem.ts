@@ -24,33 +24,34 @@ const ProblemSchema: Schema = new Schema({
   },
   ascents: [
     {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
-      },
-      name: {
-        type: String,
-        required: true
-      },
-      attempts: {
-        type: String,
-        required: true
-      },
-      grade: {
-        type: String,
-        required: true
-      },
-      rating: {
-        type: Number,
-        required: true
-      },
-      comment: {
-        type: String
-      },
-      date: {
-        type: Date,
-        default: Date.now
-      }
+      type: new Schema(
+        {
+          user: {
+            type: Schema.Types.ObjectId,
+            ref: 'users'
+          },
+          name: {
+            type: String,
+            required: true
+          },
+          attempts: {
+            type: String,
+            required: true
+          },
+          grade: {
+            type: String,
+            required: true
+          },
+          rating: {
+            type: Number,
+            required: true
+          },
+          comment: {
+            type: String
+          }
+        },
+        { timestamps: true }
+      )
     }
   ],
   date: {

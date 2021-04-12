@@ -3,7 +3,6 @@ import Problem from '../models/Problem';
 import logging from '../config/logging';
 import IUser from '../interfaces/user';
 import User from '../models/User';
-
 const NAMESPACE = 'Problem Controller';
 
 // @desc - Add new problem
@@ -41,21 +40,19 @@ const editProblem = async (
   _next: NextFunction
 ) => {
   logging.info(NAMESPACE, `Editing problem`);
-  const { _id, name } = req.user as IUser;
+  const { _id: userId, name } = req.user as IUser;
   const problemFields = {
-    user: _id,
+    user: userId,
     setBy: name,
     ...req.body
   };
   try {
-    let problem = await Problem.findById(req.params.id);
-    if (problem) {
-      problem = await Problem.findOneAndUpdate(
-        { user: _id },
-        { $set: problemFields },
-        { new: true }
-      );
-    } else {
+    const problem = await Problem.findOneAndUpdate(
+      { _id: req.params.id as any },
+      { $set: problemFields },
+      { new: true }
+    );
+    if (!problem) {
       res.status(404).json({ message: 'Problem not found' });
     }
 
@@ -150,6 +147,47 @@ const addAscent = async (req: Request, res: Response, _next: NextFunction) => {
   }
 };
 
+// @desc - Edit ascent
+// @method - PUT
+const editAscent = async (req: Request, res: Response, _next: NextFunction) => {
+  logging.info(NAMESPACE, `Editing ascent`);
+  // const { _id, name } = req.user as IUser;
+  const { attempts, rating, grade, comment } = req.body;
+  // const asc = { attempts, rating, grade, user: _id, name, ...rest };
+  try {
+    const problem = await Problem.findOneAndUpdate(
+      {
+        _id: req.params.id as any,
+        'ascents._id': req.params.ascent_id
+      },
+      {
+        $set: {
+          'ascents.$_id': req.params.ascent_id,
+          'ascents.$.attempts': attempts,
+          'ascents.$.rating': rating,
+          'ascents.$.grade': grade,
+          'ascents.$.comment': comment
+        }
+      },
+      { new: true }
+    );
+
+    if (!problem) {
+      throw new Error(`Problem not found!`);
+    }
+    res.json(problem);
+  } catch (error) {
+    console.error(error.message);
+    if (error.kind === 'ObjectId') {
+      res.status(404).json({ msg: 'Problem not found' });
+    }
+    res.status(500).json({
+      message: error.message,
+      error
+    });
+  }
+};
+
 // @desc - Delete ascent by problem and ascent id
 // @method - DELETE
 const deleteAscent = async (
@@ -164,12 +202,14 @@ const deleteAscent = async (
     if (!problem) {
       return res.status(404).json({ message: 'Problem not found' });
     }
+
     const ascent = problem.ascents.find(
       (ascent) => ascent._id.toString() === req.params.ascent_id
     );
     if (!ascent) {
       return res.status(404).json({ message: 'Ascent does not exist' });
     }
+
     if (ascent.user.toString() !== _id.toString()) {
       return res.status(401).json({ message: 'User not ascent creator' });
     }
@@ -231,5 +271,6 @@ export default {
   getProblemById,
   deleteProblem,
   addAscent,
+  editAscent,
   deleteAscent
 };
