@@ -2,6 +2,7 @@ import express from 'express';
 import { check, validationResult } from 'express-validator';
 import controller from '../controllers/problem';
 import auth from '../middleware/auth';
+
 const router = express.Router();
 
 // @route    POST api/problems
@@ -37,6 +38,11 @@ router.get('/', controller.getAllProblems);
 // @desc     Get problem by object ID
 // @access   Public
 router.get('/:id', controller.getProblemById);
+
+// @route    POST api/problems/:id
+// @desc     Add ascent to problem
+// @access   Private
+router.post('/:id', auth, controller.tickProblem);
 
 // @route    DELETE api/problems/:id
 // @desc     Delete problem by object ID

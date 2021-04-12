@@ -29,7 +29,8 @@ const ProblemSchema: Schema = new Schema({
         ref: 'users'
       },
       name: {
-        type: String
+        type: String,
+        required: true
       },
       attempts: {
         type: String,
@@ -42,6 +43,13 @@ const ProblemSchema: Schema = new Schema({
       rating: {
         type: Number,
         required: true
+      },
+      comment: {
+        type: String
+      },
+      date: {
+        type: Date,
+        default: Date.now
       }
     }
   ],

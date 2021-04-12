@@ -1,5 +1,15 @@
 import { Document, Schema } from 'mongoose';
 
+interface Ascent {
+  user: Schema.Types.ObjectId;
+  name: string;
+  attempts: string;
+  grade: string;
+  rating: number;
+  comment?: string;
+  date: Date;
+}
+
 export default interface IProblem extends Document {
   user: Schema.Types.ObjectId;
   title: string;
@@ -10,7 +20,7 @@ export default interface IProblem extends Document {
   rating: number;
   boardVersion: string;
   rules: string;
-  ascents: object[];
+  ascents: Ascent[];
   dataUrl: string;
   date: Date;
 }

@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import Problem from '../models/Problem';
 import logging from '../config/logging';
-import IUser from 'src/interfaces/user';
+import IUser from '../interfaces/user';
+import User from '../models/User';
 
 const NAMESPACE = 'Problem Controller';
 
@@ -80,6 +81,42 @@ const getProblemById = async (
   }
 };
 
+// @desc - Add ascent to problem
+// @method - POST
+const tickProblem = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  logging.info(NAMESPACE, `Adding ascent to problem`);
+  const { _id } = req.user as IUser;
+  try {
+    const user = await User.findById(_id);
+    const problem = await Problem.findById(req.params.id);
+    const { attempts, rating, grade, ...rest } = req.body;
+    if (!problem) {
+      res.status(404).json({ message: 'Problem not found' });
+    }
+    const newAscent = {
+      user: _id,
+      name: user?.name,
+      attempts,
+      rating,
+      grade,
+      ...rest
+    };
+    problem?.ascents.push(newAscent);
+    await problem?.save();
+    res.status(200).json(problem?.ascents);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({
+      message: error.message,
+      error
+    });
+  }
+};
+
 // @desc - Delete problem by object ID
 // @method - DELETE
 const deleteProblem = async (
@@ -88,27 +125,34 @@ const deleteProblem = async (
   _next: NextFunction
 ) => {
   logging.info(NAMESPACE, `Deleting problem`);
+  const { _id } = req.user as IUser;
   try {
-    const { _id } = req.user as IUser;
     const problem = await Problem.findById(req.params.id);
     if (!problem) {
-      res.status(404).json({ message: 'Problem not found' });
+      return res.status(404).json({ message: 'Problem not found' });
     }
-    if (problem?.user.toString() !== _id) {
-      res.status(401).json({ message: 'User not authorized' });
+    if (problem.user.toString() !== _id.toString()) {
+      return res.status(401).json({ message: 'User not problem creator' });
     }
+
     await problem?.remove();
-    res.status(200).json({ message: 'Problem removed' });
+    return res.status(200).json({ message: 'Problem removed' });
   } catch (error) {
     console.error(error.message);
     if (error.kind === 'ObjectId') {
-      res.status(404).json({ msg: 'Problem not found' });
+      return res.status(404).json({ msg: 'Problem not found' });
     }
-    res.status(500).json({
+    return res.status(500).json({
       message: error.message,
       error
     });
   }
 };
 
-export default { addProblem, getAllProblems, getProblemById, deleteProblem };
+export default {
+  addProblem,
+  getAllProblems,
+  getProblemById,
+  deleteProblem,
+  tickProblem
+};
