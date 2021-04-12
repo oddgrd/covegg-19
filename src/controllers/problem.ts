@@ -12,17 +12,54 @@ const addProblem = async (req: Request, res: Response, _next: NextFunction) => {
   logging.info(NAMESPACE, `Adding problem`);
   const { title, boardVersion, rules, dataUrl } = req.body;
   const { _id, name } = req.user as IUser;
+  const problemFields = {
+    user: _id,
+    title,
+    boardVersion,
+    rules,
+    dataUrl,
+    setBy: name
+  };
   try {
-    const newProblem = new Problem({
-      user: _id,
-      title,
-      setBy: name,
-      boardVersion,
-      rules,
-      dataUrl
-    });
+    const newProblem = new Problem(problemFields);
     await newProblem.save();
     res.status(200).json(newProblem);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({
+      message: error.message,
+      error
+    });
+  }
+};
+
+// @desc - Edit problem
+// @method - PUT
+const editProblem = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  logging.info(NAMESPACE, `Editing problem`);
+  const { _id, name } = req.user as IUser;
+  const problemFields = {
+    user: _id,
+    setBy: name,
+    ...req.body
+  };
+  try {
+    let problem = await Problem.findById(req.params.id);
+    if (problem) {
+      problem = await Problem.findOneAndUpdate(
+        { user: _id },
+        { $set: problemFields },
+        { new: true }
+      );
+    } else {
+      res.status(404).json({ message: 'Problem not found' });
+    }
+
+    res.status(200).json(problem);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({
@@ -120,14 +157,13 @@ const deleteAscent = async (
   res: Response,
   _next: NextFunction
 ) => {
-  logging.info(NAMESPACE, `Deleting problem`);
+  logging.info(NAMESPACE, `Deleting ascent`);
   const { _id } = req.user as IUser;
   try {
     const problem = await Problem.findById(req.params.id);
     if (!problem) {
       return res.status(404).json({ message: 'Problem not found' });
     }
-    console.log(problem.ascents.length);
     const ascent = problem.ascents.find(
       (ascent) => ascent._id.toString() === req.params.ascent_id
     );
@@ -155,6 +191,7 @@ const deleteAscent = async (
     });
   }
 };
+
 // @desc - Delete problem by object ID
 // @method - DELETE
 const deleteProblem = async (
@@ -189,6 +226,7 @@ const deleteProblem = async (
 
 export default {
   addProblem,
+  editProblem,
   getAllProblems,
   getProblemById,
   deleteProblem,

@@ -12,7 +12,7 @@ router.post(
   '/',
   [
     check('title', 'Title is required').not().isEmpty(),
-    check('setBy', 'Set By info is required').not().isEmpty()
+    check('dataUrl', 'DataUrl is required').not().isEmpty()
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
@@ -28,6 +28,11 @@ router.post(
   auth,
   controller.addProblem
 );
+
+// @route    PUT api/problems/:id
+// @desc     Edit problem
+// @access   Private
+router.put('/:id', auth, controller.editProblem);
 
 // @route    GET api/problems
 // @desc     Get all problems
