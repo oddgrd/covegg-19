@@ -42,7 +42,12 @@ router.get('/:id', controller.getProblemById);
 // @route    POST api/problems/:id
 // @desc     Add ascent to problem
 // @access   Private
-router.post('/:id', auth, controller.tickProblem);
+router.post('/:id', auth, controller.addAscent);
+
+// @route    DELETE api/problems/:id/:ascent_id
+// @desc     Delete ascent by problem and ascent id
+// @access   Private
+router.delete('/:id/:ascent_id', auth, controller.deleteAscent);
 
 // @route    DELETE api/problems/:id
 // @desc     Delete problem by object ID

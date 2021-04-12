@@ -2,6 +2,7 @@ import { Document, Schema } from 'mongoose';
 
 interface Ascent {
   user: Schema.Types.ObjectId;
+  _id: Schema.Types.ObjectId;
   name: string;
   attempts: string;
   grade: string;

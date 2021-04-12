@@ -83,11 +83,7 @@ const getProblemById = async (
 
 // @desc - Add ascent to problem
 // @method - POST
-const tickProblem = async (
-  req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
+const addAscent = async (req: Request, res: Response, _next: NextFunction) => {
   logging.info(NAMESPACE, `Adding ascent to problem`);
   const { _id } = req.user as IUser;
   try {
@@ -117,6 +113,48 @@ const tickProblem = async (
   }
 };
 
+// @desc - Delete ascent by problem and ascent id
+// @method - DELETE
+const deleteAscent = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  logging.info(NAMESPACE, `Deleting problem`);
+  const { _id } = req.user as IUser;
+  try {
+    const problem = await Problem.findById(req.params.id);
+    if (!problem) {
+      return res.status(404).json({ message: 'Problem not found' });
+    }
+    console.log(problem.ascents.length);
+    const ascent = problem.ascents.find(
+      (ascent) => ascent._id.toString() === req.params.ascent_id
+    );
+    if (!ascent) {
+      return res.status(404).json({ message: 'Ascent does not exist' });
+    }
+    if (ascent.user.toString() !== _id.toString()) {
+      return res.status(401).json({ message: 'User not ascent creator' });
+    }
+
+    const removeIdx = problem.ascents
+      .map((problem) => problem.user.toString())
+      .indexOf(_id.toString());
+    problem.ascents.splice(removeIdx, 1);
+    await problem.save();
+    return res.status(200).json(problem);
+  } catch (error) {
+    console.error(error.message);
+    if (error.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Problem not found' });
+    }
+    return res.status(500).json({
+      message: error.message,
+      error
+    });
+  }
+};
 // @desc - Delete problem by object ID
 // @method - DELETE
 const deleteProblem = async (
@@ -154,5 +192,6 @@ export default {
   getAllProblems,
   getProblemById,
   deleteProblem,
-  tickProblem
+  addAscent,
+  deleteAscent
 };
