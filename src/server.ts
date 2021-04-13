@@ -1,6 +1,7 @@
 import http from 'http';
 import express from 'express';
 import expressSession from 'express-session';
+import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import { Strategy } from 'passport-google-oauth20';
@@ -11,6 +12,7 @@ import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
+import cookieSession from 'cookie-session';
 
 const NAMESPACE = 'Server';
 const app = express();
@@ -56,14 +58,13 @@ passport.deserializeUser((id, done) => {
 });
 
 app.use(
-  expressSession({
+  cookieSession({
+    name: 'session',
     secret: config.cookie.cookieKey,
-    cookie: { maxAge: 60000 },
-    resave: true,
-    rolling: true,
-    saveUninitialized: true
+    maxAge: 30000
   })
 );
+app.use(cookieParser());
 
 app.use(passport.initialize());
 app.use(passport.session());

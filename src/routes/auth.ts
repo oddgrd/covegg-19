@@ -11,10 +11,7 @@ router.get(
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
-  (_req, res) => {
-    res.redirect('/api/problems');
-  }
+  passport.authenticate('google', { successRedirect: 'http://localhost:3000/' })
 );
 
 export = router;
