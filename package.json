@@ -7,7 +7,9 @@
   "scripts": {
     "watch": "tsc -w",
     "dev": "nodemon dist/server.js",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "client": "yarn --cwd client start",
+    "devC": "concurrently \"yarn dev\" \"yarn client\""
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -36,6 +38,7 @@
     "@types/node": "^14.14.37",
     "@types/passport": "^1.0.6",
     "@types/passport-google-oauth20": "^2.0.7",
+    "concurrently": "^6.0.2",
     "nodemon": "^2.0.7"
   }
 }
