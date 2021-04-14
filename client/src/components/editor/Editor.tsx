@@ -6,20 +6,17 @@ import Background from '../../images/covegg19-0,1.jpg';
 import EditorForm from './EditorForm';
 import { faUndo, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAppDispatch } from '../../app/hooks';
-import { saveProblem } from './editorSlice';
 
 const Editor = () => {
   const [{ canvas }, { init, handleColor, undo }] = useCanvas();
 
   const [editorForm, toggleEditorForm] = useState(false);
 
-  const dispatch = useAppDispatch();
-
   const handleSave = useCallback(() => {
     if (!canvas || !canvas.current) return;
-    dispatch(saveProblem(canvas.current.toDataURL('image/png')));
-  }, [canvas, dispatch]);
+    const dataUrl = canvas.current.toDataURL('image/png');
+    return dataUrl;
+  }, [canvas]);
 
   useEffect(() => {
     if (!init) return;

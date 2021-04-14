@@ -1,47 +1,50 @@
 import React, { FC, useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Rating from 'react-rating';
 import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveFormData } from './editorSlice';
-import { RadioGroup, RadioButton } from 'react-radio-buttons';
+// import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 const initialState = {
   title: '',
-  grade: '',
-  setby: '',
-  firstascent: '',
-  attempts: 'Flash',
+  grade: '5+',
+  setBy: '',
   rules: 'Feet follow hands',
   rating: 3,
   board: 0.1,
   date: new Date().toISOString()
 };
 
-interface Props extends RouteComponentProps {
+interface Props {
   handleSave: () => void;
 }
-const EditorForm: FC<Props> = ({ handleSave, history }) => {
+const EditorForm: FC<Props> = ({ handleSave }) => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useAppDispatch();
+  const history = useHistory();
+  const user = useAppSelector((state) => state.auth.user.name);
+
   const onChange = (e: any) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onChangeRating = (value: number) => {
     setFormData({ ...formData, rating: value });
   };
-  const onChangeAttempts = (value: string) => {
-    setFormData({ ...formData, attempts: value });
-  };
+  // const onChangeAttempts = (value: string) => {
+  //   setFormData({ ...formData, attempts: value });
+  // };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    handleSave();
-    dispatch(saveFormData(formData));
+    console.log(formData);
+    const dataUrl = handleSave();
+    dispatch(saveFormData({ ...formData, setBy: user, dataUrl: dataUrl }));
     history.push('/problem');
   };
 
-  const { title, grade, setby, firstascent, rules, rating } = formData;
+  const { title, grade, rules, rating } = formData;
   return (
     <div className='editor-form' onSubmit={handleSubmit}>
       <form className='form'>
@@ -65,7 +68,7 @@ const EditorForm: FC<Props> = ({ handleSave, history }) => {
             required
           />
         </div>
-        <div className='form-group'>
+        {/* <div className='form-group'>
           <RadioGroup
             horizontal
             className='radio'
@@ -97,27 +100,7 @@ const EditorForm: FC<Props> = ({ handleSave, history }) => {
               {'> 4'}
             </RadioButton>
           </RadioGroup>
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Set By'
-            name='setby'
-            value={setby}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='First Ascent By'
-            name='firstascent'
-            value={firstascent}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
+        </div> */}
         <div className='form-group'>
           <input
             type='text'
@@ -144,4 +127,4 @@ const EditorForm: FC<Props> = ({ handleSave, history }) => {
   );
 };
 
-export default withRouter(EditorForm);
+export default EditorForm;

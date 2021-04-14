@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import editorReducer from '../components/editor/editorSlice';
 import authReducer from '../components/auth/authSlice';
+import browserReducer from '../components/browser/browserSlice';
 
 const store = configureStore({
   reducer: {
     editor: editorReducer,
-    auth: authReducer
+    auth: authReducer,
+    browser: browserReducer
   }
 });
 export default store;

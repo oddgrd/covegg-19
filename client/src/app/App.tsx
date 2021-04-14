@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import api from '../utils/api';
 import Landing from '../components/layout/Landing';
 import Editor from '../components/editor/Editor';
-import { Problem } from '../components/problem/Problem';
-import { BrowseProblems } from '../components/problem/BrowseProblems';
+import { Problem } from '../components/browser/Problem';
+import { BrowseProblems } from '../components/browser/BrowseProblems';
 import { Login } from '../components/auth/Login';
 
 // Redux
@@ -35,8 +35,8 @@ function App() {
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route exact path='/edit' component={Editor} />
-          {/* <Route exact path='/problem' component={Problem} /> */}
-          <Route exact path='/problems' component={BrowseProblems} />
+          <Route exact path='/problem' component={Problem} />
+          <Route exact path='/browse' component={BrowseProblems} />
         </Switch>
       </>
     </Router>

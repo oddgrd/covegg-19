@@ -12,13 +12,13 @@ interface Problem {
   date: string;
 }
 
-interface NewProblem {
+interface Browser {
   problem: Problem;
-
+  problems: Array<Problem>;
   loading: Boolean;
 }
 
-const initialState: NewProblem = {
+const initialState: Browser = {
   problem: {
     title: '',
     grade: '',
@@ -30,18 +30,14 @@ const initialState: NewProblem = {
     date: '',
     dataUrl: ''
   },
+  problems: [],
   loading: true
 };
 
-export const editorSlice = createSlice({
-  name: 'editor',
+export const browserSlice = createSlice({
+  name: 'browser',
   initialState,
   reducers: {
-    saveFormData: (state, action: PayloadAction<object>) => {
-      console.log(action.payload);
-      state.loading = false;
-      state.problem = { ...state.problem, ...action.payload };
-    },
     clearState: (state) => {
       state = initialState;
       return state;
@@ -49,6 +45,6 @@ export const editorSlice = createSlice({
   }
 });
 
-export const { saveFormData, clearState } = editorSlice.actions;
+export const { clearState } = browserSlice.actions;
 
-export default editorSlice.reducer;
+export default browserSlice.reducer;

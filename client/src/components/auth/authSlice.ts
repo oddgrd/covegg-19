@@ -1,9 +1,16 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import api from '../../utils/api';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface User {
+  name: string;
+  email: string;
+  googleId: string;
+  _id: string;
+  date: string;
+}
 
 interface AuthState {
   isAuthenticated: boolean;
-  user: object | null;
+  user: User;
   isFetching: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -11,8 +18,14 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
+  user: {
+    name: '',
+    email: '',
+    googleId: '',
+    _id: '',
+    date: ''
+  },
   isAuthenticated: false,
-  user: null,
   isFetching: false,
   isSuccess: false,
   isError: false,
@@ -26,14 +39,10 @@ export const authSlice = createSlice({
     loadUser: (state, action: PayloadAction<object>) => {
       state.isAuthenticated = true;
       state.isSuccess = true;
-      state.user = action.payload;
+      state.user = { ...state.user, ...action.payload };
     },
     clearState: (state) => {
-      state.isAuthenticated = false;
-      state.isFetching = false;
-      state.isSuccess = false;
-      state.isError = false;
-      state.user = null;
+      state = initialState;
       return state;
     }
   }
