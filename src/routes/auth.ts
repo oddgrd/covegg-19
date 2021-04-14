@@ -4,19 +4,9 @@ import auth from '../middleware/auth';
 import User from '../models/User';
 const router = express.Router();
 
-router.get('/login/success', (req, res) => {
-  if (req.user) {
-    res.json({
-      message: 'User has successfully authenticated',
-      user: req.user,
-      cookies: req.cookies
-    });
-  } else
-    res.status(400).json({
-      message: 'User Not Authenticated'
-    });
-});
-
+// @route    GET api/auth
+// @desc     Load user
+// @access   Private
 router.get('/', auth, async (req: any, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -27,6 +17,9 @@ router.get('/', auth, async (req: any, res) => {
   }
 });
 
+// @route    GET api/auth/google
+// @desc     Login redirect to google
+// @access   Public
 router.get(
   '/google',
   passport.authenticate('google', {
@@ -40,6 +33,9 @@ router.get('/login/failed', (_req, res) => {
   });
 });
 
+// @route    GET api/auth/google/callback
+// @desc     Google callback URL
+// @access   Private
 router.get(
   '/google/callback',
   passport.authenticate('google', {
@@ -47,5 +43,13 @@ router.get(
     failureRedirect: '/api/auth/login/failed'
   })
 );
+
+// @route    GET api/auth/logout
+// @desc     Log out
+// @access   Public
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('http://localhost:3000/');
+});
 
 export = router;
