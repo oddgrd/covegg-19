@@ -1,9 +1,9 @@
 import http from 'http';
 import express from 'express';
-import expressSession from 'express-session';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import cors from 'cors';
 import { Strategy } from 'passport-google-oauth20';
 import User from './models/User';
 import logging from './config/logging';
@@ -13,6 +13,7 @@ import userRoutes from './routes/user';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieSession from 'cookie-session';
+import auth from './middleware/auth';
 
 const NAMESPACE = 'Server';
 const app = express();
@@ -61,7 +62,7 @@ app.use(
   cookieSession({
     name: 'session',
     secret: config.cookie.cookieKey,
-    maxAge: 30000
+    maxAge: 60000
   })
 );
 app.use(cookieParser());
@@ -106,12 +107,21 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Header',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
+  res.header('Access-Control-Allow-Credentials', 'true');
   if (req.method == 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST PUT');
     res.status(200).json({});
   }
   next();
 });
+
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000', // allow to server to accept request from different origin
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true // allow session cookie from browser to pass through
+//   })
+// );
 
 // Middleware to sanitize user input
 app.use(
@@ -130,6 +140,15 @@ app.use((_req, res, _next) => {
   const error = new Error('Not found');
   res.status(404).json({ message: error.message });
 });
+
+// app.get('/', auth, (req, res) => {
+//   res.status(200).json({
+//     authenticated: true,
+//     message: 'user successfully authenticated',
+//     user: req.user,
+//     cookies: req.cookies
+//   });
+// });
 
 // Create the server
 const httpServer = http.createServer(app);
