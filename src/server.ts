@@ -115,13 +115,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000', // allow to server to accept request from different origin
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials: true // allow session cookie from browser to pass through
-//   })
-// );
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // allow to server to accept request from different origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true // allow session cookie from browser to pass through
+  })
+);
 
 // Middleware to sanitize user input
 app.use(
@@ -141,14 +141,14 @@ app.use((_req, res, _next) => {
   res.status(404).json({ message: error.message });
 });
 
-// app.get('/', auth, (req, res) => {
-//   res.status(200).json({
-//     authenticated: true,
-//     message: 'user successfully authenticated',
-//     user: req.user,
-//     cookies: req.cookies
-//   });
-// });
+app.get('/', auth, (req, res) => {
+  res.status(200).json({
+    authenticated: true,
+    message: 'user successfully authenticated',
+    user: req.user,
+    cookies: req.cookies
+  });
+});
 
 // Create the server
 const httpServer = http.createServer(app);

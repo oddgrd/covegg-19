@@ -4,7 +4,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) {
     res.status(401).json({ message: 'User not authorized' });
   } else {
-    return next();
+    next();
   }
 };
 
