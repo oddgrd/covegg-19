@@ -1,9 +1,9 @@
 import http from 'http';
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
-import cors from 'cors';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import { Strategy } from 'passport-google-oauth20';
 import User from './models/User';
 import logging from './config/logging';
@@ -12,8 +12,8 @@ import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
-import cookieSession from 'cookie-session';
 import auth from './middleware/auth';
+import lusca from 'lusca';
 
 const NAMESPACE = 'Server';
 const app = express();
@@ -51,24 +51,11 @@ passport.use(
 passport.serializeUser(function (user: any, done) {
   done(null, user.id);
 });
-
 passport.deserializeUser((id, done) => {
   User.findById(id).then((user) => {
     done(null, user);
   });
 });
-
-app.use(
-  cookieSession({
-    name: 'session',
-    secret: config.cookie.cookieKey,
-    maxAge: 60000
-  })
-);
-app.use(cookieParser());
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Connect to mongoDB
 mongoose
@@ -79,6 +66,35 @@ mongoose
   .catch((error) => {
     logging.error(NAMESPACE, error.message, error);
   });
+
+// Express built-in body-parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(
+  session({
+    secret: config.cookie.cookieKey,
+    resave: true,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: config.mongo.url,
+      stringify: false
+    })
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Middleware to prevent clickjacking and cross site scripting
+app.use(lusca.xframe('SAMEORIGIN'));
+app.use(lusca.xssProtection(true));
+// Middleware to sanitize user-supplied data to prevent MongoDB Operator Injection.
+app.use(
+  mongoSanitize({
+    replaceWith: '_'
+  })
+);
 
 // Logging the requests
 app.use((req, res, next) => {
@@ -96,10 +112,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Express built-in body-parser
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
 // Rules of API
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -115,39 +127,23 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  cors({
-    origin: 'http://localhost:3000', // allow to server to accept request from different origin
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true // allow session cookie from browser to pass through
-  })
-);
-
-// Middleware to sanitize user input
-app.use(
-  mongoSanitize({
-    replaceWith: '_'
-  })
-);
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/problems', problemRoutes);
 
+app.get('/', auth, (req, res) => {
+  res.status(200).json({
+    authenticated: true,
+    message: 'User successfully authenticated',
+    user: req.user
+  });
+});
+
 // Error handling
 app.use((_req, res, _next) => {
   const error = new Error('Not found');
   res.status(404).json({ message: error.message });
-});
-
-app.get('/', auth, (req, res) => {
-  res.status(200).json({
-    authenticated: true,
-    message: 'user successfully authenticated',
-    user: req.user,
-    cookies: req.cookies
-  });
 });
 
 // Create the server
