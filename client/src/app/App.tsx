@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import api from '../utils/api';
 import Landing from '../components/layout/Landing';
 import Editor from '../components/editor/Editor';
 import { Problem } from '../components/browser/Problem';
@@ -15,16 +14,7 @@ import { loadUser } from '../components/auth/authSlice';
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    const auth = async () => {
-      try {
-        const res = await api.get('/auth');
-        dispatch(loadUser(res.data));
-        console.log(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    auth();
+    dispatch(loadUser());
   }, [dispatch]);
 
   return (

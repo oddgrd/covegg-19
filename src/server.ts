@@ -12,11 +12,20 @@ import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
-import auth from './middleware/auth';
 import lusca from 'lusca';
 
 const NAMESPACE = 'Server';
 const app = express();
+
+// Connect to MongoDB
+mongoose
+  .connect(config.mongo.url, config.mongo.opt)
+  .then(() => {
+    logging.info(NAMESPACE, 'Connected to MongoDB...');
+  })
+  .catch((error) => {
+    logging.error(NAMESPACE, error.message, error);
+  });
 
 // Configure passport
 passport.use(
@@ -57,17 +66,7 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-// Connect to mongoDB
-mongoose
-  .connect(config.mongo.url, config.mongo.opt)
-  .then(() => {
-    logging.info(NAMESPACE, 'Connected to MongoDB...');
-  })
-  .catch((error) => {
-    logging.error(NAMESPACE, error.message, error);
-  });
-
-// Express built-in body-parser
+// Parse the body of the request
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -86,17 +85,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware to prevent clickjacking and cross site scripting
+// Prevent clickjacking and cross site scripting
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
-// Middleware to sanitize user-supplied data to prevent MongoDB Operator Injection.
+// Sanitize user-supplied data to prevent MongoDB Operator Injection.
 app.use(
   mongoSanitize({
     replaceWith: '_'
   })
 );
 
-// Logging the requests
+// Logging requests
 app.use((req, res, next) => {
   logging.info(
     NAMESPACE,
@@ -132,13 +131,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/problems', problemRoutes);
 
-app.get('/', auth, (req, res) => {
-  res.status(200).json({
-    authenticated: true,
-    message: 'User successfully authenticated',
-    user: req.user
-  });
-});
+// app.get('/', auth, (req, res) => {
+//   res.status(200).json({
+//     authenticated: true,
+//     message: 'User successfully authenticated',
+//     user: req.user
+//   });
+// });
 
 // Error handling
 app.use((_req, res, _next) => {
