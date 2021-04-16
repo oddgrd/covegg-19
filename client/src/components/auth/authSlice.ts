@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
-interface MyKnownError {
-  errorMessage: string;
-}
 interface User {
   name: string;
   email: string;
@@ -36,7 +33,8 @@ export const loadUser = createAsyncThunk('auth/loadUser', async () => {
   const res = await api.get('/auth');
   return res.data;
 });
-export const logOut = createAsyncThunk('auth/logout', async () => {
+
+export const logout = createAsyncThunk('auth/logout', async () => {
   await api.get('/auth/logout');
 });
 
@@ -47,6 +45,9 @@ export const authSlice = createSlice({
     clearState: (state) => {
       state = initialState;
       return state;
+    },
+    login: () => {
+      window.open('http://localhost:5000/api/auth/google', '_self');
     }
   },
   extraReducers: (builder) => {
@@ -69,7 +70,7 @@ export const authSlice = createSlice({
         state.error = 'Not Authorized';
       }
     });
-    builder.addCase(logOut.fulfilled, (state) => {
+    builder.addCase(logout.fulfilled, (state) => {
       state.user = initialState.user;
       state.isAuthenticated = false;
       state.status = 'idle';
@@ -78,6 +79,6 @@ export const authSlice = createSlice({
   }
 });
 
-export const { clearState } = authSlice.actions;
+export const { clearState, login } = authSlice.actions;
 
 export default authSlice.reducer;

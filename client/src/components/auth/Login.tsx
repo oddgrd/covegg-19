@@ -1,11 +1,15 @@
 import React from 'react';
 import GoogleLogin from './btn_google_signin_dark_pressed_web@2x.png';
+import { useAppDispatch } from '../../app/hooks';
+import { login } from './authSlice';
+
 export const Login = () => {
-  const googleSignInClick = () => {
-    window.open('http://localhost:5000/api/auth/google', '_self');
+  const dispatch = useAppDispatch();
+  const handleLogin = () => {
+    dispatch(login());
   };
   return (
-    <button onClick={googleSignInClick} className='btn'>
+    <button onClick={handleLogin} className='btn'>
       <img
         src={GoogleLogin}
         alt='Sign in with Google'

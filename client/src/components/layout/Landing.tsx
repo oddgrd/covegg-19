@@ -2,12 +2,12 @@ import React from 'react';
 import { Login } from '../auth/Login';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
-import { logOut } from '../auth/authSlice';
+import { logout } from '../auth/authSlice';
 const Landing = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useAppDispatch();
   const handleLogOut = () => {
-    dispatch(logOut());
+    dispatch(logout());
   };
   return (
     <section className='container'>
