@@ -9,15 +9,17 @@ const NAMESPACE = 'Problem Controller';
 // @method - POST
 const addProblem = async (req: Request, res: Response, _next: NextFunction) => {
   logging.info(NAMESPACE, `Adding problem`);
-  const { title, boardVersion, rules, dataUrl } = req.body;
+  const { title, board, rules, dataUrl, grade, rating } = req.body;
   const { _id, name } = req.user as IUser;
   const problemFields = {
     user: _id,
     title,
-    boardVersion,
+    board,
     rules,
     dataUrl,
-    setBy: name
+    setBy: name,
+    grade,
+    rating
   };
   try {
     const newProblem = new Problem(problemFields);

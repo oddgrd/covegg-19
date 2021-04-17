@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../../utils/api';
 
 interface Problem {
   title: string;
@@ -8,15 +9,26 @@ interface Problem {
   board: string;
   rating: number;
   dataUrl: string;
-  ascents: [];
+  ascents?: [];
   date: string;
 }
 
 interface NewProblem {
   problem: Problem;
-
-  loading: Boolean;
+  status: string;
+  error: object;
 }
+
+// interface Data {
+//   title: string;
+//   grade: string;
+//   setBy: string;
+//   rules: string;
+//   rating: number;
+//   board: string;
+//   date: string;
+//   dataUrl: string;
+// }
 
 const initialState: NewProblem = {
   problem: {
@@ -30,25 +42,53 @@ const initialState: NewProblem = {
     date: '',
     dataUrl: ''
   },
-  loading: true
+  status: 'idle',
+  error: {}
 };
+
+export const saveProblem = createAsyncThunk(
+  'editor/saveProblem',
+  async (data: object, { rejectWithValue }) => {
+    try {
+      const res = await api.post('/problems', data);
+      if (res.status === 200) {
+        return res.data;
+      } else {
+        return rejectWithValue(res);
+      }
+    } catch (error) {
+      console.log('Error', error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const editorSlice = createSlice({
   name: 'editor',
   initialState,
   reducers: {
-    saveFormData: (state, action: PayloadAction<object>) => {
-      console.log(action.payload);
-      state.loading = false;
-      state.problem = { ...state.problem, ...action.payload };
-    },
     clearState: (state) => {
-      state = initialState;
+      state.problem = initialState.problem;
+      state.status = 'idle';
+      state.error = {};
       return state;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(saveProblem.fulfilled, (state, action) => {
+      state.status = 'resolved';
+      state.problem = { ...state.problem, ...action.payload };
+    });
+    builder.addCase(saveProblem.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(saveProblem.rejected, (state, action) => {
+      state.status = 'rejected';
+      state.error = { ...action };
+    });
   }
 });
 
-export const { saveFormData, clearState } = editorSlice.actions;
+export const { clearState } = editorSlice.actions;
 
 export default editorSlice.reducer;

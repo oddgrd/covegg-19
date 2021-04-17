@@ -18,7 +18,13 @@ export const useCanvas = () => {
       return;
     }
     ctx.current.beginPath();
-    ctx.current.arc(lastX.current, lastY.current, 12, 0, 2 * Math.PI);
+    ctx.current.arc(
+      lastX.current + 0.5,
+      lastY.current + 0.5,
+      12,
+      0,
+      2 * Math.PI
+    );
     ctx.current.stroke();
 
     [lastX.current, lastY.current] = [event.offsetX, event.offsetY];

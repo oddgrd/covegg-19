@@ -14,12 +14,20 @@ const ProblemSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  boardVersion: {
+  board: {
     type: String,
     required: true
   },
   rules: {
     type: String,
+    required: true
+  },
+  grade: {
+    type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
     required: true
   },
   ascents: [

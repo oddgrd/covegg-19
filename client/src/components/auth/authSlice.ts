@@ -43,7 +43,10 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     clearState: (state) => {
-      state = initialState;
+      state.user = initialState.user;
+      state.isAuthenticated = false;
+      state.status = 'idle';
+      state.error = '';
       return state;
     },
     login: () => {

@@ -13,7 +13,7 @@ const Editor = () => {
   const [editorForm, toggleEditorForm] = useState(false);
 
   const handleSave = useCallback(() => {
-    if (!canvas || !canvas.current) return;
+    if (!canvas || !canvas.current) return '';
     const dataUrl = canvas.current.toDataURL('image/png');
     return dataUrl;
   }, [canvas]);

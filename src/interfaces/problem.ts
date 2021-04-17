@@ -19,7 +19,7 @@ export default interface IProblem extends Document {
   firstAscent: string;
   attempts: string;
   rating: number;
-  boardVersion: string;
+  board: string;
   rules: string;
   ascents: Ascent[];
   dataUrl: string;

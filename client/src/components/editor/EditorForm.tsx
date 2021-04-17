@@ -5,7 +5,7 @@ import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { saveFormData } from './editorSlice';
+import { saveProblem } from './editorSlice';
 // import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 const initialState = {
@@ -14,12 +14,12 @@ const initialState = {
   setBy: '',
   rules: 'Feet follow hands',
   rating: 3,
-  board: 0.1,
+  board: '0.1',
   date: new Date().toISOString()
 };
 
 interface Props {
-  handleSave: () => void;
+  handleSave: () => string;
 }
 const EditorForm: FC<Props> = ({ handleSave }) => {
   const [formData, setFormData] = useState(initialState);
@@ -38,9 +38,8 @@ const EditorForm: FC<Props> = ({ handleSave }) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(formData);
     const dataUrl = handleSave();
-    dispatch(saveFormData({ ...formData, setBy: user, dataUrl: dataUrl }));
+    dispatch(saveProblem({ ...formData, setBy: user, dataUrl: dataUrl }));
     history.push('/problem');
   };
 
