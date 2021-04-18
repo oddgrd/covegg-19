@@ -14,6 +14,9 @@
   --red: #da2c4d;
   --yellow: #f8ab37;
   --grey: #ecedf3;
+  --primary-bg: #010409;
+  --secondary-bg: #161b22;
+  --tertiary-bg: #0d1117;
 }
 
 * {
@@ -26,7 +29,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-size: 17px;
   line-height: 30px;
-  background: var(--dark-blue);
+  background: var(--primary-bg);
   color: var(--light);
 }
 
@@ -72,27 +75,46 @@ ul {
   border: 1px solid var(--red);
   color: var(--red);
 }
-
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--secondary-bg);
+  height: 2.5rem;
+}
+.nav-link {
+  color: var(--primary-color);
+}
 .landing {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 80vh;
+}
+.landing-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: center;
+  padding: 1rem;
+  color: var(--primary-color);
 }
 .landing-links {
+  color: var(--primary-color);
+
   width: 80%;
-  height: 30%;
+  min-height: 100px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   gap: 0.4rem;
 }
 .landing-link {
-  color: var(--primary-color);
+  color: inherit;
+  background: var(--secondary-bg);
   width: 100%;
-  height: 60%;
+  min-height: 100px;
   display: flex;
   font-size: 1.7rem;
   align-items: center;
@@ -184,7 +206,7 @@ textarea {
   overflow-wrap: break-word;
   word-wrap: break-word;
   padding: 0.4rem;
-  max-width: 100vw;
+  max-width: 360px;
 }
 
 .grade {

@@ -1,6 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
+interface Error {
+  message: string;
+}
 interface Problem {
   title: string;
   grade: string;
@@ -11,12 +14,14 @@ interface Problem {
   dataUrl: string;
   ascents?: [];
   date: string;
+  _id: string;
+  user: string;
 }
 
 interface NewProblem {
   problem: Problem;
   status: string;
-  error: object;
+  error: string;
 }
 
 // interface Data {
@@ -31,6 +36,8 @@ interface NewProblem {
 // }
 
 const initialState: NewProblem = {
+  status: 'idle',
+  error: '',
   problem: {
     title: '',
     grade: '',
@@ -39,29 +46,30 @@ const initialState: NewProblem = {
     board: '0.1',
     rating: 0,
     ascents: [],
+    _id: '',
+    user: '',
     date: '',
     dataUrl: ''
-  },
-  status: 'idle',
-  error: {}
+  }
 };
 
-export const saveProblem = createAsyncThunk(
-  'editor/saveProblem',
-  async (data: object, { rejectWithValue }) => {
-    try {
-      const res = await api.post('/problems', data);
-      if (res.status === 200) {
-        return res.data;
-      } else {
-        return rejectWithValue(res);
-      }
-    } catch (error) {
-      console.log('Error', error.response.data);
-      return rejectWithValue(error.response.data);
+export const saveProblem = createAsyncThunk<
+  object,
+  object,
+  { rejectValue: Error }
+>('editor/saveProblem', async (data: object, { rejectWithValue }) => {
+  try {
+    const res = await api.post('/problems', data);
+    if (res.status === 200) {
+      return res.data;
+    } else {
+      return rejectWithValue(res.data as Error);
     }
+  } catch (error) {
+    console.error(error.message);
+    return error.message;
   }
-);
+});
 
 export const editorSlice = createSlice({
   name: 'editor',
@@ -70,7 +78,7 @@ export const editorSlice = createSlice({
     clearState: (state) => {
       state.problem = initialState.problem;
       state.status = 'idle';
-      state.error = {};
+      state.error = '';
       return state;
     }
   },
@@ -84,7 +92,12 @@ export const editorSlice = createSlice({
     });
     builder.addCase(saveProblem.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = { ...action };
+      if (action.payload) {
+        // Since we passed in `MyKnownError` to `rejectValue` in `updateUser`, the type information will be available here.
+        state.error = action.payload.message;
+      } else {
+        state.error = action.error.message as string;
+      }
     });
   }
 });

@@ -10,6 +10,7 @@ import { Login } from '../components/auth/Login';
 // Redux
 import { useAppDispatch } from './hooks';
 import { loadUser } from '../components/auth/authSlice';
+import { Navbar } from '../components/layout/Navbar';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -18,10 +19,10 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <>
+        <Navbar />
         <Route exact path='/' component={Landing} />
-
         <Switch>
           <Route exact path='/login' component={Login} />
           <Route exact path='/edit' component={Editor} />

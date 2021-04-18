@@ -12,7 +12,11 @@ const Landing = () => {
   return (
     <section className='container'>
       <div className='landing'>
-        <h1 style={{ color: '#05ab75', fontSize: '2.5rem' }}>Covegg-19</h1>
+        <div className='landing-header'>
+          <h1 style={{ fontSize: '2rem' }}>Covegg-19</h1>
+          <h3>Save and browse problems on your home climbing board</h3>
+        </div>
+
         <div className='landing-links'>
           {isAuthenticated ? (
             <>
@@ -22,7 +26,10 @@ const Landing = () => {
               </Link>
             </>
           ) : (
-            <Login />
+            <>
+              <h3>Sign in to add problems:</h3>
+              <Login />
+            </>
           )}
 
           <Link to='/problems' className='landing-link'>

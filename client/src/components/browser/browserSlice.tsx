@@ -7,31 +7,37 @@ interface Problem {
   rules: string;
   board: string;
   rating: number;
-  dataUrl: string;
   ascents: [];
   date: string;
+  _id: string;
+  user: string;
+  dataUrl: string;
 }
 
 interface Browser {
-  problem: Problem;
+  currentProblem: Problem;
   problems: Array<Problem>;
-  loading: Boolean;
+  status: string;
+  error: string;
 }
 
 const initialState: Browser = {
-  problem: {
+  status: 'idle',
+  error: '',
+  problems: [],
+  currentProblem: {
     title: '',
     grade: '',
     setBy: '',
     rules: '',
     board: '0.1',
     rating: 0,
+    _id: '',
+    user: '',
     ascents: [],
     date: '',
     dataUrl: ''
-  },
-  problems: [],
-  loading: true
+  }
 };
 
 export const browserSlice = createSlice({
@@ -39,7 +45,10 @@ export const browserSlice = createSlice({
   initialState,
   reducers: {
     clearState: (state) => {
-      state = initialState;
+      state.problems = [];
+      state.status = 'idle';
+      state.error = '';
+      state.currentProblem = initialState.currentProblem;
       return state;
     }
   }
