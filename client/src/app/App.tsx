@@ -5,12 +5,12 @@ import Landing from '../components/layout/Landing';
 import Editor from '../components/editor/Editor';
 import { Problem } from '../components/browser/Problem';
 import { Browser } from '../components/browser/Browser';
-import { Login } from '../components/auth/Login';
 
 // Redux
 import { useAppDispatch } from './hooks';
 import { loadUser } from '../components/auth/authSlice';
 import { Navbar } from '../components/layout/Navbar';
+import { PrivateRoute } from '../components/routing/PrivateRoute';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -24,10 +24,9 @@ function App() {
         <Navbar />
         <Route exact path='/' component={Landing} />
         <Switch>
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/edit' component={Editor} />
-          <Route exact path='/problem' component={Problem} />
-          <Route exact path='/browse' component={Browser} />
+          <PrivateRoute exact path='/create' component={Editor} />
+          <PrivateRoute exact path='/problem' component={Problem} />
+          <PrivateRoute exact path='/browse' component={Browser} />
         </Switch>
       </>
     </Router>

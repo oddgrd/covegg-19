@@ -1,5 +1,4 @@
 import React from 'react';
-import { Login } from '../auth/Login';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 import { login } from '../auth/authSlice';
@@ -22,7 +21,7 @@ const Landing = () => {
         <div className='landing-links'>
           {isAuthenticated ? (
             <>
-              <Link to='/edit' className='landing-link'>
+              <Link to='/create' className='landing-link'>
                 <strong>CREATE</strong>
               </Link>
               <Link to='/browse' className='landing-link'>

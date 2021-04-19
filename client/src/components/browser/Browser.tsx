@@ -7,6 +7,7 @@ export const Browser = () => {
   const dispatch = useAppDispatch();
   const problems = useAppSelector((state) => state.browser.problems);
   const status = useAppSelector((state) => state.browser.status);
+  const error = useAppSelector((state) => state.browser.error);
   useEffect(() => {
     dispatch(getProblems());
   }, [dispatch]);
@@ -33,7 +34,7 @@ export const Browser = () => {
               ))}
           </table>
         ) : (
-          '404 Problems Not Found'
+          `${error}`
         )}
       </div>
     </>
