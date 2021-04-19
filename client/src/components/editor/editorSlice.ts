@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
-interface Error {
-  message: string;
-}
 interface Problem {
   title: string;
   grade: number;
@@ -53,23 +50,17 @@ const initialState: NewProblem = {
   }
 };
 
-export const saveProblem = createAsyncThunk<
-  object,
-  object,
-  { rejectValue: string }
->('editor/saveProblem', async (data: object, { rejectWithValue }) => {
-  try {
+export const saveProblem = createAsyncThunk<object, object>(
+  'editor/saveProblem',
+  async (data) => {
     const res = await api.post('/problems', data);
-    if (res.status === 200) {
-      return res.data;
+    if (res.status !== 200) {
+      throw Error(res.statusText);
     } else {
-      return rejectWithValue(res.statusText);
+      return res.data;
     }
-  } catch (error) {
-    console.error(error.message);
-    return error.message;
   }
-});
+);
 
 export const editorSlice = createSlice({
   name: 'editor',
@@ -85,6 +76,7 @@ export const editorSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(saveProblem.fulfilled, (state, action) => {
       state.status = 'resolved';
+      state.error = '';
       state.problem = { ...state.problem, ...action.payload };
     });
     builder.addCase(saveProblem.pending, (state) => {
@@ -92,12 +84,7 @@ export const editorSlice = createSlice({
     });
     builder.addCase(saveProblem.rejected, (state, action) => {
       state.status = 'rejected';
-      if (action.payload) {
-        // Since we passed in `MyKnownError` to `rejectValue` in `updateUser`, the type information will be available here.
-        state.error = action.payload;
-      } else {
-        state.error = action.error.message as string;
-      }
+      state.error = action.error.message as string;
     });
   }
 });
