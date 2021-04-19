@@ -6,18 +6,22 @@ import Background from '../../images/covegg19-0,1.jpg';
 
 export const Problem = () => {
   const [{ canvas }, { loadFromDataUrl, initViewer }] = useCanvas();
+
   const problem = useAppSelector((state) => state.editor.problem);
-  const dataUrl = problem.dataUrl;
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const { title, setBy, grade, rules, board, date, dataUrl } = problem;
+
   const handleLoad = useCallback(() => {
     if (!problem || !loadFromDataUrl || !initViewer) return;
     loadFromDataUrl(dataUrl);
   }, [dataUrl, initViewer, loadFromDataUrl, problem]);
+
   useEffect(() => {
     if (!initViewer) return;
     initViewer();
     handleLoad();
   }, [handleLoad, initViewer]);
-  const { title, setBy, grade, rules, board, date } = problem;
+
   return (
     <section className='container'>
       <div className='problem-view'>
@@ -40,6 +44,7 @@ export const Problem = () => {
             <th>Set by:</th>
             <td>{setBy}</td>
           </tr>
+          {}
           <tr>
             <th>First Ascent:</th>
             <td></td>

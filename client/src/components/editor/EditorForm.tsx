@@ -6,7 +6,7 @@ import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveProblem } from './editorSlice';
-import { grades } from './grades';
+import grades from './grades';
 
 const initialState = {
   title: '',

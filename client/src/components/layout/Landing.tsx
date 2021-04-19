@@ -25,7 +25,7 @@ const Landing = () => {
               <Link to='/edit' className='landing-link'>
                 <strong>CREATE</strong>
               </Link>
-              <Link to='/problems' className='landing-link'>
+              <Link to='/browse' className='landing-link'>
                 <strong>BROWSE</strong>
               </Link>
             </>

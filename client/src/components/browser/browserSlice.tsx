@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../../utils/api';
 
 interface Problem {
   title: string;
@@ -20,6 +21,15 @@ interface Browser {
   status: string;
   error: string;
 }
+
+export const getProblems = createAsyncThunk('browser/getProblems', async () => {
+  const res = await api.get('/problems');
+  if (res.status !== 200) {
+    throw Error(res.statusText);
+  } else {
+    return res.data;
+  }
+});
 
 const initialState: Browser = {
   status: 'idle',
@@ -51,6 +61,20 @@ export const browserSlice = createSlice({
       state.currentProblem = initialState.currentProblem;
       return state;
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getProblems.fulfilled, (state, action) => {
+      state.status = 'resolved';
+      state.error = '';
+      state.problems = [...state.problems, ...action.payload];
+    });
+    builder.addCase(getProblems.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(getProblems.rejected, (state, action) => {
+      state.status = 'rejected';
+      state.error = action.error.message as string;
+    });
   }
 });
 

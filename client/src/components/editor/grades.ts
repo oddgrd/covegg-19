@@ -1,4 +1,4 @@
-export const grades = [
+const grades = [
   { color: 'white', grade: '5+' },
   { color: 'green', grade: '6A' },
   { color: 'green', grade: '6A+' },
@@ -19,3 +19,5 @@ export const grades = [
   { color: 'cyan', grade: '8C' },
   { color: 'cyan', grade: '8C+' }
 ];
+
+export default grades;
