@@ -2,12 +2,14 @@ import React from 'react';
 import { Login } from '../auth/Login';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
-import { logout } from '../auth/authSlice';
+import { login } from '../auth/authSlice';
+import GoogleButton from 'react-google-button';
 const Landing = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useAppDispatch();
-  const handleLogOut = () => {
-    dispatch(logout());
+
+  const handleLogin = () => {
+    dispatch(login());
   };
   return (
     <section className='container'>
@@ -20,21 +22,21 @@ const Landing = () => {
         <div className='landing-links'>
           {isAuthenticated ? (
             <>
-              <button onClick={() => handleLogOut()}>Log Out</button>
               <Link to='/edit' className='landing-link'>
                 <strong>CREATE</strong>
+              </Link>
+              <Link to='/problems' className='landing-link'>
+                <strong>BROWSE</strong>
               </Link>
             </>
           ) : (
             <>
-              <h3>Sign in to add problems:</h3>
-              <Login />
+              <h3 style={{ textAlign: 'center' }}>
+                Register or sign in to get started:
+              </h3>
+              <GoogleButton onClick={handleLogin} />
             </>
           )}
-
-          <Link to='/problems' className='landing-link'>
-            <strong>BROWSE</strong>
-          </Link>
         </div>
       </div>
     </section>
