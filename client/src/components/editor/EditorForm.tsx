@@ -6,11 +6,11 @@ import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveProblem } from './editorSlice';
-// import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import { grades } from '../../misc/grades';
 
 const initialState = {
   title: '',
-  grade: '5+',
+  grade: 0,
   setBy: '',
   rules: 'Feet follow hands',
   rating: 3,
@@ -29,24 +29,29 @@ const EditorForm: FC<Props> = ({ handleSave }) => {
 
   const onChange = (e: any) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onChangeGrade = (e: any) => {
+    setFormData({ ...formData, grade: e.target.value });
+  };
   const onChangeRating = (value: number) => {
     setFormData({ ...formData, rating: value });
   };
-  // const onChangeAttempts = (value: string) => {
-  //   setFormData({ ...formData, attempts: value });
-  // };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const dataUrl = handleSave();
-    dispatch(saveProblem({ ...formData, setBy: user, dataUrl: dataUrl }));
+    dispatch(
+      saveProblem({
+        ...formData,
+        setBy: user,
+        dataUrl: dataUrl
+      })
+    );
     history.push('/problem');
   };
-
   const { title, grade, rules, rating } = formData;
   return (
     <div className='editor-form' onSubmit={handleSubmit}>
-      <form className='form'>
+      <form className='form' autoComplete='off'>
         <div className='form-group'>
           <input
             type='text'
@@ -60,55 +65,33 @@ const EditorForm: FC<Props> = ({ handleSave }) => {
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Grade'
-            name='grade'
-            value={grade}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        {/* <div className='form-group'>
-          <RadioGroup
-            horizontal
-            className='radio'
-            onChange={onChangeAttempts}
-            value=''
-          >
-            <RadioButton
-              className='radio-button'
-              value='Flash'
-              rootColor='#f0eff3'
-              pointColor='#05ab75'
-            >
-              FLASH
-            </RadioButton>
-            <RadioButton
-              className='radio-button'
-              value='<4'
-              rootColor='#f0eff3'
-              pointColor='#1184e8'
-            >
-              {'< 4'}
-            </RadioButton>
-            <RadioButton
-              value='>4'
-              rootColor='#f0eff3'
-              pointColor='#ca3436'
-              className='radio-button'
-            >
-              {'> 4'}
-            </RadioButton>
-          </RadioGroup>
-        </div> */}
-        <div className='form-group'>
-          <input
-            type='text'
             placeholder='Feet follow hands?'
             name='rules'
             value={rules}
             onChange={(e) => onChange(e)}
             required
           />
+        </div>
+        <div className='form-group'>
+          <input
+            type='range'
+            name='grade'
+            min={0}
+            max={grades.length - 1}
+            value={grade}
+            onChange={(e) => onChangeGrade(e)}
+            required
+          />
+          <p
+            style={{
+              textAlign: 'center',
+              fontSize: '2rem',
+              padding: '0.4rem',
+              color: `${grades[grade].color}`
+            }}
+          >
+            <strong>{grades[grade].grade}</strong>
+          </p>
         </div>
         <div className='star-rating'>
           <Rating
@@ -119,7 +102,11 @@ const EditorForm: FC<Props> = ({ handleSave }) => {
           />
         </div>
         <div className='form-group'>
-          <input type='submit' value='Save Problem'></input>
+          <input
+            type='submit'
+            value='Save Problem'
+            className='submit-button'
+          ></input>
         </div>
       </form>
     </div>

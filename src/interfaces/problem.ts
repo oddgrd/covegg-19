@@ -5,7 +5,7 @@ interface Ascent {
   _id: Schema.Types.ObjectId;
   name: string;
   attempts: string;
-  grade: string;
+  grade: number;
   rating: number;
   comment?: string;
 }
@@ -14,7 +14,7 @@ export default interface IProblem extends Document {
   user: Schema.Types.ObjectId;
   _id: Schema.Types.ObjectId;
   title: string;
-  grade: string;
+  grade: number;
   setBy: string;
   firstAscent: string;
   attempts: string;

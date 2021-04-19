@@ -23,7 +23,7 @@ const ProblemSchema: Schema = new Schema({
     required: true
   },
   grade: {
-    type: String,
+    type: Number,
     required: true
   },
   rating: {
@@ -47,7 +47,7 @@ const ProblemSchema: Schema = new Schema({
             required: true
           },
           grade: {
-            type: String,
+            type: Number,
             required: true
           },
           rating: {

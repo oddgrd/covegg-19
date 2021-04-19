@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Problem {
   title: string;
-  grade: string;
+  grade: number;
   setBy: string;
   rules: string;
   board: string;
@@ -27,7 +27,7 @@ const initialState: Browser = {
   problems: [],
   currentProblem: {
     title: '',
-    grade: '',
+    grade: 0,
     setBy: '',
     rules: '',
     board: '0.1',

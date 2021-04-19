@@ -6,7 +6,7 @@ interface Error {
 }
 interface Problem {
   title: string;
-  grade: string;
+  grade: number;
   setBy: string;
   rules: string;
   board: string;
@@ -40,7 +40,7 @@ const initialState: NewProblem = {
   error: '',
   problem: {
     title: '',
-    grade: '',
+    grade: 0,
     setBy: '',
     rules: '',
     board: '0.1',
@@ -56,14 +56,14 @@ const initialState: NewProblem = {
 export const saveProblem = createAsyncThunk<
   object,
   object,
-  { rejectValue: Error }
+  { rejectValue: string }
 >('editor/saveProblem', async (data: object, { rejectWithValue }) => {
   try {
     const res = await api.post('/problems', data);
     if (res.status === 200) {
       return res.data;
     } else {
-      return rejectWithValue(res.data as Error);
+      return rejectWithValue(res.statusText);
     }
   } catch (error) {
     console.error(error.message);
@@ -94,7 +94,7 @@ export const editorSlice = createSlice({
       state.status = 'rejected';
       if (action.payload) {
         // Since we passed in `MyKnownError` to `rejectValue` in `updateUser`, the type information will be available here.
-        state.error = action.payload.message;
+        state.error = action.payload;
       } else {
         state.error = action.error.message as string;
       }
