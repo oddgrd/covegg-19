@@ -73,11 +73,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     secret: config.cookie.cookieKey,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: config.mongo.url,
-      stringify: false
+      stringify: false,
+      autoRemove: 'native'
     })
   })
 );
