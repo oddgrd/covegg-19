@@ -64,9 +64,9 @@ export const browserSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProblems.fulfilled, (state, action) => {
-      state.status = 'resolved';
-      state.error = '';
       state.problems = [...state.problems, ...action.payload];
+      state.error = '';
+      state.status = 'resolved';
     });
     builder.addCase(getProblems.pending, (state) => {
       state.status = 'pending';

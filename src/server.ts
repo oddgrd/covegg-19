@@ -13,6 +13,7 @@ import userRoutes from './routes/user';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
 import lusca from 'lusca';
+import auth from './middleware/auth';
 
 const NAMESPACE = 'Server';
 const app = express();
@@ -133,7 +134,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/problems', problemRoutes);
 
 // app.get('/', auth, (req, res) => {
-//   res.status(200).json({
+//   return res.status(200).json({
 //     authenticated: true,
 //     message: 'User successfully authenticated',
 //     user: req.user
