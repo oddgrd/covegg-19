@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getProblems, clearState } from './browserSlice';
-import grades from '../editor/grades';
 import Spinner from '../layout/Spinner';
+import { BrowserItem } from './BrowserItem';
 export const Browser = () => {
   const dispatch = useAppDispatch();
   const problems = useAppSelector((state) => state.browser.problems);
@@ -33,14 +33,7 @@ export const Browser = () => {
             </thead>
             <tbody>
               {problems.map((problem, idx) => (
-                <tr key={idx}>
-                  <td>{problem.title}</td>
-                  <td>{problem.setBy}</td>
-                  <td style={{ color: `${grades[problem.grade].color}` }}>
-                    {grades[problem.grade].grade}
-                  </td>
-                  <td>{problem.date}</td>
-                </tr>
+                <BrowserItem problem={problem} key={idx} />
               ))}
             </tbody>
           </table>

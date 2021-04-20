@@ -13,7 +13,6 @@ import userRoutes from './routes/user';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
 import lusca from 'lusca';
-import auth from './middleware/auth';
 
 const NAMESPACE = 'Server';
 const app = express();

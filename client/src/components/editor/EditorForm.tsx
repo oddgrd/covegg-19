@@ -46,7 +46,7 @@ const EditorForm: FC<Props> = ({ handleSave }) => {
         dataUrl: dataUrl
       })
     );
-    history.push('/problem');
+    history.push('/browse');
   };
   const { title, grade, rules, rating } = formData;
   return (

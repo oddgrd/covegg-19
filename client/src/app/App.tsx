@@ -25,7 +25,7 @@ function App() {
         <Route exact path='/' component={Landing} />
         <Switch>
           <PrivateRoute exact path='/create' component={Editor} />
-          <PrivateRoute exact path='/problem' component={Problem} />
+          <PrivateRoute exact path='/problem/:id' component={Problem} />
           <PrivateRoute exact path='/browse' component={Browser} />
         </Switch>
       </>

@@ -1,11 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  faList,
-  faPaintBrush,
-  faBars,
-  faSignOutAlt
-} from '@fortawesome/free-solid-svg-icons';
+import { faList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavbarMenu } from './NavbarMenu';
 
