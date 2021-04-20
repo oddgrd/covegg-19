@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import {
   faList,
@@ -13,6 +13,7 @@ import GoogleButton from 'react-google-button';
 
 export const NavbarMenu = () => {
   const [menu, toggleMenu] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const history = useHistory();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useAppDispatch();
@@ -23,8 +24,24 @@ export const NavbarMenu = () => {
   const handleLogin = () => {
     dispatch(login());
   };
+
+  const handleClick = useCallback((e: any) => {
+    if (!dropdownRef.current) return;
+    if (dropdownRef.current.contains(e.target)) {
+      return;
+    }
+    toggleMenu(false);
+  }, []);
+  useEffect(() => {
+    document.addEventListener('mousedown', (e) => handleClick(e));
+
+    return () => {
+      document.removeEventListener('mousedown', (e) => handleClick(e));
+    };
+  }, [handleClick]);
+
   return (
-    <div>
+    <div ref={dropdownRef}>
       <button onClick={() => toggleMenu(!menu)} className='btn'>
         <FontAwesomeIcon icon={faBars} className='nav-link' />
       </button>

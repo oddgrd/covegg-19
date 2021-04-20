@@ -99,6 +99,8 @@ ul {
 .navbar-menu-item {
   color: var(--primary-color);
   display: flex;
+  min-width: 40%;
+  max-width: 60%;
   align-items: center;
   font-size: 1rem;
   gap: 0.5rem;
