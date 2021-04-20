@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   faList,
   faSignOutAlt,
@@ -13,10 +13,12 @@ import GoogleButton from 'react-google-button';
 
 export const NavbarMenu = () => {
   const [menu, toggleMenu] = useState(false);
+  const history = useHistory();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useAppDispatch();
   const handleLogOut = () => {
     dispatch(logout());
+    history.push('/');
   };
   const handleLogin = () => {
     dispatch(login());
