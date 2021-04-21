@@ -18,7 +18,7 @@ export const Browser = () => {
   }, [dispatch]);
   return (
     <>
-      <div>
+      <section className='container'>
         <h2>Browse Problems</h2>
         {status === 'pending' ? (
           <Spinner />
@@ -41,7 +41,7 @@ export const Browser = () => {
         ) : (
           `${error}`
         )}
-      </div>
+      </section>
     </>
   );
 };

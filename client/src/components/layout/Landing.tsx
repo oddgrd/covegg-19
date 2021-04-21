@@ -15,7 +15,9 @@ const Landing = () => {
       <div className='landing'>
         <div className='landing-header'>
           <h1 style={{ fontSize: '2rem' }}>Covegg-19</h1>
-          <h3>Save and browse problems on your home climbing board</h3>
+          <h3 style={{ maxWidth: '500px' }}>
+            Save and browse problems on your home climbing board
+          </h3>
         </div>
 
         <div className='landing-links'>
