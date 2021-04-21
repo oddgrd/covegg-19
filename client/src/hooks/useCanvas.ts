@@ -18,13 +18,7 @@ export const useCanvas = () => {
       return;
     }
     ctx.current.beginPath();
-    ctx.current.arc(
-      lastX.current + 0.5,
-      lastY.current + 0.5,
-      12,
-      0,
-      2 * Math.PI
-    );
+    ctx.current.arc(lastX.current, lastY.current, 12, 0, 2 * Math.PI);
     ctx.current.stroke();
 
     [lastX.current, lastY.current] = [event.offsetX, event.offsetY];
@@ -73,17 +67,11 @@ export const useCanvas = () => {
       ctx.current.setTransform(ratio, 0, 0, ratio, 0, 0);
     }
   }, []);
+
   const handleColor = (color: string) => {
     setCurrentColor(color);
     selectedColor.current = color;
   };
-
-  const handleClear = useCallback(() => {
-    if (!ctx || !ctx.current || !canvas || !canvas.current) {
-      return;
-    }
-    ctx.current.clearRect(0, 0, canvas.current.width, canvas.current.height);
-  }, []);
 
   const undo = useCallback(() => {
     if (!ctx.current || !canvas.current || history.length === 0) return;
@@ -110,6 +98,6 @@ export const useCanvas = () => {
       canvas,
       currentColor
     },
-    { init, initViewer, handleColor, handleClear, undo, loadFromDataUrl }
+    { init, initViewer, handleColor, undo, loadFromDataUrl }
   ];
 };
