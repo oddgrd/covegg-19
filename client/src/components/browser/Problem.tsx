@@ -18,7 +18,17 @@ export const Problem = ({ match }: MatchProps) => {
   const problem = useAppSelector((state) => state.browser.currentProblem);
   const status = useAppSelector((state) => state.browser.status);
   const error = useAppSelector((state) => state.browser.error);
-  const { title, setBy, grade, rules, board, date, dataUrl } = problem;
+  const {
+    title,
+    setBy,
+    grade,
+    rules,
+    board,
+    date,
+    dataUrl,
+    rating,
+    ascents
+  } = problem;
 
   const handleLoad = useCallback(() => {
     if (!problem || !loadFromDataUrl || !initViewer) return;
@@ -62,18 +72,16 @@ export const Problem = ({ match }: MatchProps) => {
               <th>Set by:</th>
               <td>{setBy}</td>
             </tr>
-            {}
-            <tr>
-              <th>First Ascent:</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th>Attempts:</th>
-              <td></td>
-            </tr>
+            {ascents.length > 0 && (
+              <tr>
+                <th>First Ascent:</th>
+                <td>{ascents[0].name}</td>
+              </tr>
+            )}
+
             <tr>
               <th>Rating:</th>
-              <td></td>
+              <td>{rating}/5</td>
             </tr>
             <tr>
               <th>Board version:</th>

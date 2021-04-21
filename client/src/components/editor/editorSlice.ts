@@ -1,6 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
+interface Ascent {
+  user: string;
+  _id: string;
+  name: string;
+  attempts: string;
+  grade: number;
+  rating: number;
+  comment?: string;
+}
+
 interface Problem {
   title: string;
   grade: number;
@@ -9,14 +19,14 @@ interface Problem {
   board: string;
   rating: number;
   dataUrl: string;
-  ascents?: [];
+  ascents: Array<Ascent>;
   date: string;
   _id: string;
   user: string;
 }
 
-interface NewProblem {
-  problem: Problem;
+interface Editor {
+  newProblem: Problem;
   status: string;
   error: string;
 }
@@ -32,10 +42,10 @@ interface NewProblem {
 //   dataUrl: string;
 // }
 
-const initialState: NewProblem = {
+const initialState: Editor = {
   status: 'idle',
   error: '',
-  problem: {
+  newProblem: {
     title: '',
     grade: 0,
     setBy: '',
@@ -67,7 +77,7 @@ export const editorSlice = createSlice({
   initialState,
   reducers: {
     clearState: (state) => {
-      state.problem = initialState.problem;
+      state.newProblem = initialState.newProblem;
       state.status = 'idle';
       state.error = '';
       return state;
@@ -77,7 +87,7 @@ export const editorSlice = createSlice({
     builder.addCase(saveProblem.fulfilled, (state, action) => {
       state.status = 'resolved';
       state.error = '';
-      state.problem = { ...state.problem, ...action.payload };
+      state.newProblem = { ...state.newProblem, ...action.payload };
     });
     builder.addCase(saveProblem.pending, (state) => {
       state.status = 'pending';

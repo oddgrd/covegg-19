@@ -4,7 +4,13 @@ import grades from '../editor/grades';
 import { Problem } from './browserSlice';
 
 interface Props {
-  problem: Problem;
+  problem: {
+    setBy: string;
+    _id: string;
+    title: string;
+    grade: number;
+    date: string;
+  };
 }
 
 export const BrowserItem = ({ problem }: Props) => {

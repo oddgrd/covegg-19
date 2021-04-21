@@ -1,5 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 import api from '../../utils/api';
+
+interface Ascent {
+  user: string;
+  _id: string;
+  name: string;
+  attempts: string;
+  grade: number;
+  rating: number;
+  comment?: string;
+}
 
 export interface Problem {
   title: string;
@@ -8,7 +19,7 @@ export interface Problem {
   rules: string;
   board: string;
   rating: number;
-  ascents: [];
+  ascents: Array<Ascent>;
   date: string;
   _id: string;
   user: string;
@@ -102,5 +113,9 @@ export const browserSlice = createSlice({
 });
 
 export const { clearState } = browserSlice.actions;
-
+export const selectProblems = (state: RootState) =>
+  state.browser.problems.map((problem) => {
+    const { title, setBy, grade, date, _id } = problem;
+    return { title, setBy, grade, date, _id };
+  });
 export default browserSlice.reducer;
