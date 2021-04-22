@@ -1,4 +1,5 @@
 import React from 'react';
+import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import grades from '../editor/grades';
 import { Problem } from './browserSlice';
@@ -25,7 +26,9 @@ export const BrowserItem = ({ problem }: Props) => {
         <td style={{ color: `${grades[problem.grade].color}` }}>
           {grades[problem.grade].grade}
         </td>
-        <td>{problem.date}</td>
+        <td>
+          <Moment fromNow>{problem.date}</Moment>
+        </td>
       </tr>
     </>
   );

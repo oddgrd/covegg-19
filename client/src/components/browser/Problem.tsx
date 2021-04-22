@@ -7,6 +7,7 @@ import { getProblemById } from './browserSlice';
 import { RouteComponentProps } from 'react-router-dom';
 import grades from '../editor/grades';
 import Spinner from '../layout/Spinner';
+import Moment from 'react-moment';
 
 interface MatchParams {
   id: string;
@@ -93,7 +94,9 @@ export const Problem = ({ match }: MatchProps) => {
             </tr>
             <tr>
               <th>Date:</th>
-              <td>{date}</td>
+              <td>
+                <Moment format='DD-MM-YYYY HH:mm'>{date}</Moment>
+              </td>
             </tr>
           </table>
         </div>
