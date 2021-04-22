@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import api from '../../utils/api';
 
-interface Ascent {
+export interface Ascent {
   user: string;
   _id: string;
   name: string;
@@ -10,6 +10,7 @@ interface Ascent {
   grade: number;
   rating: number;
   comment?: string;
+  createdAt: string;
 }
 
 export interface Problem {

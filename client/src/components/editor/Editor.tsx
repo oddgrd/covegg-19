@@ -23,7 +23,7 @@ const Editor = () => {
     return dataUrl;
   }, [canvas]);
 
-  const toggleFormAndScroll = () => {
+  const toggleForm = () => {
     toggleEditorForm(!editorForm);
   };
   useEffect(() => {
@@ -54,7 +54,7 @@ const Editor = () => {
           <FontAwesomeIcon icon={faUndo} />
         </button>
         <button
-          onClick={() => toggleFormAndScroll()}
+          onClick={() => toggleForm()}
           className={'btn-save'}
           style={{
             display: 'flex',

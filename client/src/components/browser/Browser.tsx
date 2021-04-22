@@ -20,28 +20,24 @@ export const Browser = () => {
 
   return (
     <section className='container'>
-      <h2>Browse Problems</h2>
-      {status === 'pending' ? (
-        <Spinner />
-      ) : status === 'resolved' ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Title:</th>
-              <th>Set By:</th>
-              <th>Grade:</th>
-              <th>Date:</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div className='browser'>
+        <h2
+          style={{ textAlign: 'center', padding: '1.5rem', color: '#05ab75' }}
+        >
+          Browse Problems
+        </h2>
+        {status === 'pending' ? (
+          <Spinner />
+        ) : status === 'resolved' ? (
+          <>
             {problems.map((problem, idx) => (
               <BrowserItem problem={problem} key={idx} />
             ))}
-          </tbody>
-        </table>
-      ) : (
-        `${error}`
-      )}
+          </>
+        ) : (
+          `${error}`
+        )}
+      </div>
     </section>
   );
 };
