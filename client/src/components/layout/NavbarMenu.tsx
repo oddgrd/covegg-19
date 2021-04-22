@@ -45,7 +45,7 @@ export const NavbarMenu = () => {
       <button onClick={() => toggleMenu(!menu)} className='btn'>
         <FontAwesomeIcon icon={faBars} className='nav-link' />
       </button>
-      {menu ? (
+      {menu && (
         <div className='navbar-menu'>
           <Link to='/browse' className='navbar-menu-item'>
             <FontAwesomeIcon icon={faList} className='nav-link' /> Browse
@@ -68,7 +68,7 @@ export const NavbarMenu = () => {
             <GoogleButton onClick={handleLogin} />
           )}
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

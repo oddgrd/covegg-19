@@ -30,6 +30,14 @@ a {
 ul {
   list-style: none;
 }
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .btn {
   -webkit-appearance: none;
   border: none;
@@ -258,7 +266,9 @@ input:focus::placeholder {
 }
 .problem-table {
   width: 100%;
-  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-collapse: collapse;
+  background: var(--tertiary-bg);
 }
 .browser {
   display: flex;
@@ -266,29 +276,31 @@ input:focus::placeholder {
   gap: 0.4rem;
   padding: 0.3rem;
 }
-.browser-item-main {
-  display: grid;
+.browser-item {
   width: 500px;
   margin: auto;
-  padding: 0.4rem;
-  grid-template-columns: 4fr 1fr;
-  gap: 0.5rem;
   background: var(--tertiary-bg);
   border: 1px solid var(--secondary-bg);
   border-radius: 3px;
 }
-.browser-item-main > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.browser-item-main {
+  display: grid;
+  width: 500px;
+  padding: 0.4rem;
+  grid-template-columns: 1fr 4fr 1fr;
+  gap: 0.5rem;
 }
+.browser-item-title-div {
+  display: flex;
+}
+
 .browser-item-title {
-  max-width: 160px;
-  color: #05ab75;
+  width: 220px;
+  color: var(--light);
   font-size: 1.3rem;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  align-self: center;
   text-align: center;
 }
 
@@ -298,9 +310,10 @@ input:focus::placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 .browser-item-info {
-  gap: 0.3rem;
+  padding: 0.5rem;
 }
 .browser-item:hover {
   background: var(--secondary-bg);
@@ -350,15 +363,10 @@ input:focus::placeholder {
 }
 th,
 td {
-  padding: 0.7rem;
+  padding: 0.3rem 0.4rem;
   text-align: left;
 }
 
-th {
-  background: var(--tertiary-bg);
-  opacity: 0.9;
-  border-radius: 3px;
-}
 /* Slider styles */
 input[type='range'] {
   -webkit-appearance: none;
@@ -458,6 +466,9 @@ input[type='range']:focus::-ms-fill-upper {
   }
   .landing-links {
     width: 80%;
+  }
+  .browser-item {
+    width: 100%;
   }
   .browser-item-main {
     width: 100%;

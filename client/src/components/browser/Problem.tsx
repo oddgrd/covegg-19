@@ -8,6 +8,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import grades from '../editor/grades';
 import Spinner from '../layout/Spinner';
 import Moment from 'react-moment';
+import { AscentItem } from './AscentItem';
+import { ProblemTable } from './ProblemTable';
 
 interface MatchParams {
   id: string;
@@ -30,6 +32,7 @@ export const Problem = ({ match }: MatchProps) => {
     rating,
     ascents
   } = problem;
+  const tableProps = { setBy, rules, board, date, rating, ascents };
 
   const handleLoad = useCallback(() => {
     if (!problem || !loadFromDataUrl || !initViewer) return;
@@ -68,40 +71,17 @@ export const Problem = ({ match }: MatchProps) => {
           >
             <Canvas canvasRef={canvas} />
           </div>
-          <table className='problem-table'>
-            <tr>
-              <th>Set by:</th>
-              <td>{setBy}</td>
-            </tr>
-            {ascents.length > 0 && (
-              <tr>
-                <th>First Ascent:</th>
-                <td>{ascents[0].name}</td>
-              </tr>
-            )}
-
-            <tr>
-              <th>Rating:</th>
-              <td>{rating}/5</td>
-            </tr>
-            <tr>
-              <th>Board version:</th>
-              <td>{board}</td>
-            </tr>
-            <tr>
-              <th>Rules:</th>
-              <td>{rules}</td>
-            </tr>
-            <tr>
-              <th>Date:</th>
-              <td>
-                <Moment format='DD-MM-YYYY HH:mm'>{date}</Moment>
-              </td>
-            </tr>
-          </table>
+          <ProblemTable {...tableProps} />
         </div>
       ) : (
         <p>Problem not found: {error}</p>
+      )}
+      {ascents.length > 0 && (
+        <div className='ascents'>
+          {ascents.map((ascent, idx) => (
+            <AscentItem ascent={ascent} key={idx} />
+          ))}
+        </div>
       )}
     </section>
   );

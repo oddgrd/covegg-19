@@ -13,7 +13,7 @@ const Landing = () => {
   return (
     <section className='container'>
       <div className='landing'>
-        <div className='landing-header'>
+        <div className='landing-header unselectable'>
           <h1 style={{ fontSize: '2rem' }}>Covegg-19</h1>
           <h3 style={{ maxWidth: '500px' }}>
             Save and browse problems on your home climbing board
