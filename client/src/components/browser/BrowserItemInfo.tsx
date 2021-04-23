@@ -1,8 +1,6 @@
 import React from 'react';
 import Moment from 'react-moment';
-import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { StarRating } from '../layout/StarRating';
 
 interface Props {
   setBy: string;
@@ -10,15 +8,15 @@ interface Props {
   rating: number;
 }
 export const BrowserItemInfo = ({ setBy, date, rating }: Props) => {
-  const starRating = () => {
-    const stars = 5 - rating;
-  };
   return (
     <div className='browser-item-info'>
-      <p>Set by: {setBy}</p>
+      <p>
+        <strong>Set by:</strong> {setBy}
+      </p>
 
       <p style={{ fontSize: '0.9rem' }}>
         <Moment fromNow>{date}</Moment>
+        <StarRating rating={rating} />
       </p>
     </div>
   );

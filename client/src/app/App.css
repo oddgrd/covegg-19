@@ -150,8 +150,8 @@ ul {
   max-width: 1100px;
   margin: auto;
 
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .editor {
@@ -292,6 +292,7 @@ input:focus::placeholder {
 }
 .browser-item-title-div {
   display: flex;
+  justify-content: center;
 }
 
 .browser-item-title {

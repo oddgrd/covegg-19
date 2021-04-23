@@ -37,7 +37,7 @@ export const BrowserItem = ({ problem }: Props) => {
         </button>
         <div className='browser-item-title-div'>
           <Link className='browser-item-title' to={`/problem/${problem._id}`}>
-            {problem.title}
+            {<strong>{problem.title}</strong>}
           </Link>
         </div>
         <div className='browser-item-grade unselectable'>
