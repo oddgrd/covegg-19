@@ -16,7 +16,7 @@ export const BrowserItemInfo = ({ setBy, date, rating }: Props) => {
 
       <p style={{ fontSize: '0.9rem' }}>
         <Moment fromNow>{date}</Moment>
-        <StarRating rating={rating} />
+        <StarRating rating={rating} float={'right'} />
       </p>
     </div>
   );

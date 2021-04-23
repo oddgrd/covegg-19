@@ -1,5 +1,6 @@
 import React from 'react';
 import Moment from 'react-moment';
+import { StarRating } from '../layout/StarRating';
 import { Ascent } from './browserSlice';
 interface Props {
   setBy: string;
@@ -33,7 +34,9 @@ export const ProblemTable = ({
 
         <tr>
           <th>Rating:</th>
-          <td>{rating}/5</td>
+          <td>
+            <StarRating rating={rating} float={'left'} />
+          </td>
         </tr>
         <tr>
           <th>Board:</th>
