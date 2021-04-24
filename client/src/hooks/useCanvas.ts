@@ -4,7 +4,7 @@ type coords = { x: number; y: number; c: string };
 
 export const useCanvas = () => {
   const canvas = useRef<HTMLCanvasElement>();
-  const [history] = useState<Array<coords>>([]);
+  const [history, setHistory] = useState<Array<coords>>([]);
   const [currentColor, setCurrentColor] = useState('#00FF00');
   const lineWidth = 2.2;
   const selectedColor = useRef('#00FF00');
@@ -22,7 +22,6 @@ export const useCanvas = () => {
 
     [lastX.current, lastY.current] = [event.offsetX, event.offsetY];
   }, []);
-
   const draw = useCallback(
     (e: any) => {
       if (!ctx.current) return;
@@ -36,9 +35,9 @@ export const useCanvas = () => {
         y: lastY.current,
         c: selectedColor.current
       };
-      history.push(circle);
+      setHistory((history) => [...history, circle]);
     },
-    [drawCircle, history]
+    [drawCircle]
   );
 
   const init = useCallback(() => {
