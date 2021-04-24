@@ -5,15 +5,6 @@ import fs from 'fs';
 
 const router = express.Router();
 
-interface multerFile {
-  buffer: Buffer;
-  encoding: string;
-  fieldname: string;
-  mimetype: string;
-  originalname: string;
-  size: number;
-}
-
 let upload = multer({ dest: 'images/' });
 
 router.post('/add', upload.single('image'), async (req, res) => {
