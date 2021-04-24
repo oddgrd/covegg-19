@@ -1,11 +1,10 @@
 import { useCallback, useRef, useState } from 'react';
 
 type coords = { x: number; y: number; c: string };
-let history: coords[] = [];
 
 export const useCanvas = () => {
   const canvas = useRef<HTMLCanvasElement>();
-
+  const [history] = useState<Array<coords>>([]);
   const [currentColor, setCurrentColor] = useState('#00FF00');
   const lineWidth = 2.2;
   const selectedColor = useRef('#00FF00');
@@ -39,7 +38,7 @@ export const useCanvas = () => {
       };
       history.push(circle);
     },
-    [drawCircle]
+    [drawCircle, history]
   );
 
   const init = useCallback(() => {
@@ -85,7 +84,7 @@ export const useCanvas = () => {
       ctx.current.arc(circle.x, circle.y, 12, 0, 2 * Math.PI);
       ctx.current.stroke();
     });
-  }, []);
+  }, [history]);
 
   const loadFromDataUrl = (url: string) => {
     if (!ctx.current) return;
