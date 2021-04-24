@@ -9,7 +9,7 @@ import User from './models/User';
 import logging from './config/logging';
 import config from './config/config';
 import authRoutes from './routes/auth';
-import userRoutes from './routes/user';
+import boardRoutes from './routes/board';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
 import lusca from 'lusca';
@@ -129,7 +129,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/boards', boardRoutes);
 app.use('/api/problems', problemRoutes);
 
 // app.get('/', auth, (req, res) => {

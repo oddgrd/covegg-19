@@ -11,6 +11,7 @@ import { useAppDispatch } from './hooks';
 import { loadUser } from '../components/auth/authSlice';
 import { Navbar } from '../components/layout/Navbar';
 import { PrivateRoute } from '../components/routing/PrivateRoute';
+import { BoardForm } from '../components/board/BoardForm';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ function App() {
       <>
         <Navbar />
         <Route exact path='/' component={Landing} />
+        <Route exact path='/boards/add' component={BoardForm} />
         <Switch>
           <PrivateRoute exact path='/create' component={Editor} />
           <PrivateRoute exact path='/problem/:id' component={Problem} />
