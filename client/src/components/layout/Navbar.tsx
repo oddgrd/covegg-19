@@ -9,6 +9,7 @@ import SVG, { Props as SVGProps } from 'react-inlinesvg';
 const Logo = React.forwardRef<SVGElement, SVGProps>((props, ref) => (
   <SVG innerRef={ref} title='MyLogo' {...props} />
 ));
+
 export const Navbar = () => {
   const logo = useRef<SVGElement>(null);
   return (
@@ -16,7 +17,6 @@ export const Navbar = () => {
       <NavbarMenu />
 
       <Link to='/' className='nav-link'>
-        <SVG src={`${process.env.PUBLIC_URL}/menu.svg`} title='Menu' />
         <Logo ref={logo} src={logoUrl} style={{ width: '48px' }} />
       </Link>
 
