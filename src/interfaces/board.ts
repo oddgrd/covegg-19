@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 
 export default interface IBoard extends Document {
-  image: Buffer;
+  imageUrl: String;
+  boardVersion: String;
   date: Date;
 }

@@ -9,4 +9,19 @@ const router = express.Router();
 // @access   Private
 router.post('/upload', auth, controller.upload);
 
+// @route    POST api/boards
+// @desc     Store reference to GC img in mongoDB
+// @access   Private
+router.post('/', auth, controller.saveBoard);
+
+// @route    GET api/boards
+// @desc     Get all boards
+// @access   Public
+router.get('/', controller.getAllBoards);
+
+// @route    GET api/boards/:id
+// @desc     Get board by object ID
+// @access   Public
+router.get('/:id', controller.getBoardById);
+
 export = router;

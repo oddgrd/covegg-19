@@ -15,8 +15,8 @@ const ProblemSchema: Schema = new Schema({
     required: true
   },
   board: {
-    type: String,
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'boards'
   },
   rules: {
     type: String,

@@ -19,7 +19,7 @@ export default interface IProblem extends Document {
   firstAscent: string;
   attempts: string;
   rating: number;
-  board: string;
+  board: Schema.Types.ObjectId;
   rules: string;
   ascents: Ascent[];
   dataUrl: string;

@@ -2,8 +2,12 @@ import { model, Schema, Model } from 'mongoose';
 import IBoard from '../interfaces/board';
 
 const BoardSchema: Schema = new Schema({
-  image: {
-    type: Buffer,
+  imageUrl: {
+    type: String,
+    required: true
+  },
+  boardVersion: {
+    type: String,
     required: true
   },
   date: {
