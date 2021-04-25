@@ -13,11 +13,12 @@ import boardRoutes from './routes/board';
 import problemRoutes from './routes/problem';
 import mongoSanitize from 'express-mongo-sanitize';
 import lusca from 'lusca';
+import multer from 'multer';
 
 const NAMESPACE = 'Server';
 const app = express();
 
-// Connect to MongoDB
+// Connect mongoDB
 mongoose
   .connect(config.mongo.url, config.mongo.opt)
   .then(() => {
@@ -37,7 +38,6 @@ passport.use(
     },
     async (_accessToken, _refreshToken, profile: any, done) => {
       const user = await User.findOne({ googleId: profile.id });
-
       if (user) {
         done(null, user);
       } else {
@@ -66,15 +66,12 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-// Parse the body of the request
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
+// Configure express-session with mongoDB store
 app.use(
   session({
-    secret: config.cookie.cookieKey,
+    secret: config.session.sessionSecret,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: config.mongo.url,
       stringify: false,
@@ -86,17 +83,26 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Prevent clickjacking and cross site scripting
+// Configure multer
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  }
+});
+app.use(multerMid.single('file'));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
-// Sanitize user-supplied data to prevent MongoDB Operator Injection.
 app.use(
   mongoSanitize({
     replaceWith: '_'
   })
 );
 
-// Logging requests
+// Log requests
 app.use((req, res, next) => {
   logging.info(
     NAMESPACE,
@@ -132,23 +138,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/boards', boardRoutes);
 app.use('/api/problems', problemRoutes);
 
-// app.get('/', auth, (req, res) => {
-//   return res.status(200).json({
-//     authenticated: true,
-//     message: 'User successfully authenticated',
-//     user: req.user
-//   });
-// });
-
 // Error handling
 app.use((_req, res, _next) => {
   const error = new Error('Not found');
   res.status(404).json({ message: error.message });
 });
 
-// Create the server
 const httpServer = http.createServer(app);
-
 httpServer.listen(config.server.port, () =>
   logging.info(
     NAMESPACE,

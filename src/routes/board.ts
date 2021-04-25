@@ -1,40 +1,12 @@
 import express from 'express';
-import multer from 'multer';
-import Board from '../models/Board';
-import fs from 'fs';
+import controller from '../controllers/board';
+import auth from '../middleware/auth';
 
 const router = express.Router();
 
-let upload = multer({ dest: 'images/' });
+// @route    POST api/boards/upload
+// @desc     Store image in google cloud storage
+// @access   Private
+router.post('/upload', auth, controller.upload);
 
-router.post('/add', upload.single('image'), async (req, res) => {
-  const img = fs.readFileSync(req.file.path);
-  try {
-    const newBoard = new Board({ image: img });
-    await newBoard.save();
-    res.status(200).json({ message: 'Image Added' });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({
-      message: error.message,
-      error
-    });
-  }
-});
-
-router.get('/', async (_req, res) => {
-  try {
-    const boards = await Board.find().sort({ date: -1 });
-    if (!boards) {
-      res.status(404).json({ message: 'Problems not found' });
-    }
-    res.status(200).json(boards);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({
-      message: error.message,
-      error
-    });
-  }
-});
 export = router;

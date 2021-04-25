@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-
 dotenv.config();
 
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'localhost';
@@ -26,15 +25,15 @@ const GOOGLE = {
   clientSecret: process.env.GOOGLE_CLIENT_SECRET
 };
 
-const COOKIE = {
-  cookieKey: `${process.env.COOKIE_KEY}`
+const SESSION = {
+  sessionSecret: `${process.env.SESSION_SECRET}`
 };
 
 const config = {
   server: SERVER,
   mongo: MONGO,
   google: GOOGLE,
-  cookie: COOKIE
+  session: SESSION
 };
 
 export default config;
