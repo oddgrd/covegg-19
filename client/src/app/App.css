@@ -77,10 +77,11 @@ ul {
 .navbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: relative;
   padding: 1rem;
   background: var(--secondary-bg);
-  min-height: 3rem;
+  height: 4.5rem;
 }
 .navbar-menu {
   display: flex;
