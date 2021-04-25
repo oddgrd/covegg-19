@@ -12,12 +12,14 @@ const NAMESPACE = 'Board Controller';
 const upload = async (req: Request, res: Response, next: NextFunction) => {
   logging.info(NAMESPACE, `Uploading image`);
   try {
+    const { boardVersion } = req.body;
     const myFile = req.file;
     const imageUrl = await uploadImage(myFile);
 
     res.status(200).json({
       message: 'Upload was successful',
-      data: imageUrl
+      imageUrl: imageUrl,
+      boardVersion
     });
   } catch (error) {
     res.status(500).json({
@@ -32,10 +34,10 @@ const upload = async (req: Request, res: Response, next: NextFunction) => {
 // @method - POST
 const saveBoard = async (req: Request, res: Response, _next: NextFunction) => {
   try {
-    const { board, imageUrl } = req.body;
+    const { boardVersion, imageUrl } = req.body;
     const boardFields = {
-      imageUrl: imageUrl,
-      boardVersion: board
+      imageUrl,
+      boardVersion
     };
     const newBoard = new Board(boardFields);
     await newBoard.save();
