@@ -30,7 +30,7 @@ export const BrowserItemInfo = ({ setBy, date, rating, id, user }: Props) => {
 
       <div className='div-space'>
         <Moment fromNow>{date}</Moment>
-        {currentUser === user && (
+        {isOwner && (
           <button onClick={handleDelete} className='btn-trash'>
             <FontAwesomeIcon
               icon={faTimes}
