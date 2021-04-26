@@ -42,8 +42,9 @@ export const getProblems = createAsyncThunk('browser/getProblems', async () => {
     return res.data;
   }
 });
+
 export const getProblemById = createAsyncThunk<Problem, string>(
-  'browser/getProblemById',
+  'browser/getProblem',
   async (id) => {
     const res = await api.get(`/problems/${id}`);
     if (res.status !== 200) {
@@ -51,6 +52,14 @@ export const getProblemById = createAsyncThunk<Problem, string>(
     } else {
       return res.data;
     }
+  }
+);
+
+export const deleteProblem = createAsyncThunk<string, string>(
+  'browser/deleteProblem',
+  async (id) => {
+    await api.delete(`/problems/${id}`);
+    return id;
   }
 );
 
@@ -87,7 +96,7 @@ export const browserSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProblems.fulfilled, (state, action) => {
-      state.problems = [...state.problems, ...action.payload];
+      state.problems = action.payload;
       state.error = '';
       state.status = 'resolved';
     });
@@ -110,13 +119,28 @@ export const browserSlice = createSlice({
       state.status = 'rejected';
       state.error = action.error.message as string;
     });
+    builder.addCase(deleteProblem.fulfilled, (state, action) => {
+      state.currentProblem = initialState.currentProblem;
+      state.problems = state.problems.filter(
+        (problem) => problem._id !== action.payload
+      );
+      state.error = '';
+      state.status = 'resolved';
+    });
+    builder.addCase(deleteProblem.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(deleteProblem.rejected, (state) => {
+      state.status = 'rejected';
+      state.error = 'Deletion failed';
+    });
   }
 });
 
 export const { clearState } = browserSlice.actions;
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
-    const { title, setBy, grade, date, rating, _id } = problem;
-    return { title, setBy, grade, date, rating, _id };
+    const { title, setBy, grade, date, rating, _id, user } = problem;
+    return { title, setBy, grade, date, rating, _id, user };
   });
 export default browserSlice.reducer;

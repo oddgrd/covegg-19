@@ -74,6 +74,19 @@ ul {
   border: 1px solid var(--danger-color);
   color: var(--danger-color);
 }
+.btn-trash {
+  outline: none;
+  cursor: pointer;
+  border: 1px solid var(--danger-color);
+  height: 30px;
+  width: 45px;
+  color: var(--danger-color);
+  background: var(--secondary-bg);
+}
+.div-space {
+  display: flex;
+  justify-content: space-between;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -298,7 +311,7 @@ input:focus::placeholder {
 
 .browser-item-title {
   width: 220px;
-  color: var(--light);
+  color: var(--primary-color);
   font-size: 1.3rem;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -315,7 +328,7 @@ input:focus::placeholder {
   width: 100%;
 }
 .browser-item-info {
-  padding: 0.5rem;
+  padding: 0.6rem;
 }
 .browser-item:hover {
   background: var(--secondary-bg);

@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Moment from 'react-moment';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import grades from '../editor/grades';
 import { faEllipsisV, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +13,7 @@ interface Props {
     grade: number;
     date: string;
     rating: number;
+    user: string;
   };
 }
 
@@ -55,6 +55,8 @@ export const BrowserItem = ({ problem }: Props) => {
           setBy={problem.setBy}
           date={problem.date}
           rating={problem.rating}
+          id={problem._id}
+          user={problem.user}
         />
       )}
     </div>
