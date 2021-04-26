@@ -2,20 +2,23 @@ import React, { useState } from 'react';
 import api from '../../utils/api';
 
 export const BoardForm = () => {
-  const [data, setData] = useState({ imageUrl: '', boardVersion: '' });
+  const [boardData, setBoardData] = useState({
+    imageUrl: '',
+    boardVersion: ''
+  });
 
   const handleImage = (e: any) => {
-    setData({ ...data, [e.target.name]: e.target.files[0] });
+    setBoardData({ ...boardData, [e.target.name]: e.target.files[0] });
   };
 
   const onChange = (e: any) =>
-    setData({ ...data, [e.target.name]: e.target.value });
+    setBoardData({ ...boardData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('file', data.imageUrl);
-    formData.append('boardVersion', data.boardVersion);
+    formData.append('file', boardData.imageUrl);
+    formData.append('boardVersion', boardData.boardVersion);
     try {
       const upload = await api.post('/boards/upload', formData);
       if (!upload) {
@@ -31,7 +34,7 @@ export const BoardForm = () => {
     }
   };
 
-  const { boardVersion } = data;
+  const { boardVersion } = boardData;
   return (
     <section className='container'>
       <form encType='multipart/form-data' onSubmit={handleSubmit}>
