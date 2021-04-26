@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { getProblems, clearState, selectProblems } from './browserSlice';
 import Spinner from '../layout/Spinner';
 import { BrowserItem } from './BrowserItem';
-
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export const Browser = () => {
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.browser.status);
   const error = useAppSelector((state) => state.browser.error);
   const problems = useAppSelector(selectProblems);
-
   useEffect(() => {
     dispatch(getProblems());
     return () => {
@@ -21,11 +20,13 @@ export const Browser = () => {
   return (
     <section className='container'>
       <div className='browser'>
-        <h2
-          style={{ textAlign: 'center', padding: '1.5rem', color: '#05ab75' }}
+        <button
+          onClick={() => dispatch(getProblems())}
+          className='btn-save'
+          style={{ maxWidth: '360px', margin: 'auto', fontSize: '1.7rem' }}
         >
-          Browse Problems
-        </h2>
+          <FontAwesomeIcon icon={faSyncAlt} />
+        </button>
         {status === 'pending' ? (
           <Spinner />
         ) : status === 'resolved' ? (

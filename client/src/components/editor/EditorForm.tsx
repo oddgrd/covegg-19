@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveProblem } from './editorSlice';
 import grades from './grades';
-import { getProblems } from '../browser/browserSlice';
 
 const initialState = {
   title: '',
@@ -48,7 +47,6 @@ const EditorForm: FC<Props> = ({ handleSave }) => {
       })
     );
     history.push('/browse');
-    history.go(0);
   };
   const { title, grade, rules, rating } = formData;
   return (
