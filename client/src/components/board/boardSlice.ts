@@ -36,6 +36,22 @@ export const uploadBoard = createAsyncThunk<Board, FormData>(
   }
 );
 
+export const getBoard = createAsyncThunk<Board, string>(
+  'boards/getBoard',
+  async (id) => {
+    const res = await api.get(`/boards/${id}`);
+    return res.data;
+  }
+);
+
+export const getAllBoards = createAsyncThunk<Array<Board>>(
+  'boards/getAllBoards',
+  async () => {
+    const res = await api.get(`/boards`);
+    return res.data;
+  }
+);
+
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -52,7 +68,6 @@ export const boardSlice = createSlice({
     builder.addCase(
       uploadBoard.fulfilled,
       (state, action: PayloadAction<Board>) => {
-        state.currentBoard = action.payload;
         state.boards = [...state.boards, action.payload];
         state.status = 'resolved';
       }
@@ -68,6 +83,45 @@ export const boardSlice = createSlice({
           state.error = action.payload.errorMessage;
         } else {
           state.error = 'Image upload failed';
+        }
+      }
+    );
+    builder.addCase(
+      getBoard.fulfilled,
+      (state, action: PayloadAction<Board>) => {
+        state.currentBoard = action.payload;
+        state.status = 'resolved';
+      }
+    );
+    builder.addCase(getBoard.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(getBoard.rejected, (state, action: PayloadAction<any>) => {
+      state.status = 'rejected';
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = 'Failed to get board.';
+      }
+    });
+    builder.addCase(
+      getAllBoards.fulfilled,
+      (state, action: PayloadAction<Array<Board>>) => {
+        state.boards = action.payload;
+        state.status = 'resolved';
+      }
+    );
+    builder.addCase(getAllBoards.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(
+      getAllBoards.rejected,
+      (state, action: PayloadAction<any>) => {
+        state.status = 'rejected';
+        if (action.payload) {
+          state.error = action.payload.errorMessage;
+        } else {
+          state.error = 'Failed to get boards.';
         }
       }
     );
