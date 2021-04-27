@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useAppDispatch } from '../../app/hooks';
 import api from '../../utils/api';
+import { uploadBoard } from './boardSlice';
 
 export const BoardForm = () => {
   const [boardData, setBoardData] = useState({
     imageUrl: '',
     boardVersion: ''
   });
-
+  const dispatch = useAppDispatch();
   const handleImage = (e: any) => {
     setBoardData({ ...boardData, [e.target.name]: e.target.files[0] });
   };
@@ -19,19 +21,7 @@ export const BoardForm = () => {
     const formData = new FormData();
     formData.append('file', boardData.imageUrl);
     formData.append('boardVersion', boardData.boardVersion);
-    try {
-      const upload = await api.post('/boards/upload', formData);
-      if (!upload) {
-        throw Error('Failed to upload image');
-      }
-      const { boardVersion, imageUrl } = upload.data;
-      const boardFields = { imageUrl, boardVersion };
-      console.log(boardFields);
-      await api.post('/boards', boardFields);
-      console.log('Image saved to cloud and reference in mongoDB');
-    } catch (error) {
-      console.log(error.message);
-    }
+    dispatch(uploadBoard(formData));
   };
 
   const { boardVersion } = boardData;
@@ -51,6 +41,7 @@ export const BoardForm = () => {
           accept='.png, .jpg, .jpeg'
           name='imageUrl'
           onChange={handleImage}
+          required
         />
         <input type='submit' />
       </form>

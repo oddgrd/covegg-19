@@ -1,15 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import Board from '../models/Board';
 import logging from '../config/logging';
-import IUser from '../interfaces/user';
-import User from '../models/User';
 import { uploadImage } from '../helpers/helpers';
+import { nextTick } from 'node:process';
 
 const NAMESPACE = 'Board Controller';
 
 // @desc - Store image in google cloud storage
 // @method - POST
-const upload = async (req: Request, res: Response, next: NextFunction) => {
+const upload = async (req: Request, res: Response, _next: NextFunction) => {
   logging.info(NAMESPACE, `Uploading image`);
   try {
     const { boardVersion } = req.body;
@@ -26,7 +25,6 @@ const upload = async (req: Request, res: Response, next: NextFunction) => {
       message: error.message,
       error
     });
-    next(error);
   }
 };
 
