@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import Board from '../models/Board';
 import logging from '../config/logging';
 import { uploadImage } from '../helpers/helpers';
-import { nextTick } from 'node:process';
 
 const NAMESPACE = 'Board Controller';
 
@@ -31,6 +30,7 @@ const upload = async (req: Request, res: Response, _next: NextFunction) => {
 // @desc - Store reference to board image in mongoDB
 // @method - POST
 const saveBoard = async (req: Request, res: Response, _next: NextFunction) => {
+  logging.info(NAMESPACE, `Store image reference`);
   try {
     const { boardVersion, imageUrl } = req.body;
     const boardFields = {
