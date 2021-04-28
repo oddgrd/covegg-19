@@ -7,7 +7,7 @@ import logoUrl from '../../images/Logo-klatreapp.svg';
 import SVG, { Props as SVGProps } from 'react-inlinesvg';
 
 const Logo = React.forwardRef<SVGElement, SVGProps>((props, ref) => (
-  <SVG innerRef={ref} title='MyLogo' {...props} />
+  <SVG innerRef={ref} title='Covegg-19' {...props} />
 ));
 
 export const Navbar = () => {
