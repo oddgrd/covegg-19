@@ -24,11 +24,11 @@ function App() {
       <>
         <Navbar />
         <Route exact path='/' component={Landing} />
-        <Route exact path='/boards/add' component={BoardForm} />
         <Switch>
           <PrivateRoute exact path='/create' component={Editor} />
           <PrivateRoute exact path='/problem/:id' component={Problem} />
           <PrivateRoute exact path='/browse' component={Browser} />
+          <PrivateRoute exact path='/boards/add' component={BoardForm} />
         </Switch>
       </>
     </Router>

@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import {
   faList,
   faSignOutAlt,
   faBars,
-  faPaintBrush
+  faPaintBrush,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -23,6 +24,7 @@ export const NavbarMenu = () => {
   };
   const handleLogin = () => {
     dispatch(login());
+    toggleMenu(!menu);
   };
 
   const handleClick = useCallback((e: any) => {
@@ -47,13 +49,29 @@ export const NavbarMenu = () => {
       </button>
       {menu && (
         <div className='navbar-menu'>
-          <Link to='/browse' className='navbar-menu-item'>
+          <Link
+            to='/browse'
+            className='navbar-menu-item'
+            onClick={() => toggleMenu(!menu)}
+          >
             <FontAwesomeIcon icon={faList} className='nav-link' /> Browse
             Problems
           </Link>
-          <Link to='/create' className='navbar-menu-item'>
+          <Link
+            to='/create'
+            className='navbar-menu-item'
+            onClick={() => toggleMenu(!menu)}
+          >
             <FontAwesomeIcon icon={faPaintBrush} className='nav-link' /> Create
             New Problem
+          </Link>
+          <Link
+            to='/boards/add'
+            className='navbar-menu-item'
+            onClick={() => toggleMenu(!menu)}
+          >
+            <FontAwesomeIcon icon={faPlus} className='nav-link' /> Add Board
+            Image
           </Link>
           {isAuthenticated ? (
             <button
