@@ -27,7 +27,12 @@ export const BoardForm = () => {
   const { boardVersion } = boardData;
   return (
     <section className='container'>
-      <form encType='multipart/form-data' onSubmit={handleSubmit}>
+      <form
+        encType='multipart/form-data'
+        onSubmit={handleSubmit}
+        className='form'
+        autoComplete='off'
+      >
         <input
           type='text'
           placeholder='Board version (0.0.0)'
@@ -43,7 +48,7 @@ export const BoardForm = () => {
           onChange={handleImage}
           required
         />
-        <input type='submit' />
+        <input type='submit' className='submit-button' value='Upload Image' />
       </form>
     </section>
   );

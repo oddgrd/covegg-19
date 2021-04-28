@@ -53,66 +53,64 @@ const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
   };
   const { title, grade, rules, rating } = formData;
   return (
-    <div className='editor-form' onSubmit={handleSubmit}>
-      <form className='form' autoComplete='off'>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Title'
-            name='title'
-            value={title}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Feet follow hands?'
-            name='rules'
-            value={rules}
-            onChange={(e) => onChange(e)}
-            required
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='range'
-            name='grade'
-            min={0}
-            max={grades.length - 1}
-            value={grade}
-            onChange={(e) => onChangeGrade(e)}
-            required
-          />
-          <p
-            style={{
-              textAlign: 'center',
-              fontSize: '2rem',
-              padding: '0.4rem',
-              color: `${grades[grade].color}`
-            }}
-          >
-            <strong>{grades[grade].grade}</strong>
-          </p>
-        </div>
-        <div className='star-rating'>
-          <Rating
-            onChange={onChangeRating}
-            initialRating={rating}
-            emptySymbol={<FontAwesomeIcon icon={faStar} size='3x' />}
-            fullSymbol={<FontAwesomeIcon icon={faStarS} size='3x' />}
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='submit'
-            value='Save Problem'
-            className='submit-button'
-          ></input>
-        </div>
-      </form>
-    </div>
+    <form className='form' autoComplete='off' onSubmit={handleSubmit}>
+      <div className='form-group'>
+        <input
+          type='text'
+          placeholder='Title'
+          name='title'
+          value={title}
+          onChange={(e) => onChange(e)}
+          required
+        />
+      </div>
+      <div className='form-group'>
+        <input
+          type='text'
+          placeholder='Feet follow hands?'
+          name='rules'
+          value={rules}
+          onChange={(e) => onChange(e)}
+          required
+        />
+      </div>
+      <div className='form-group'>
+        <input
+          type='range'
+          name='grade'
+          min={0}
+          max={grades.length - 1}
+          value={grade}
+          onChange={(e) => onChangeGrade(e)}
+          required
+        />
+        <p
+          style={{
+            textAlign: 'center',
+            fontSize: '2rem',
+            padding: '0.4rem',
+            color: `${grades[grade].color}`
+          }}
+        >
+          <strong>{grades[grade].grade}</strong>
+        </p>
+      </div>
+      <div className='star-rating'>
+        <Rating
+          onChange={onChangeRating}
+          initialRating={rating}
+          emptySymbol={<FontAwesomeIcon icon={faStar} size='3x' />}
+          fullSymbol={<FontAwesomeIcon icon={faStarS} size='3x' />}
+        />
+      </div>
+      <div className='form-group'>
+        <input
+          type='submit'
+          className='submit-button'
+          value='Save Problem'
+        ></input>
+      </div>
+    </form>
   );
 };
 
