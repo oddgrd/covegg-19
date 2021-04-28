@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
-import auth from '../middleware/auth';
-import User from '../models/User';
+import auth from '../../middleware/auth';
+import User from '../../models/User';
 const router = express.Router();
 
 // @route    GET api/auth

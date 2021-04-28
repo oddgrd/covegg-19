@@ -8,9 +8,9 @@ import { Strategy } from 'passport-google-oauth20';
 import User from './models/User';
 import logging from './config/logging';
 import config from './config/config';
-import authRoutes from './routes/auth';
-import boardRoutes from './routes/board';
-import problemRoutes from './routes/problem';
+import authRoutes from './routes/api/auth';
+import boardRoutes from './routes/api/board';
+import problemRoutes from './routes/api/problem';
 import mongoSanitize from 'express-mongo-sanitize';
 import lusca from 'lusca';
 import multer from 'multer';
@@ -141,7 +141,7 @@ app.use('/api/problems', problemRoutes);
 // Error handling
 app.use((_req, res, _next) => {
   const error = new Error('Not found');
-  res.status(404).json({ message: error.message });
+  res.send(error);
 });
 
 const httpServer = http.createServer(app);

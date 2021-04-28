@@ -104,13 +104,13 @@ const getProblemById = async (
   try {
     const problem = await Problem.findById(req.params.id);
     if (!problem) {
-      res.status(404).json({ message: 'Problem not found' });
+      return res.status(404).json({ message: 'Problem not found' });
     }
 
-    res.status(200).json(problem);
+    return res.status(200).json(problem);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({
+    return res.status(500).json({
       message: error.message,
       error
     });
@@ -180,15 +180,12 @@ const editAscent = async (req: Request, res: Response, _next: NextFunction) => {
     );
 
     if (!problem) {
-      throw new Error(`Problem not found!`);
+      return res.status(404).json({ message: 'Problem not found' });
     }
-    res.json(problem);
+    return res.status(200).json(problem);
   } catch (error) {
     console.error(error.message);
-    if (error.kind === 'ObjectId') {
-      res.status(404).json({ msg: 'Problem not found' });
-    }
-    res.status(500).json({
+    return res.status(500).json({
       message: error.message,
       error
     });

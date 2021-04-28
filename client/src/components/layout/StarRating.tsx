@@ -2,7 +2,6 @@ import React from 'react';
 import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-type Float = 'left' | 'right' | 'none' | 'inline-start' | 'inline-end';
 
 interface Props {
   rating: number;
