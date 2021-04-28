@@ -38,7 +38,7 @@ export const BrowserItemInfo = ({ setBy, date, rating, id, user }: Props) => {
             />
           </button>
         )}
-        <StarRating rating={rating} float={'right'} />
+        <StarRating rating={rating} />
       </div>
     </div>
   );

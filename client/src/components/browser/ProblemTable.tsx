@@ -35,7 +35,7 @@ export const ProblemTable = ({
         <tr>
           <th>Rating:</th>
           <td>
-            <StarRating rating={rating} float={'left'} />
+            <StarRating rating={rating} />
           </td>
         </tr>
         <tr>
