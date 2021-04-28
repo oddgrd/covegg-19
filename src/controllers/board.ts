@@ -49,7 +49,7 @@ const saveBoard = async (req: Request, res: Response, _next: NextFunction) => {
   }
 };
 
-// @desc - Get all problems
+// @desc - Get the five last problems added
 // @method - GET
 const getAllBoards = async (
   _req: Request,
@@ -58,7 +58,7 @@ const getAllBoards = async (
 ) => {
   logging.info(NAMESPACE, `Getting all boards`);
   try {
-    const boards = await Board.find().sort({ date: -1 });
+    const boards = await Board.find().sort({ date: -1 }).limit(5);
     if (!boards) {
       res.status(404).json({ message: 'Boards not found' });
     }

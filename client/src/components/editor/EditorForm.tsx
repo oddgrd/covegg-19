@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveProblem } from './editorSlice';
 import grades from './grades';
+import { Board } from '../board/BoardSelector';
 
 const initialState = {
   title: '',
@@ -14,14 +15,15 @@ const initialState = {
   setBy: '',
   rules: 'Feet follow hands',
   rating: 3,
-  board: '6085c77888add6813b499b2a',
+  board: '',
   date: new Date().toISOString()
 };
 
 interface Props {
   handleSave: () => string;
+  currentBoard: string;
 }
-const EditorForm: FC<Props> = ({ handleSave }) => {
+const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -43,7 +45,8 @@ const EditorForm: FC<Props> = ({ handleSave }) => {
       saveProblem({
         ...formData,
         setBy: user,
-        dataUrl: dataUrl
+        dataUrl: dataUrl,
+        board: currentBoard
       })
     );
     history.push('/browse');

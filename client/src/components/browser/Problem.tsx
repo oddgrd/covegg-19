@@ -10,6 +10,7 @@ import Spinner from '../layout/Spinner';
 import Moment from 'react-moment';
 import { AscentItem } from './AscentItem';
 import { ProblemTable } from './ProblemTable';
+import { clearState, getBoard } from '../board/boardSlice';
 
 interface MatchParams {
   id: string;
@@ -19,8 +20,8 @@ export const Problem = ({ match }: MatchProps) => {
   const [{ canvas }, { loadFromDataUrl, initViewer }] = useCanvas();
   const dispatch = useAppDispatch();
   const problem = useAppSelector((state) => state.browser.currentProblem);
-  const status = useAppSelector((state) => state.browser.status);
-  const error = useAppSelector((state) => state.browser.error);
+  const boardObj = useAppSelector((state) => state.board.currentBoard);
+
   const {
     title,
     setBy,
@@ -32,7 +33,14 @@ export const Problem = ({ match }: MatchProps) => {
     rating,
     ascents
   } = problem;
-  const tableProps = { setBy, rules, board, date, rating, ascents };
+  const tableProps = {
+    setBy,
+    rules,
+    board: boardObj.boardVersion,
+    date,
+    rating,
+    ascents
+  };
 
   const handleLoad = useCallback(() => {
     if (!problem || !loadFromDataUrl || !initViewer) return;
@@ -43,6 +51,15 @@ export const Problem = ({ match }: MatchProps) => {
     const id = match.params.id;
     dispatch(getProblemById(id));
   }, [dispatch, match.params.id]);
+
+  useEffect(() => {
+    if (board === '') return;
+    dispatch(getBoard(board));
+    return () => {
+      dispatch(clearState());
+    };
+  }, [board, dispatch]);
+
   useEffect(() => {
     if (!initViewer) return;
     initViewer();
@@ -51,31 +68,24 @@ export const Problem = ({ match }: MatchProps) => {
 
   return (
     <section className='container'>
-      {status === 'pending' ? (
-        <Spinner />
-      ) : status === 'resolved' ? (
-        <div className='problem-view'>
-          <div className='view-header'>
-            <h3 className='view-title'>{title}</h3>
-            <h3 className='grade' style={{ color: `${grades[grade].color}` }}>
-              {grades[grade].grade}
-            </h3>
-          </div>
-          <div
-            className='wall'
-            style={{
-              width: `${360}px`,
-              height: `${478}px`,
-              backgroundImage: `url(${Background})`
-            }}
-          >
-            <Canvas canvasRef={canvas} />
-          </div>
-          <ProblemTable {...tableProps} />
+      <div className='problem-view'>
+        <div className='view-header'>
+          <h3 className='view-title'>{title}</h3>
+          <h3 className='grade' style={{ color: `${grades[grade].color}` }}>
+            {grades[grade].grade}
+          </h3>
         </div>
-      ) : (
-        <p>Problem not found: {error}</p>
-      )}
+        <div
+          className='board'
+          style={{
+            backgroundImage: `url(${boardObj.imageUrl})`
+          }}
+        >
+          <Canvas canvasRef={canvas} />
+        </div>
+        <ProblemTable {...tableProps} />
+      </div>
+
       {ascents.length > 0 && (
         <div className='ascents'>
           {ascents.map((ascent, idx) => (

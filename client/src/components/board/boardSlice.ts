@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
 interface Board {
+  imageUrl: string;
   boardVersion: string;
   _id: string;
   date: string;
@@ -16,6 +17,7 @@ interface BoardState {
 
 const initialState: BoardState = {
   currentBoard: {
+    imageUrl: '',
     boardVersion: '',
     _id: '',
     date: ''
@@ -86,6 +88,7 @@ export const boardSlice = createSlice({
         }
       }
     );
+
     builder.addCase(
       getBoard.fulfilled,
       (state, action: PayloadAction<Board>) => {
@@ -104,6 +107,7 @@ export const boardSlice = createSlice({
         state.error = 'Failed to get board.';
       }
     });
+
     builder.addCase(
       getAllBoards.fulfilled,
       (state, action: PayloadAction<Array<Board>>) => {

@@ -31,17 +31,6 @@ interface Editor {
   error: string;
 }
 
-// interface Data {
-//   title: string;
-//   grade: string;
-//   setBy: string;
-//   rules: string;
-//   rating: number;
-//   board: string;
-//   date: string;
-//   dataUrl: string;
-// }
-
 const initialState: Editor = {
   status: 'idle',
   error: '',
@@ -50,7 +39,7 @@ const initialState: Editor = {
     grade: 0,
     setBy: '',
     rules: '',
-    board: '0.1',
+    board: '',
     rating: 0,
     ascents: [],
     _id: '',

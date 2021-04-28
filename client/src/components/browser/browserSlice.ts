@@ -72,7 +72,7 @@ const initialState: Browser = {
     grade: 0,
     setBy: '',
     rules: '',
-    board: '0.1',
+    board: '',
     rating: 0,
     _id: '',
     user: '',

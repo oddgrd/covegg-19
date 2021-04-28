@@ -176,7 +176,9 @@ ul {
   align-items: center;
 }
 
-.wall {
+.board {
+  width: 360px;
+  height: 478px;
   position: relative;
   z-index: 2;
   background-position: center;
@@ -226,10 +228,15 @@ input[type='text']:focus {
   border: 1px solid var(--primary-color);
   outline: none;
 }
+
 input:focus::placeholder {
   color: transparent;
 }
-
+.board-selector {
+  width: 350px;
+  margin: auto;
+  margin-bottom: 0.3rem;
+}
 .star-rating {
   color: #d1a105;
   margin: auto;
