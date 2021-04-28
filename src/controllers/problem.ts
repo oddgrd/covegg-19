@@ -127,8 +127,13 @@ const addAscent = async (req: Request, res: Response, _next: NextFunction) => {
     const problem = await Problem.findById(req.params.id);
     const { attempts, rating, grade, ...rest } = req.body;
     if (!problem) {
-      res.status(404).json({ message: 'Problem not found' });
+      return res.status(404).json({ message: 'Problem not found' });
     }
+    const hasSent = problem.ascents.filter(
+      (ascent) => ascent.user.toString() === _id.toString()
+    );
+    if (hasSent.length > 0)
+      return res.status(400).json({ message: 'Problem already sent' });
     const newAscent = {
       user: _id,
       name: user?.name,
@@ -137,12 +142,12 @@ const addAscent = async (req: Request, res: Response, _next: NextFunction) => {
       grade,
       ...rest
     };
-    problem?.ascents.push(newAscent);
-    await problem?.save();
-    res.status(200).json(problem?.ascents);
+    problem.ascents.push(newAscent);
+    await problem.save();
+    return res.status(200).json(problem?.ascents);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({
+    return res.status(500).json({
       message: error.message,
       error
     });
