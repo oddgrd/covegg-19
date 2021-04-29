@@ -30,13 +30,20 @@ export const Problem = ({ match }: MatchProps) => {
     rating,
     ascents
   } = problem;
+  const consensusGrade = () => {
+    if (ascents.length === 0) return grade;
+    const suggestedGrades = ascents.map((ascent) => ascent.grade).concat(grade);
+    const averageGrade = suggestedGrades.reduce((val, acc) => acc + val);
+    return Math.round(averageGrade / suggestedGrades.length);
+  };
   const tableProps = {
     setBy,
     rules,
     board: boardObj.boardVersion,
     date,
     rating,
-    ascents
+    ascents,
+    grade
   };
 
   const handleLoad = useCallback(() => {
@@ -68,8 +75,11 @@ export const Problem = ({ match }: MatchProps) => {
       <div className='problem-view'>
         <div className='view-header'>
           <h3 className='view-title'>{title}</h3>
-          <h3 className='grade' style={{ color: `${grades[grade].color}` }}>
-            {grades[grade].grade}
+          <h3
+            className='grade'
+            style={{ color: `${grades[consensusGrade()].color}` }}
+          >
+            {grades[consensusGrade()].grade}
           </h3>
         </div>
         <div

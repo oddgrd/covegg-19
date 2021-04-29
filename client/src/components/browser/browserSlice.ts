@@ -140,7 +140,7 @@ export const browserSlice = createSlice({
 export const { clearState } = browserSlice.actions;
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
-    const { title, setBy, grade, date, rating, _id, user } = problem;
-    return { title, setBy, grade, date, rating, _id, user };
+    const { title, setBy, grade, date, rating, _id, user, ascents } = problem;
+    return { title, setBy, grade, date, rating, _id, user, ascents };
   });
 export default browserSlice.reducer;

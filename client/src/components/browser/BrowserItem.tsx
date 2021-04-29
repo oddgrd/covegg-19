@@ -4,6 +4,7 @@ import grades from '../editor/grades';
 import { faEllipsisV, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserItemInfo } from './BrowserItemInfo';
+import { Ascent } from './browserSlice';
 
 interface Props {
   problem: {
@@ -14,12 +15,19 @@ interface Props {
     date: string;
     rating: number;
     user: string;
+    ascents: Ascent[];
   };
 }
 
 export const BrowserItem = ({ problem }: Props) => {
   const [expand, toggleExpand] = useState(false);
-
+  const { title, _id, grade, setBy, date, rating, user, ascents } = problem;
+  const consensusGrade = () => {
+    if (ascents.length === 0) return grade;
+    const suggestedGrades = ascents.map((ascent) => ascent.grade).concat(grade);
+    const averageGrade = suggestedGrades.reduce((val, acc) => acc + val);
+    return Math.round(averageGrade / suggestedGrades.length);
+  };
   return (
     <div className='browser-item'>
       <div className='browser-item-main'>
@@ -36,27 +44,27 @@ export const BrowserItem = ({ problem }: Props) => {
           <FontAwesomeIcon icon={expand ? faEllipsisH : faEllipsisV} />
         </button>
         <div className='browser-item-title-div'>
-          <Link className='browser-item-title' to={`/problem/${problem._id}`}>
-            {<strong>{problem.title}</strong>}
+          <Link className='browser-item-title' to={`/problems/${_id}`}>
+            {<strong>{title}</strong>}
           </Link>
         </div>
         <div className='browser-item-grade unselectable'>
           <p
             style={{
-              color: `${grades[problem.grade].color}`
+              color: `${grades[consensusGrade()].color}`
             }}
           >
-            {grades[problem.grade].grade}
+            {grades[consensusGrade()].grade}
           </p>
         </div>
       </div>
       {expand && (
         <BrowserItemInfo
-          setBy={problem.setBy}
-          date={problem.date}
-          rating={problem.rating}
-          id={problem._id}
-          user={problem.user}
+          setBy={setBy}
+          date={date}
+          rating={rating}
+          id={_id}
+          user={user}
         />
       )}
     </div>

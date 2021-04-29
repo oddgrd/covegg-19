@@ -1,5 +1,6 @@
 import React from 'react';
 import Moment from 'react-moment';
+import grades from '../editor/grades';
 import { StarRating } from '../layout/StarRating';
 import { Ascent } from './browserSlice';
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
   board: string;
   date: string;
   rating: number;
+  grade: number;
   ascents: Ascent[];
 }
 export const ProblemTable = ({
@@ -16,7 +18,8 @@ export const ProblemTable = ({
   board,
   date,
   rating,
-  ascents
+  ascents,
+  grade
 }: Props) => {
   return (
     <table className='problem-table'>
@@ -31,7 +34,12 @@ export const ProblemTable = ({
             <td>{ascents[0].name}</td>
           </tr>
         )}
-
+        <tr>
+          <th>Suggested grade:</th>
+          <td style={{ color: `${grades[grade].color}` }}>
+            {grades[grade].grade}
+          </td>
+        </tr>
         <tr>
           <th>Rating:</th>
           <td>
@@ -39,12 +47,12 @@ export const ProblemTable = ({
           </td>
         </tr>
         <tr>
-          <th>Board:</th>
-          <td>{board}</td>
-        </tr>
-        <tr>
           <th>Rules:</th>
           <td>{rules}</td>
+        </tr>
+        <tr>
+          <th>Board:</th>
+          <td>{board}</td>
         </tr>
         <tr>
           <th>Date:</th>

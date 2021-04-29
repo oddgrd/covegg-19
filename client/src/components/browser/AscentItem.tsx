@@ -10,13 +10,14 @@ export const AscentItem = ({ ascent }: Props) => {
   const { name, attempts, rating, grade, comment, createdAt } = ascent;
   return (
     <div className='ascent-item'>
-      <div>{name}</div>
-      <div className='ascent-item-info'>
-        <p>{attempts}</p>
-
+      <div>
+        {name.split(' ').slice(0, 1)}
         <p style={{ fontSize: '0.9rem' }}>
           <Moment fromNow>{createdAt}</Moment>
         </p>
+      </div>
+      <div className='ascent-item-info'>
+        <p>Attempts: {attempts}</p>
       </div>
       <div className='ascent-item-grade'>
         <p

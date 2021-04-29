@@ -336,13 +336,13 @@ input:focus::placeholder {
 }
 .browser-item-info {
   padding: 0.6rem;
+  border-top: 1px dashed grey;
 }
-.browser-item:hover {
-  background: var(--secondary-bg);
-}
+
 .ascents {
   padding: 0.4rem;
   width: 360px;
+  margin: auto;
 }
 .ascent-item {
   display: grid;
@@ -350,7 +350,7 @@ input:focus::placeholder {
   margin: auto;
   padding: 0.4rem;
   grid-template-columns: 2fr 2fr 1fr;
-  gap: 0.5rem;
+  margin: 0.3rem 0;
   background: var(--tertiary-bg);
   border: 1px solid var(--secondary-bg);
   border-radius: 3px;
