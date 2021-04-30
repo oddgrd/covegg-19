@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  SerializedError
+} from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
 interface User {
@@ -13,7 +18,7 @@ interface AuthState {
   isAuthenticated: boolean;
   user: User;
   status: string;
-  error: string;
+  error: string | SerializedError;
 }
 
 const initialState: AuthState = {
@@ -65,13 +70,9 @@ export const authSlice = createSlice({
     builder.addCase(loadUser.pending, (state) => {
       state.status = 'pending';
     });
-    builder.addCase(loadUser.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(loadUser.rejected, (state, action) => {
       state.status = 'rejected';
-      if (action.payload) {
-        state.error = action.payload.errorMessage;
-      } else {
-        state.error = 'Not Authorized';
-      }
+      state.error = action.error.message || action.error;
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.user = initialState.user;

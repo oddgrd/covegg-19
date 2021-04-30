@@ -1,4 +1,9 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  SerializedError
+} from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
 interface Board {
@@ -12,7 +17,7 @@ interface BoardState {
   currentBoard: Board;
   boards: Array<Board>;
   status: string;
-  error: string;
+  error: string | SerializedError;
 }
 
 const initialState: BoardState = {
@@ -77,17 +82,10 @@ export const boardSlice = createSlice({
     builder.addCase(uploadBoard.pending, (state) => {
       state.status = 'pending';
     });
-    builder.addCase(
-      uploadBoard.rejected,
-      (state, action: PayloadAction<any>) => {
-        state.status = 'rejected';
-        if (action.payload) {
-          state.error = action.payload.errorMessage;
-        } else {
-          state.error = 'Image upload failed';
-        }
-      }
-    );
+    builder.addCase(uploadBoard.rejected, (state, action) => {
+      state.status = 'rejected';
+      state.error = action.error.message || action.error;
+    });
 
     builder.addCase(
       getBoard.fulfilled,
@@ -99,13 +97,9 @@ export const boardSlice = createSlice({
     builder.addCase(getBoard.pending, (state) => {
       state.status = 'pending';
     });
-    builder.addCase(getBoard.rejected, (state, action: PayloadAction<any>) => {
+    builder.addCase(getBoard.rejected, (state, action) => {
       state.status = 'rejected';
-      if (action.payload) {
-        state.error = action.payload.errorMessage;
-      } else {
-        state.error = 'Failed to get board.';
-      }
+      state.error = action.error.message || action.error;
     });
 
     builder.addCase(
@@ -118,17 +112,10 @@ export const boardSlice = createSlice({
     builder.addCase(getAllBoards.pending, (state) => {
       state.status = 'pending';
     });
-    builder.addCase(
-      getAllBoards.rejected,
-      (state, action: PayloadAction<any>) => {
-        state.status = 'rejected';
-        if (action.payload) {
-          state.error = action.payload.errorMessage;
-        } else {
-          state.error = 'Failed to get boards.';
-        }
-      }
-    );
+    builder.addCase(getAllBoards.rejected, (state, action) => {
+      state.status = 'rejected';
+      state.error = action.error.message || action.error;
+    });
   }
 });
 

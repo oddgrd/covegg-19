@@ -30,6 +30,7 @@ export const Problem = ({ match }: MatchProps) => {
     rating,
     ascents
   } = problem;
+
   const consensusGrade = () => {
     if (ascents.length === 0) return grade;
     const suggestedGrades = ascents.map((ascent) => ascent.grade).concat(grade);

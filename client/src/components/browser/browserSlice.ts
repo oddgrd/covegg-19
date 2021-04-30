@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  SerializedError
+} from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import api from '../../utils/api';
 
@@ -31,27 +35,22 @@ interface Browser {
   currentProblem: Problem;
   problems: Array<Problem>;
   status: string;
-  error: string;
+  error: string | SerializedError;
 }
 
-export const getProblems = createAsyncThunk('browser/getProblems', async () => {
-  const res = await api.get('/problems');
-  if (res.status !== 200) {
-    throw Error(res.statusText);
-  } else {
+export const getProblems = createAsyncThunk<Array<Problem>>(
+  'browser/getProblems',
+  async () => {
+    const res = await api.get('/problems');
     return res.data;
   }
-});
+);
 
 export const getProblemById = createAsyncThunk<Problem, string>(
   'browser/getProblem',
   async (id) => {
     const res = await api.get(`/problems/${id}`);
-    if (res.status !== 200) {
-      throw Error(res.statusText);
-    } else {
-      return res.data;
-    }
+    return res.data;
   }
 );
 
@@ -105,7 +104,7 @@ export const browserSlice = createSlice({
     });
     builder.addCase(getProblems.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = action.error.message as string;
+      state.error = action.error.message || action.error;
     });
     builder.addCase(getProblemById.fulfilled, (state, action) => {
       state.currentProblem = { ...state.currentProblem, ...action.payload };
@@ -117,7 +116,7 @@ export const browserSlice = createSlice({
     });
     builder.addCase(getProblemById.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = action.error.message as string;
+      state.error = action.error.message || action.error;
     });
     builder.addCase(deleteProblem.fulfilled, (state, action) => {
       state.currentProblem = initialState.currentProblem;
@@ -130,9 +129,9 @@ export const browserSlice = createSlice({
     builder.addCase(deleteProblem.pending, (state) => {
       state.status = 'pending';
     });
-    builder.addCase(deleteProblem.rejected, (state) => {
+    builder.addCase(deleteProblem.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = 'Deletion failed';
+      state.error = action.error.message || action.error;
     });
   }
 });
