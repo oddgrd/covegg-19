@@ -34,7 +34,7 @@ export const editorSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(saveProblem.fulfilled, (state, action) => {
+    builder.addCase(saveProblem.fulfilled, (state) => {
       state.status = 'resolved';
       state.error = '';
     });

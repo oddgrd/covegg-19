@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Rating from 'react-rating';
 import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveProblem } from './editorSlice';
 import grades from './grades';
-import { Board } from '../board/BoardSelector';
 
 const initialState = {
   title: '',
@@ -38,7 +37,7 @@ const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
     setFormData({ ...formData, rating: value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const dataUrl = handleSave();
     dispatch(
