@@ -28,7 +28,8 @@ export const Problem = ({ match }: MatchProps) => {
     date,
     dataUrl,
     rating,
-    ascents
+    ascents,
+    _id
   } = problem;
 
   const consensusGrade = () => {
@@ -97,7 +98,7 @@ export const Problem = ({ match }: MatchProps) => {
       {ascents.length > 0 && (
         <div className='ascents'>
           {ascents.map((ascent, idx) => (
-            <AscentItem ascent={ascent} key={idx} />
+            <AscentItem ascent={ascent} key={idx} problemId={_id} />
           ))}
         </div>
       )}

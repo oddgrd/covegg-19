@@ -6,6 +6,10 @@ import {
 import { RootState } from '../../app/store';
 import api from '../../utils/api';
 
+export interface AscentIds {
+  ascentId: string;
+  problemId: string;
+}
 export interface Ascent {
   user: string;
   _id: string;
@@ -62,6 +66,22 @@ export const deleteProblem = createAsyncThunk<string, string>(
   }
 );
 
+export const addAscent = createAsyncThunk<Ascent, string>(
+  'browser/addAscent',
+  async (id) => {
+    const res = await api.post(`/problems/${id}`);
+    return res.data;
+  }
+);
+
+export const deleteAscent = createAsyncThunk<AscentIds, AscentIds>(
+  'browser/deleteAscent',
+  async (ids) => {
+    await api.delete(`/problems/${ids.problemId}/${ids.ascentId}`);
+    return ids;
+  }
+);
+
 const initialState: Browser = {
   status: 'idle',
   error: '',
@@ -106,6 +126,7 @@ export const browserSlice = createSlice({
       state.status = 'rejected';
       state.error = action.error.message || action.error;
     });
+
     builder.addCase(getProblemById.fulfilled, (state, action) => {
       state.currentProblem = { ...state.currentProblem, ...action.payload };
       state.error = '';
@@ -118,6 +139,7 @@ export const browserSlice = createSlice({
       state.status = 'rejected';
       state.error = action.error.message || action.error;
     });
+
     builder.addCase(deleteProblem.fulfilled, (state, action) => {
       state.currentProblem = initialState.currentProblem;
       state.problems = state.problems.filter(
@@ -130,6 +152,22 @@ export const browserSlice = createSlice({
       state.status = 'pending';
     });
     builder.addCase(deleteProblem.rejected, (state, action) => {
+      state.status = 'rejected';
+      state.error = action.error.message || action.error;
+    });
+
+    builder.addCase(deleteAscent.fulfilled, (state, action) => {
+      state.currentProblem.ascents = state.currentProblem.ascents.filter(
+        (ascent) => ascent._id !== action.payload.ascentId
+      );
+      state.problems = initialState.problems;
+      state.error = '';
+      state.status = 'resolved';
+    });
+    builder.addCase(deleteAscent.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(deleteAscent.rejected, (state, action) => {
       state.status = 'rejected';
       state.error = action.error.message || action.error;
     });
