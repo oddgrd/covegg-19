@@ -19,15 +19,19 @@ export const PrivateRoute = ({
     throw Error('component is undefined');
   }
 
-  // Prevents redirect on refresh, but gets stuck if logged out in route,
-  // fix using localStorage
+  // Prevents redirect on refresh, but displays null if not authenticated,
+  // fix using localStorage and jwt?
   const render = (props: RouteComponentProps<any>): React.ReactNode => {
-    if (status === 'pending' || status === 'idle') {
+    if (status === 'pending') {
       return <Spinner />;
+    } else if (status === 'idle') {
+      setTimeout(() => {}, 100);
     } else if (status === 'resolved' && isAuthenticated) {
       return <Component {...props} />;
     } else {
-      return <Redirect to={{ pathname: '/' }} />;
+      return (
+        <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+      );
     }
   };
 
