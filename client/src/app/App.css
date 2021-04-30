@@ -311,7 +311,7 @@ input:focus::placeholder {
   grid-template-columns: 1fr 4fr 1fr;
   gap: 0.5rem;
 }
-.browser-item-title-div {
+.div-center {
   display: flex;
   justify-content: center;
 }
@@ -345,29 +345,17 @@ input:focus::placeholder {
   margin: auto;
 }
 .ascent-item {
-  display: grid;
-  width: 100%;
+  width: 350px;
   margin: auto;
-  padding: 0.4rem;
-  grid-template-columns: 2fr 2fr 1fr;
   margin: 0.3rem 0;
   background: var(--tertiary-bg);
   border: 1px solid var(--secondary-bg);
   border-radius: 3px;
 }
-.ascent-item > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.ascent-item-title {
-  max-width: 160px;
-  color: inherit;
-  font-size: 1.3rem;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  text-align: center;
+.ascent-item-main {
+  display: grid;
+  padding: 0.4rem;
+  grid-template-columns: 2fr 3fr 1.5fr;
 }
 
 .ascent-item-grade {
@@ -377,8 +365,15 @@ input:focus::placeholder {
   justify-content: center;
   align-items: center;
 }
+.ascent-item-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 .ascent-item-info {
-  gap: 0.3rem;
+  padding: 0.4rem;
+  border-top: 1px dashed grey;
 }
 .ascent-item:hover {
   background: var(--secondary-bg);
@@ -394,14 +389,14 @@ input[type='range'] {
   -webkit-appearance: none;
   background: transparent;
   margin: 1.3rem 0;
-  width: 100%;
+  width: 93%;
   justify-self: center;
 }
 input[type='range']:focus {
   outline: none;
 }
 input[type='range']::-webkit-slider-runnable-track {
-  width: 100%;
+  width: 93%;
   height: 11px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -424,7 +419,7 @@ input[type='range']:focus::-webkit-slider-runnable-track {
   background: var(--primary-color);
 }
 input[type='range']::-moz-range-track {
-  width: 100%;
+  width: 93%;
   height: 8.4px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -442,7 +437,7 @@ input[type='range']::-moz-range-thumb {
   cursor: pointer;
 }
 input[type='range']::-ms-track {
-  width: 100%;
+  width: 93%;
   height: 8.4px;
   cursor: pointer;
   background: transparent;
@@ -497,5 +492,8 @@ input[type='range']:focus::-ms-fill-upper {
   }
   .browser-item-title {
     max-width: 260px;
+  }
+  .ascent-item-main {
+    width: 100%;
   }
 }

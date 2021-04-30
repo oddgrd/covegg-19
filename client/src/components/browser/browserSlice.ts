@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import api from '../../utils/api';
+import { AscentData } from './AscentForm';
 
 export interface AscentIds {
   ascentId: string;
@@ -66,10 +67,12 @@ export const deleteProblem = createAsyncThunk<string, string>(
   }
 );
 
-export const addAscent = createAsyncThunk<Ascent, string>(
+export const addAscent = createAsyncThunk<Ascent, AscentData>(
   'browser/addAscent',
-  async (id) => {
-    const res = await api.post(`/problems/${id}`);
+  async (data) => {
+    const { attempts, grade, rating, comment } = data;
+    const formData = { attempts, grade, rating, comment };
+    const res = await api.post(`/problems/${data.problemId}`, formData);
     return res.data;
   }
 );

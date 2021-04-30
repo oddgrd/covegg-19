@@ -43,7 +43,7 @@ export const BrowserItem = ({ problem }: Props) => {
         >
           <FontAwesomeIcon icon={expand ? faEllipsisH : faEllipsisV} />
         </button>
-        <div className='browser-item-title-div'>
+        <div className='div-center'>
           <Link className='browser-item-title' to={`/problems/${_id}`}>
             {<strong>{title}</strong>}
           </Link>

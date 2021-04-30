@@ -74,15 +74,6 @@ const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
         />
       </div>
       <div className='form-group'>
-        <input
-          type='range'
-          name='grade'
-          min={0}
-          max={grades.length - 1}
-          value={grade}
-          onChange={(e) => onChangeGrade(e)}
-          required
-        />
         <p
           style={{
             textAlign: 'center',
@@ -93,6 +84,17 @@ const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
         >
           <strong>{grades[grade].grade}</strong>
         </p>
+        <div className='div-center'>
+          <input
+            type='range'
+            name='grade'
+            min={0}
+            max={grades.length - 1}
+            value={grade}
+            onChange={(e) => onChangeGrade(e)}
+            required
+          />
+        </div>
       </div>
       <div className='star-rating'>
         <Rating

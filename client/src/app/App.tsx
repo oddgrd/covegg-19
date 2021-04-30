@@ -12,6 +12,7 @@ import { loadUser } from '../components/auth/authSlice';
 import { Navbar } from '../components/layout/Navbar';
 import { PrivateRoute } from '../components/routing/PrivateRoute';
 import { BoardForm } from '../components/board/BoardForm';
+import { AscentForm } from '../components/browser/AscentForm';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ function App() {
       <>
         <Navbar />
         <Route exact path='/' component={Landing} />
+        <Route exact path='/ascentForm' component={AscentForm} />
         <Switch>
           <PrivateRoute exact path='/create' component={Editor} />
           <PrivateRoute exact path='/problems/:id' component={Problem} />
