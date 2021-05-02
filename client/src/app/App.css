@@ -7,6 +7,17 @@
   --primary-bg: #010409;
   --secondary-bg: #161b22;
   --tertiary-bg: #0d1117;
+  --gradient: linear-gradient(
+    90deg,
+    rgb(82, 180, 58) 10%,
+    rgb(28, 24, 230) 20%,
+    rgb(243, 224, 53) 30%,
+    rgb(255, 1, 1) 40%,
+    rgb(189, 0, 206) 55%,
+    #9d00ff 63%,
+    #ff00ff 75%,
+    #00ffff 100%
+  );
 }
 
 * {
@@ -82,6 +93,9 @@ ul {
   width: 45px;
   color: var(--danger-color);
   background: var(--secondary-bg);
+}
+.rainbow {
+  background: var(--gradient);
 }
 .div-space {
   display: flex;
@@ -400,7 +414,7 @@ input[type='range']::-webkit-slider-runnable-track {
   height: 11px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: var(--primary-color);
+  background: var(--gradient);
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
@@ -416,14 +430,14 @@ input[type='range']::-webkit-slider-thumb {
   margin-top: -14px;
 }
 input[type='range']:focus::-webkit-slider-runnable-track {
-  background: var(--primary-color);
+  background: var(--gradient);
 }
 input[type='range']::-moz-range-track {
   width: 93%;
   height: 8.4px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #05ab75;
+  background: var(--gradient);
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
@@ -440,19 +454,19 @@ input[type='range']::-ms-track {
   width: 93%;
   height: 8.4px;
   cursor: pointer;
-  background: transparent;
+  background: var(--gradient);
   border-color: transparent;
   border-width: 16px 0;
   color: transparent;
 }
 input[type='range']::-ms-fill-lower {
-  background: #05ab75;
+  background: var(--gradient);
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 input[type='range']::-ms-fill-upper {
-  background: #05ab75;
+  background: var(--gradient);
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -467,10 +481,10 @@ input[type='range']::-ms-thumb {
   cursor: pointer;
 }
 input[type='range']:focus::-ms-fill-lower {
-  background: #05ab75;
+  background: var(--gradient);
 }
 input[type='range']:focus::-ms-fill-upper {
-  background: #05ab75;
+  background: var(--gradient);
 }
 @media (max-width: 600px) {
   .container {
