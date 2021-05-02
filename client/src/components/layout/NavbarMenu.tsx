@@ -72,8 +72,8 @@ export const NavbarMenu = () => {
                 className='navbar-menu-item'
                 onClick={() => toggleMenu(!menu)}
               >
-                <FontAwesomeIcon icon={faPlus} className='nav-link' /> Add Board
-                Image
+                <FontAwesomeIcon icon={faPlus} className='nav-link' /> Add New
+                Board
               </Link>
             </>
           )}

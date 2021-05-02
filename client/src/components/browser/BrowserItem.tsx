@@ -24,8 +24,10 @@ export const BrowserItem = ({ problem }: Props) => {
   const { title, _id, grade, setBy, date, rating, user, ascents } = problem;
   const consensusGrade = () => {
     if (ascents.length === 0) return grade;
-    const suggestedGrades = ascents.map((ascent) => ascent.grade).concat(grade);
-    const averageGrade = suggestedGrades.reduce((val, acc) => acc + val);
+    const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
+    const averageGrade = suggestedGrades.reduce(
+      (val: number, acc: number) => acc + val
+    );
     return Math.round(averageGrade / suggestedGrades.length);
   };
   return (

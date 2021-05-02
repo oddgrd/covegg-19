@@ -9,7 +9,7 @@ import { addAscent } from './browserSlice';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 const initialState = {
   grade: 0,
-  attempts: '',
+  attempts: 'FLASH',
   rating: 3,
   comment: '',
   problemId: ''
@@ -23,7 +23,10 @@ export interface AscentData {
   comment?: string;
 }
 
-export const AscentForm = () => {
+interface Props {
+  problemId: string;
+}
+export const AscentForm = ({ problemId }: Props) => {
   const [formData, setFormData] = useState<AscentData>(initialState);
   const dispatch = useAppDispatch();
 
@@ -41,7 +44,7 @@ export const AscentForm = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(addAscent(formData));
+    dispatch(addAscent({ ...formData, problemId: problemId }));
   };
 
   const { grade, rating, comment } = formData;
@@ -126,7 +129,6 @@ export const AscentForm = () => {
           value={comment}
           onChange={(e) => onChange(e)}
           style={{ marginTop: '1.3rem' }}
-          required
         />
       </div>
       <div className='form-group'>

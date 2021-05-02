@@ -2,12 +2,13 @@ import React, { useCallback, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Canvas } from '../editor/Canvas';
-import { getProblemById } from './browserSlice';
+import { Ascent, getProblemById } from './browserSlice';
 import { RouteComponentProps } from 'react-router-dom';
 import grades from '../editor/grades';
 import { AscentItem } from './AscentItem';
 import { ProblemTable } from './ProblemTable';
 import { clearState, getBoard } from '../board/boardSlice';
+import { AscentForm } from './AscentForm';
 
 interface MatchParams {
   id: string;
@@ -19,6 +20,14 @@ export const Problem = ({ match }: MatchProps) => {
   const problem = useAppSelector((state) => state.browser.currentProblem);
   const boardObj = useAppSelector((state) => state.board.currentBoard);
 
+  const consensusGrade = () => {
+    if (ascents.length === 0) return grade;
+    const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
+    const averageGrade = suggestedGrades.reduce(
+      (val: number, acc: number) => acc + val
+    );
+    return Math.round(averageGrade / suggestedGrades.length);
+  };
   const {
     title,
     setBy,
@@ -32,12 +41,6 @@ export const Problem = ({ match }: MatchProps) => {
     _id
   } = problem;
 
-  const consensusGrade = () => {
-    if (ascents.length === 0) return grade;
-    const suggestedGrades = ascents.map((ascent) => ascent.grade).concat(grade);
-    const averageGrade = suggestedGrades.reduce((val, acc) => acc + val);
-    return Math.round(averageGrade / suggestedGrades.length);
-  };
   const tableProps = {
     setBy,
     rules,
@@ -94,7 +97,7 @@ export const Problem = ({ match }: MatchProps) => {
         </div>
         <ProblemTable {...tableProps} />
       </div>
-
+      <AscentForm problemId={_id} />
       {ascents.length > 0 && (
         <div className='ascents'>
           {ascents.map((ascent, idx) => (

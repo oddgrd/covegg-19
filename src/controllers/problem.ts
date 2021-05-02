@@ -141,7 +141,7 @@ const addAscent = async (req: Request, res: Response, _next: NextFunction) => {
     };
     problem.ascents.push(newAscent);
     await problem.save();
-    return res.status(200).json(problem?.ascents);
+    return res.status(200).json(problem);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

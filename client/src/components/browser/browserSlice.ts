@@ -67,7 +67,7 @@ export const deleteProblem = createAsyncThunk<string, string>(
   }
 );
 
-export const addAscent = createAsyncThunk<Ascent, AscentData>(
+export const addAscent = createAsyncThunk<Problem, AscentData>(
   'browser/addAscent',
   async (data) => {
     const { attempts, grade, rating, comment } = data;
@@ -155,6 +155,23 @@ export const browserSlice = createSlice({
       state.status = 'pending';
     });
     builder.addCase(deleteProblem.rejected, (state, action) => {
+      state.status = 'rejected';
+      state.error = action.error.message || action.error;
+    });
+
+    builder.addCase(addAscent.fulfilled, (state, action) => {
+      state.currentProblem.ascents = [
+        ...state.currentProblem.ascents,
+        ...action.payload.ascents
+      ];
+      state.problems = initialState.problems;
+      state.error = '';
+      state.status = 'resolved';
+    });
+    builder.addCase(addAscent.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(addAscent.rejected, (state, action) => {
       state.status = 'rejected';
       state.error = action.error.message || action.error;
     });
