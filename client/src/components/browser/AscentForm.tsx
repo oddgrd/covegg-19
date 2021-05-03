@@ -7,6 +7,7 @@ import { useAppDispatch } from '../../app/hooks';
 import grades from '../editor/grades';
 import { addAscent } from './browserSlice';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import { useHistory } from 'react-router-dom';
 const initialState = {
   grade: 0,
   attempts: 'FLASH',
@@ -25,8 +26,9 @@ export interface AscentData {
 
 interface Props {
   problemId: string;
+  toggleForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const AscentForm = ({ problemId }: Props) => {
+export const AscentForm = ({ problemId, toggleForm }: Props) => {
   const [formData, setFormData] = useState<AscentData>(initialState);
   const dispatch = useAppDispatch();
 
@@ -45,6 +47,7 @@ export const AscentForm = ({ problemId }: Props) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(addAscent({ ...formData, problemId: problemId }));
+    toggleForm(false);
   };
 
   const { grade, rating, comment } = formData;
@@ -68,14 +71,14 @@ export const AscentForm = ({ problemId }: Props) => {
           </RadioButton>
           <RadioButton
             className='radio-button'
-            value='Four or less'
+            value='FOUR OR LESS'
             rootColor='#f0eff3'
             pointColor='orange'
           >
             {'<='} 4
           </RadioButton>
           <RadioButton
-            value='Many'
+            value='MANY'
             rootColor='#f0eff3'
             pointColor='red'
             className='radio-button'
@@ -122,8 +125,10 @@ export const AscentForm = ({ problemId }: Props) => {
         />
       </div>
       <div className='form-group'>
-        <input
-          type='text'
+        <textarea
+          maxLength={90}
+          rows={3}
+          cols={1}
           placeholder='Comment (Optional)'
           name='comment'
           value={comment}

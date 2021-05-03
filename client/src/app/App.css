@@ -156,7 +156,7 @@ ul {
   align-items: center;
   flex-direction: column;
   margin-top: 1.9rem;
-  gap: 1.7rem;
+  gap: 1rem;
 }
 .landing-link {
   color: var(--primary-color);
@@ -217,14 +217,14 @@ ul {
   flex-direction: column;
   margin: auto;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 input[type='text'],
 input[type='password'],
 input[type='email'],
 input[type='submit'],
-select,
-textarea {
+textarea,
+select {
   display: block;
   width: 100%;
   padding: 0.6rem;
@@ -236,13 +236,17 @@ textarea {
     transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25),
     border 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
 }
-input[type='text']:focus {
+input[type='text']:focus,
+textarea:focus {
   background: var(--secondary-bg);
   transform: scale(1.02);
   border: 1px solid var(--primary-color);
   outline: none;
 }
-
+textarea {
+  resize: none;
+  font-size: 1rem;
+}
 input:focus::placeholder {
   color: transparent;
 }
@@ -257,7 +261,7 @@ input:focus::placeholder {
   font-size: 0.9rem;
 }
 .submit-button {
-  margin-top: 1rem;
+  margin-top: 0.3rem;
   color: #05ab75 !important;
   border: 1px solid #05ab75 !important;
 }
@@ -328,6 +332,8 @@ input:focus::placeholder {
 .div-center {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .browser-item-title {
@@ -386,11 +392,15 @@ input:focus::placeholder {
   flex-direction: column;
 }
 .ascent-item-info {
-  padding: 0.4rem;
+  padding: 0.6rem;
+  margin-top: 0.3rem;
+
   border-top: 1px dashed grey;
 }
-.ascent-item:hover {
-  background: var(--secondary-bg);
+.comment {
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  text-align: center;
 }
 th,
 td {

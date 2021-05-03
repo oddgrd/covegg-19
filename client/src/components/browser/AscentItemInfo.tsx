@@ -5,6 +5,7 @@ import { StarRating } from '../layout/StarRating';
 import { deleteAscent, deleteProblem } from './browserSlice';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Moment from 'react-moment';
 
 interface Props {
   comment: string;
@@ -12,6 +13,7 @@ interface Props {
   user: string;
   ascentId: string;
   problemId: string;
+  createdAt: string;
 }
 
 export const AscentItemInfo = ({
@@ -19,19 +21,24 @@ export const AscentItemInfo = ({
   rating,
   user,
   ascentId,
-  problemId
+  problemId,
+  createdAt
 }: Props) => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user._id);
   const handleDelete = () => {
     const ids = { ascentId, problemId };
-    dispatch(deleteAscent(ids));
+    if (window.confirm('Are you sure? Deletion is permanent.'))
+      dispatch(deleteAscent(ids));
   };
 
   const isOwner = currentUser === user;
   return (
     <div className='ascent-item-info'>
       <div className='div-space'>
+        <p style={{ fontSize: '0.8rem', textAlign: 'center' }}>
+          <Moment fromNow>{createdAt}</Moment>
+        </p>
         {isOwner && (
           <button className='btn-trash' onClick={handleDelete}>
             <FontAwesomeIcon
@@ -42,10 +49,13 @@ export const AscentItemInfo = ({
         )}
         <StarRating rating={rating} />
       </div>
+
       {comment.length > 0 && (
-        <span>
-          <strong>Comment:</strong> {comment}
-        </span>
+        <div className='comment'>
+          <span>
+            <strong>Comment:</strong> {comment}
+          </span>
+        </div>
       )}
     </div>
   );

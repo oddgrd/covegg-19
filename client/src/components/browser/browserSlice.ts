@@ -160,10 +160,7 @@ export const browserSlice = createSlice({
     });
 
     builder.addCase(addAscent.fulfilled, (state, action) => {
-      state.currentProblem.ascents = [
-        ...state.currentProblem.ascents,
-        ...action.payload.ascents
-      ];
+      state.currentProblem.ascents = action.payload.ascents;
       state.problems = initialState.problems;
       state.error = '';
       state.status = 'resolved';

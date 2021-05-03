@@ -28,16 +28,10 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
   return (
     <div className='ascent-item'>
       <div className='ascent-item-main'>
-        <div>
+        <div className='div-center'>
           <p style={{ textAlign: 'center' }}>
             {isOwner ? 'You' : name.split(' ').slice(0, 1)}
           </p>
-          <p style={{ fontSize: '0.8rem', textAlign: 'center' }}>
-            <Moment fromNow>{createdAt}</Moment>
-          </p>
-        </div>
-        <div className='ascent-item-center'>
-          <p>Attempts: {attempts}</p>
           <button
             onClick={() => toggleExpand(!expand)}
             className='btn'
@@ -50,6 +44,10 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
           >
             <FontAwesomeIcon icon={faEllipsisH} />
           </button>
+        </div>
+        <div className='ascent-item-center'>
+          <p>Attempts: </p>
+          <strong>{attempts}</strong>
         </div>
         <div className='ascent-item-grade'>
           <p
@@ -69,6 +67,7 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
           user={user}
           ascentId={_id}
           problemId={problemId}
+          createdAt={createdAt}
         />
       )}
     </div>

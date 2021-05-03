@@ -18,7 +18,8 @@ export const BrowserItemInfo = ({ setBy, date, rating, id, user }: Props) => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user._id);
   const handleDelete = () => {
-    dispatch(deleteProblem(id));
+    if (window.confirm('Are you sure? Deletion is permanent.'))
+      dispatch(deleteProblem(id));
   };
 
   const isOwner = currentUser === user;

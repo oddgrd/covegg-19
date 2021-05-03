@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Canvas } from '../editor/Canvas';
@@ -9,14 +9,25 @@ import { AscentItem } from './AscentItem';
 import { ProblemTable } from './ProblemTable';
 import { clearState, getBoard } from '../board/boardSlice';
 import { AscentForm } from './AscentForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faAngleDown,
+  faAngleUp,
+  faCheckSquare as faCheckSquareS
+} from '@fortawesome/free-solid-svg-icons';
+import { faCheckSquare } from '@fortawesome/free-regular-svg-icons';
 
 interface MatchParams {
   id: string;
 }
 interface MatchProps extends RouteComponentProps<MatchParams> {}
+
 export const Problem = ({ match }: MatchProps) => {
   const [{ canvas }, { loadFromDataUrl, initViewer }] = useCanvas();
+  const [ascentForm, toggleAscentForm] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.auth.user._id);
   const problem = useAppSelector((state) => state.browser.currentProblem);
   const boardObj = useAppSelector((state) => state.board.currentBoard);
 
@@ -51,10 +62,20 @@ export const Problem = ({ match }: MatchProps) => {
     grade
   };
 
+  const alreadyTicked =
+    ascents.filter((ascent) => ascent.user === currentUser).length > 0;
+
   const handleLoad = useCallback(() => {
     if (!problem || !loadFromDataUrl || !initViewer) return;
     loadFromDataUrl(dataUrl);
   }, [dataUrl, initViewer, loadFromDataUrl, problem]);
+
+  const toggleForm = () => {
+    toggleAscentForm(!ascentForm);
+  };
+  useEffect(() => {
+    if (ascentForm) scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [ascentForm]);
 
   useEffect(() => {
     const id = match.params.id;
@@ -97,7 +118,31 @@ export const Problem = ({ match }: MatchProps) => {
         </div>
         <ProblemTable {...tableProps} />
       </div>
-      <AscentForm problemId={_id} />
+      {!alreadyTicked && (
+        <button
+          onClick={() => toggleForm()}
+          className={'btn-save'}
+          style={{
+            width: '350px',
+            margin: 'auto',
+            marginTop: '0.3rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingLeft: '0.8rem',
+            paddingRight: '0.8rem'
+          }}
+        >
+          <FontAwesomeIcon icon={ascentForm ? faAngleUp : faAngleDown} />
+          <FontAwesomeIcon icon={faCheckSquare} />
+          <FontAwesomeIcon icon={ascentForm ? faAngleUp : faAngleDown} />
+        </button>
+      )}
+
+      {ascentForm && (
+        <AscentForm problemId={_id} toggleForm={toggleAscentForm} />
+      )}
+      <div ref={scrollRef}></div>
       {ascents.length > 0 && (
         <div className='ascents'>
           {ascents.map((ascent, idx) => (

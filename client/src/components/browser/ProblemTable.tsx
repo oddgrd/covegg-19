@@ -34,12 +34,15 @@ export const ProblemTable = ({
             <td>{ascents[0].name}</td>
           </tr>
         )}
-        <tr>
-          <th>Suggested grade:</th>
-          <td style={{ color: `${grades[grade].color}` }}>
-            {grades[grade].grade}
-          </td>
-        </tr>
+        {ascents.length === 0 && (
+          <tr>
+            <th>Suggested grade:</th>
+            <td style={{ color: `${grades[grade].color}` }}>
+              {grades[grade].grade}
+            </td>
+          </tr>
+        )}
+
         <tr>
           <th>Rating:</th>
           <td>
