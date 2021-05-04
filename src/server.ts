@@ -37,7 +37,11 @@ passport.use(
       callbackURL: 'http://localhost:5000/api/auth/google/callback'
     },
     async (_accessToken, _refreshToken, profile: any, done) => {
-      const user = await User.findOne({ googleId: profile.id });
+      const user = await User.findOneAndUpdate(
+        { googleId: profile.id },
+        { $set: { avatar: profile.photos[0].value } },
+        { upsert: true }
+      );
       if (user) {
         done(null, user);
       } else {
@@ -45,6 +49,7 @@ passport.use(
           const newUser = new User({
             name: profile.displayName,
             email: profile.emails[0].value,
+            avatar: profile.photos[0].value,
             googleId: profile.id
           });
           await newUser.save();
