@@ -50,6 +50,10 @@ const ProblemSchema: Schema = new Schema({
             type: Number,
             required: true
           },
+          avatar: {
+            type: String,
+            required: true
+          },
           rating: {
             type: Number,
             required: true

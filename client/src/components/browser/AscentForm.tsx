@@ -3,15 +3,16 @@ import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { FormEvent, useState } from 'react';
 import Rating from 'react-rating';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import grades from '../editor/grades';
 import { addAscent } from './browserSlice';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
-import { useHistory } from 'react-router-dom';
+
 const initialState = {
   grade: 0,
   attempts: 'FLASH',
   rating: 3,
+  avatar: '',
   comment: '',
   problemId: ''
 };
@@ -21,6 +22,7 @@ export interface AscentData {
   attempts: string;
   grade: number;
   rating: number;
+  avatar: string;
   comment?: string;
 }
 
@@ -31,7 +33,7 @@ interface Props {
 export const AscentForm = ({ problemId, toggleForm }: Props) => {
   const [formData, setFormData] = useState<AscentData>(initialState);
   const dispatch = useAppDispatch();
-
+  const avatar = useAppSelector((state) => state.auth.user.avatar);
   const onChange = (e: any) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onChangeGrade = (e: any) => {
@@ -46,7 +48,7 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(addAscent({ ...formData, problemId: problemId }));
+    dispatch(addAscent({ ...formData, problemId, avatar }));
     toggleForm(false);
   };
 
@@ -91,7 +93,7 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
         <h3
           style={{ textAlign: 'center', padding: '0.4rem', color: '#05ab75' }}
         >
-          Suggested Grade:
+          Suggest Grade:
         </h3>
         <p
           style={{
@@ -140,7 +142,7 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
         <input
           type='submit'
           className='submit-button'
-          value='Tick Ascent'
+          value='Submit Ascent'
         ></input>
       </div>
     </form>

@@ -14,6 +14,7 @@ export interface AscentIds {
 export interface Ascent {
   user: string;
   _id: string;
+  avatar: string;
   name: string;
   attempts: string;
   grade: number;
@@ -70,8 +71,8 @@ export const deleteProblem = createAsyncThunk<string, string>(
 export const addAscent = createAsyncThunk<Problem, AscentData>(
   'browser/addAscent',
   async (data) => {
-    const { attempts, grade, rating, comment } = data;
-    const formData = { attempts, grade, rating, comment };
+    const { attempts, grade, rating, comment, avatar } = data;
+    const formData = { attempts, grade, rating, comment, avatar };
     const res = await api.post(`/problems/${data.problemId}`, formData);
     return res.data;
   }

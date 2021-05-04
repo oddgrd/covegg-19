@@ -21,7 +21,8 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
     comment,
     createdAt,
     user,
-    _id
+    _id,
+    avatar
   } = ascent;
   const currentUser = useAppSelector((state) => state.auth.user._id);
   const isOwner = currentUser === user;
@@ -29,8 +30,20 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
     <div className='ascent-item'>
       <div className='ascent-item-main'>
         <div className='div-center'>
-          <p style={{ textAlign: 'center' }}>
-            {isOwner ? 'You' : name.split(' ').slice(0, 1)}
+          <img src={avatar} alt='Avatar' className='avatar' title={name} />
+        </div>
+        <div className='div-center'>
+          <p>Attempts: </p>
+          <strong>{attempts}</strong>
+        </div>
+        <div className='div-center'>
+          <p
+            style={{
+              color: `${grades[grade].color}`
+            }}
+            className='grade-small'
+          >
+            <strong>{grades[grade].grade}</strong>
           </p>
           <button
             onClick={() => toggleExpand(!expand)}
@@ -44,19 +57,6 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
           >
             <FontAwesomeIcon icon={faEllipsisH} />
           </button>
-        </div>
-        <div className='ascent-item-center'>
-          <p>Attempts: </p>
-          <strong>{attempts}</strong>
-        </div>
-        <div className='ascent-item-grade'>
-          <p
-            style={{
-              color: `${grades[grade].color}`
-            }}
-          >
-            {grades[grade].grade}
-          </p>
         </div>
       </div>
 

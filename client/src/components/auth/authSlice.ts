@@ -10,6 +10,7 @@ interface User {
   name: string;
   email: string;
   googleId: string;
+  avatar: string;
   _id: string;
   date: string;
 }
@@ -26,6 +27,7 @@ const initialState: AuthState = {
     name: '',
     email: '',
     googleId: '',
+    avatar: '',
     _id: '',
     date: ''
   },
