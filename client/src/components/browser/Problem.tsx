@@ -10,12 +10,7 @@ import { ProblemTable } from './ProblemTable';
 import { clearState, getBoard } from '../board/boardSlice';
 import { AscentForm } from './AscentForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faAngleDown,
-  faAngleUp,
-  faCheckSquare as faCheckSquareS
-} from '@fortawesome/free-solid-svg-icons';
-import { faCheckSquare } from '@fortawesome/free-regular-svg-icons';
+import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 
 interface MatchParams {
   id: string;
@@ -39,6 +34,7 @@ export const Problem = ({ match }: MatchProps) => {
     );
     return Math.round(averageGrade / suggestedGrades.length);
   };
+
   const {
     title,
     setBy,
@@ -133,9 +129,7 @@ export const Problem = ({ match }: MatchProps) => {
             paddingRight: '0.8rem'
           }}
         >
-          <FontAwesomeIcon icon={ascentForm ? faAngleUp : faAngleDown} />
-          <FontAwesomeIcon icon={faCheckSquare} />
-          <FontAwesomeIcon icon={ascentForm ? faAngleUp : faAngleDown} />
+          Tick <FontAwesomeIcon icon={ascentForm ? faCheckSquare : faSquare} />
         </button>
       )}
 
@@ -145,6 +139,7 @@ export const Problem = ({ match }: MatchProps) => {
       <div ref={scrollRef}></div>
       {ascents.length > 0 && (
         <div className='ascents'>
+          <h3 style={{ textAlign: 'center', padding: '0.4rem' }}>Ascents:</h3>
           {ascents.map((ascent, idx) => (
             <AscentItem ascent={ascent} key={idx} problemId={_id} />
           ))}

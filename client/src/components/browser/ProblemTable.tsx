@@ -21,6 +21,14 @@ export const ProblemTable = ({
   ascents,
   grade
 }: Props) => {
+  const consensusRating = () => {
+    if (ascents.length === 0) return rating;
+    const suggestedRatings = ascents.map((ascent: Ascent) => ascent.rating);
+    const averageRating = suggestedRatings.reduce(
+      (val: number, acc: number) => acc + val
+    );
+    return Math.round(averageRating / suggestedRatings.length);
+  };
   return (
     <table className='problem-table'>
       <tbody>
@@ -46,7 +54,7 @@ export const ProblemTable = ({
         <tr>
           <th>Rating:</th>
           <td>
-            <StarRating rating={rating} />
+            <StarRating rating={consensusRating()} />
           </td>
         </tr>
         <tr>

@@ -67,6 +67,7 @@ export const BrowserItem = ({ problem }: Props) => {
           rating={rating}
           id={_id}
           user={user}
+          ascents={ascents}
         />
       )}
     </div>
