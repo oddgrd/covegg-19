@@ -413,6 +413,21 @@ td {
   text-align: left;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-1.3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-animation {
+  animation: fadeIn 0.25s ease-in-out;
+}
+
 /* Slider styles */
 input[type='range'] {
   -webkit-appearance: none;

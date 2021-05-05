@@ -17,6 +17,9 @@ export const NavbarMenu = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const history = useHistory();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const email = useAppSelector((state) => state.auth.user.email);
+  const isAdmin = email === 'oddgrd@gmail.com';
+
   const dispatch = useAppDispatch();
   const handleLogOut = () => {
     dispatch(logout());
@@ -48,7 +51,7 @@ export const NavbarMenu = () => {
         <FontAwesomeIcon icon={faBars} className='nav-link' />
       </button>
       {menu && (
-        <div className='navbar-menu'>
+        <div className='navbar-menu menu-animation'>
           {isAuthenticated && (
             <>
               <Link
@@ -67,14 +70,16 @@ export const NavbarMenu = () => {
                 <FontAwesomeIcon icon={faPaintBrush} className='nav-link' />{' '}
                 Create New Problem
               </Link>
-              <Link
-                to='/boards/add'
-                className='navbar-menu-item'
-                onClick={() => toggleMenu(!menu)}
-              >
-                <FontAwesomeIcon icon={faPlus} className='nav-link' /> Add New
-                Board
-              </Link>
+              {isAdmin && (
+                <Link
+                  to='/boards/add'
+                  className='navbar-menu-item'
+                  onClick={() => toggleMenu(!menu)}
+                >
+                  <FontAwesomeIcon icon={faPlus} className='nav-link' /> Add New
+                  Board
+                </Link>
+              )}
             </>
           )}
 

@@ -37,7 +37,7 @@ export const ProblemTable = ({
   const setterFa = ascents.length > 0 && ascents[0].user === user;
   return (
     <>
-      <table className='problem-table box'>
+      <table className='problem-table '>
         <tbody>
           {setterFa ? (
             <>
@@ -78,15 +78,15 @@ export const ProblemTable = ({
           </tr>
           {expand && (
             <>
-              <tr>
+              <tr className='menu-animation'>
                 <th>Rules:</th>
                 <td>{rules}</td>
               </tr>
-              <tr>
+              <tr className='menu-animation'>
                 <th>Board:</th>
                 <td>{board}</td>
               </tr>
-              <tr>
+              <tr className='menu-animation'>
                 <th>Date:</th>
                 <td>
                   <Moment format='DD-MM-YYYY HH:mm'>{date}</Moment>

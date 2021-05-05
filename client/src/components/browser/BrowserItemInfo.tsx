@@ -51,7 +51,7 @@ export const BrowserItemInfo = ({
 
   const isOwner = currentUser === user;
   return (
-    <div className='browser-item-info'>
+    <div className='browser-item-info menu-animation'>
       <div className='div-space'>
         <div>
           <strong>Set by:</strong> {isOwner ? 'You' : setBy}

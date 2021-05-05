@@ -34,7 +34,7 @@ export const AscentItemInfo = ({
 
   const isOwner = currentUser === user;
   return (
-    <div className='ascent-item-info'>
+    <div className='ascent-item-info menu-animation'>
       <div className='div-space'>
         <p style={{ fontSize: '0.8rem', textAlign: 'center' }}>
           <Moment fromNow>{createdAt}</Moment>
