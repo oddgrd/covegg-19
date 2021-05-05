@@ -80,7 +80,7 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
             {'<='} 4
           </RadioButton>
           <RadioButton
-            value='MANY'
+            value='Many'
             rootColor='#f0eff3'
             pointColor='red'
             className='radio-button'
@@ -139,11 +139,7 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
         />
       </div>
       <div className='form-group'>
-        <input
-          type='submit'
-          className='submit-button'
-          value='Submit Ascent'
-        ></input>
+        <input type='submit' className='submit-button' value='Submit'></input>
       </div>
     </form>
   );

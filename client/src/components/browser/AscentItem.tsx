@@ -1,8 +1,6 @@
-import { faEllipsisH, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import Moment from 'react-moment';
-import { useAppSelector } from '../../app/hooks';
 import grades from '../editor/grades';
 import { AscentItemInfo } from './AscentItemInfo';
 import { Ascent } from './browserSlice';

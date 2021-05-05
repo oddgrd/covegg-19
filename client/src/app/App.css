@@ -18,6 +18,11 @@
     #ff00ff 75%,
     #00ffff 100%
   );
+  --gradient-fade: linear-gradient(
+    180deg,
+    rgba(13, 17, 23, 1) 60%,
+    rgba(13, 17, 23, 0.3) 100%
+  );
 }
 
 * {
@@ -48,6 +53,9 @@ ul {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.background-fade {
+  background-image: var(--gradient-fade) !important;
 }
 .btn {
   -webkit-appearance: none;
@@ -178,8 +186,6 @@ ul {
 .container {
   max-width: 1100px;
   margin: auto;
-
-  margin-top: 1rem;
   margin-bottom: 1.5rem;
 }
 
@@ -310,10 +316,11 @@ input:focus::placeholder {
   margin: auto;
 }
 .problem-table {
-  width: 350px;
+  width: 360px;
   padding: 0.5rem;
   border-collapse: collapse;
   margin: auto;
+  background: var(--tertiary-bg);
 }
 .browser {
   display: flex;
@@ -326,7 +333,6 @@ input:focus::placeholder {
   margin: auto;
   background: var(--tertiary-bg);
   border: 1px solid var(--secondary-bg);
-  border-radius: 3px;
 }
 .browser-item-main {
   display: grid;
@@ -362,7 +368,6 @@ input:focus::placeholder {
 }
 .browser-item-info {
   padding: 0.6rem;
-  border-top: 1px dashed grey;
 }
 
 .ascents {
@@ -397,11 +402,9 @@ input:focus::placeholder {
 .ascent-item-info {
   padding: 0.6rem;
   margin-top: 0.3rem;
-
-  border-top: 1px dashed grey;
 }
 .comment {
-  margin-top: 0.4rem;
+  margin-top: 0.6rem;
   font-size: 1rem;
 }
 th,
@@ -501,8 +504,6 @@ input[type='range']:focus::-ms-fill-upper {
 @media (max-width: 600px) {
   .container {
     width: 100vw;
-    margin: 0.3rem 0;
-    padding: 0;
   }
   .editor {
     flex-direction: column;

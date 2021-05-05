@@ -9,8 +9,6 @@ import { AscentItem } from './AscentItem';
 import { ProblemTable } from './ProblemTable';
 import { clearState, getBoard } from '../board/boardSlice';
 import { AscentForm } from './AscentForm';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 
 interface MatchParams {
   id: string;
@@ -45,7 +43,8 @@ export const Problem = ({ match }: MatchProps) => {
     dataUrl,
     rating,
     ascents,
-    _id
+    _id,
+    user
   } = problem;
 
   const tableProps = {
@@ -55,7 +54,8 @@ export const Problem = ({ match }: MatchProps) => {
     date,
     rating,
     ascents,
-    grade
+    grade,
+    user
   };
 
   const alreadyTicked =
@@ -121,15 +121,16 @@ export const Problem = ({ match }: MatchProps) => {
           style={{
             width: '350px',
             margin: 'auto',
-            marginTop: '0.3rem',
+            marginTop: '0.8rem',
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             alignItems: 'center',
             paddingLeft: '0.8rem',
-            paddingRight: '0.8rem'
+            paddingRight: '0.8rem',
+            fontSize: '1.2rem'
           }}
         >
-          Tick <FontAwesomeIcon icon={ascentForm ? faCheckSquare : faSquare} />
+          Tick Ascent
         </button>
       )}
 

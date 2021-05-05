@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { StarRating } from '../layout/StarRating';
 import { Ascent, deleteProblem } from './browserSlice';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 
@@ -64,8 +64,8 @@ export const BrowserItemInfo = ({
         {isOwner && (
           <button onClick={handleDelete} className='btn-trash'>
             <FontAwesomeIcon
-              icon={faTimes}
-              style={{ width: '100%', height: '100%' }}
+              icon={faTrashAlt}
+              style={{ width: '100%', height: '70%' }}
             />
           </button>
         )}

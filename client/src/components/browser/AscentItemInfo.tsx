@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { StarRating } from '../layout/StarRating';
-import { deleteAscent, deleteProblem } from './browserSlice';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { deleteAscent } from './browserSlice';
+import { faQuoteRight, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Moment from 'react-moment';
 
@@ -42,8 +42,8 @@ export const AscentItemInfo = ({
         {isOwner && (
           <button className='btn-trash' onClick={handleDelete}>
             <FontAwesomeIcon
-              icon={faTimes}
-              style={{ width: '100%', height: '100%' }}
+              icon={faTrashAlt}
+              style={{ width: '100%', height: '70%' }}
             />
           </button>
         )}
@@ -52,9 +52,11 @@ export const AscentItemInfo = ({
 
       {comment.length > 0 && (
         <div className='comment'>
-          <span>
-            <strong>Comment:</strong> {comment}
-          </span>
+          <FontAwesomeIcon
+            icon={faQuoteRight}
+            style={{ fontSize: '1.6rem', color: '#05ab75' }}
+          />{' '}
+          {comment}
         </div>
       )}
     </div>
