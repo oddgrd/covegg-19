@@ -5,14 +5,14 @@ import Landing from '../components/layout/Landing';
 import Editor from '../components/editor/Editor';
 import { Problem } from '../components/browser/Problem';
 import { Browser } from '../components/browser/Browser';
+import { Navbar } from '../components/layout/Navbar';
+import { PrivateRoute } from '../components/routing/PrivateRoute';
+import { AdminRoute } from '../components/routing/AdminRoute';
+import { BoardForm } from '../components/board/BoardForm';
 
 // Redux
 import { useAppDispatch } from './hooks';
 import { loadUser } from '../components/auth/authSlice';
-import { Navbar } from '../components/layout/Navbar';
-import { PrivateRoute } from '../components/routing/PrivateRoute';
-import { BoardForm } from '../components/board/BoardForm';
-import { AscentForm } from '../components/browser/AscentForm';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -25,12 +25,11 @@ function App() {
       <>
         <Navbar />
         <Route exact path='/' component={Landing} />
-        <Route exact path='/ascentForm' component={AscentForm} />
         <Switch>
           <PrivateRoute exact path='/create' component={Editor} />
           <PrivateRoute exact path='/problems/:id' component={Problem} />
           <PrivateRoute exact path='/browse' component={Browser} />
-          <PrivateRoute exact path='/boards/add' component={BoardForm} />
+          <AdminRoute exact path='/boards/add' component={BoardForm} />
         </Switch>
       </>
     </Router>
