@@ -7,6 +7,7 @@ interface Ascent {
   attempts: string;
   grade: number;
   rating: number;
+  avatar: string;
   comment?: string;
 }
 

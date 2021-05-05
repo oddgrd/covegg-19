@@ -24,8 +24,6 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
     _id,
     avatar
   } = ascent;
-  const currentUser = useAppSelector((state) => state.auth.user._id);
-  const isOwner = currentUser === user;
   return (
     <div className='ascent-item'>
       <div className='ascent-item-main'>

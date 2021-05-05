@@ -22,6 +22,7 @@ interface Props {
 export const BrowserItem = ({ problem }: Props) => {
   const [expand, toggleExpand] = useState(false);
   const { title, _id, grade, setBy, date, rating, user, ascents } = problem;
+
   const consensusGrade = () => {
     if (ascents.length === 0) return grade;
     const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
@@ -30,6 +31,7 @@ export const BrowserItem = ({ problem }: Props) => {
     );
     return Math.round(averageGrade / suggestedGrades.length);
   };
+
   return (
     <div className='browser-item'>
       <div className='browser-item-main'>
@@ -47,7 +49,7 @@ export const BrowserItem = ({ problem }: Props) => {
         </button>
         <div className='div-center'>
           <Link className='browser-item-title' to={`/problems/${_id}`}>
-            {<strong>{title}</strong>}
+            <strong>{title}</strong>
           </Link>
         </div>
         <div className='browser-item-grade unselectable'>

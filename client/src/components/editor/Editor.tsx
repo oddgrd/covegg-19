@@ -3,12 +3,7 @@ import { Canvas } from './Canvas';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Toolbar } from './Toolbar';
 import EditorForm from './EditorForm';
-import {
-  faUndo,
-  faAngleDown,
-  faAngleUp,
-  faInfoCircle
-} from '@fortawesome/free-solid-svg-icons';
+import { faUndo, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSelector } from '../../app/hooks';
 import { Board, BoardSelector } from '../board/BoardSelector';
@@ -70,20 +65,8 @@ const Editor = () => {
         <button className={'btn-save btn-undo'} onClick={undo}>
           <FontAwesomeIcon icon={faUndo} />
         </button>
-        <button
-          onClick={() => toggleForm()}
-          className={'btn-save'}
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingLeft: '0.8rem',
-            paddingRight: '0.8rem'
-          }}
-        >
-          <FontAwesomeIcon icon={editorForm ? faAngleUp : faAngleDown} />
-          <FontAwesomeIcon icon={faInfoCircle} />
-          <FontAwesomeIcon icon={editorForm ? faAngleUp : faAngleDown} />
+        <button onClick={() => toggleForm()} className={'btn-save'}>
+          <FontAwesomeIcon icon={faSave} />
         </button>
       </div>
       {editorForm && (
