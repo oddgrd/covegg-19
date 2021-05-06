@@ -4,7 +4,7 @@
   "main": "server.js",
   "engines": {
     "node": "16.x",
-    "npm": "7.x"
+    "yarn": "1.x"
   },
   "author": "oddgrd <oddgrd@gmail.com> (https://github.com/oddgrd)",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "start": "node dist/server.js",
     "client": "yarn --cwd client start",
     "devC": "concurrently \"yarn dev\" \"yarn client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false tsc & npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "tsc & yarn install --prefix client && yarn run build --prefix client"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.8.4",
