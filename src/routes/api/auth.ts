@@ -39,7 +39,7 @@ router.get('/login/failed', (_req, res) => {
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    successRedirect: 'http://localhost:3000/',
+    successRedirect: 'https://desolate-cove-92915.herokuapp.com/',
     failureRedirect: '/api/auth/login/failed'
   })
 );
@@ -49,7 +49,7 @@ router.get(
 // @access   Public
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('http://localhost:3000/');
+  res.redirect('https://desolate-cove-92915.herokuapp.com/');
 });
 
 export = router;
