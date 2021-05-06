@@ -15,7 +15,6 @@
     "start": "node dist/server.js",
     "client": "yarn --cwd client start",
     "devC": "concurrently \"yarn dev\" \"yarn client\"",
-    "postinstall": "tsc",
     "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "dependencies": {
