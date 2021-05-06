@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 import { login } from '../auth/authSlice';
 import GoogleButton from 'react-google-button';
+
 const Landing = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const dispatch = useAppDispatch();

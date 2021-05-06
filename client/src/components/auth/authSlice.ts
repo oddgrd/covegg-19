@@ -57,7 +57,10 @@ export const authSlice = createSlice({
       return state;
     },
     login: () => {
-      window.open('http://localhost:5000/api/auth/google', '_self');
+      window.open(
+        'https://desolate-cove-92915.herokuapp.com/api/auth/google',
+        '_self'
+      );
     }
   },
   extraReducers: (builder) => {
