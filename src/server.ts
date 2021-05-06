@@ -144,12 +144,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/boards', boardRoutes);
 app.use('/api/problems', problemRoutes);
 
-// Error handling
-app.use((_req, res, _next) => {
-  const error = new Error('Not found');
-  res.send(error);
-});
-
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
@@ -159,6 +153,12 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
+
+// Error handling
+app.use((_req, res, _next) => {
+  const error = new Error('Not found');
+  res.send(error);
+});
 
 const httpServer = http.createServer(app);
 httpServer.listen(config.server.port, () =>
