@@ -55,6 +55,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
-  "proxy": "http://localhost:5000"
+  "devDependencies": {}
 }
