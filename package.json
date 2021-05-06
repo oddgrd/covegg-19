@@ -12,9 +12,10 @@
   "scripts": {
     "watch": "tsc -w",
     "dev": "nodemon dist/server.js",
-    "start": "node dist/server.js",
+    "start": "node server.js",
     "client": "yarn --cwd client start",
     "devC": "concurrently \"yarn dev\" \"yarn client\"",
+    "postinstall": "tsc",
     "heroku-postbuild": "tsc & npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
