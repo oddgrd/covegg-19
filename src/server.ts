@@ -36,7 +36,7 @@ passport.use(
       clientID: config.google.clientID as string,
       clientSecret: config.google.clientSecret as string,
       callbackURL:
-        'https://desolate-cove-92915.herokuapp.com//api/auth/google/callback'
+        'https://desolate-cove-92915.herokuapp.com/api/auth/google/callback'
     },
     async (_accessToken, _refreshToken, profile: any, done) => {
       const user = await User.findOneAndUpdate(
