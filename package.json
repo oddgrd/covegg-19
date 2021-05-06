@@ -16,7 +16,7 @@
     "client": "yarn --cwd client start",
     "devC": "concurrently \"yarn dev\" \"yarn client\"",
     "postinstall": "tsc",
-    "heroku-postbuild": "tsc & npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.8.4",
