@@ -12,7 +12,7 @@
   "scripts": {
     "watch": "tsc -w",
     "dev": "nodemon dist/server.js",
-    "start": "node server.js",
+    "start": "node dist/server.js",
     "client": "yarn --cwd client start",
     "devC": "concurrently \"yarn dev\" \"yarn client\"",
     "postinstall": "tsc",
