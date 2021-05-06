@@ -14,6 +14,7 @@ import problemRoutes from './routes/api/problem';
 import mongoSanitize from 'express-mongo-sanitize';
 import lusca from 'lusca';
 import multer from 'multer';
+import path from 'path';
 
 const NAMESPACE = 'Server';
 const app = express();
@@ -148,6 +149,16 @@ app.use((_req, res, _next) => {
   const error = new Error('Not found');
   res.send(error);
 });
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (_req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const httpServer = http.createServer(app);
 httpServer.listen(config.server.port, () =>

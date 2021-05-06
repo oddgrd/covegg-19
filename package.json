@@ -2,6 +2,10 @@
   "name": "covegg-19-server",
   "version": "1.0.0",
   "main": "server.js",
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+  },
   "author": "oddgrd <oddgrd@gmail.com> (https://github.com/oddgrd)",
   "license": "MIT",
   "scripts": {
@@ -9,10 +13,21 @@
     "dev": "nodemon dist/server.js",
     "start": "node dist/server.js",
     "client": "yarn --cwd client start",
-    "devC": "concurrently \"yarn dev\" \"yarn client\""
+    "devC": "concurrently \"yarn dev\" \"yarn client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false tsc & npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.8.4",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.11",
+    "@types/express-mongo-sanitize": "^1.3.2",
+    "@types/express-session": "^1.17.3",
+    "@types/lusca": "^1.7.0",
+    "@types/mongodb": "^3.6.12",
+    "@types/multer": "^1.4.5",
+    "@types/node": "^15.0.2",
+    "@types/passport": "^1.0.6",
+    "@types/passport-google-oauth20": "^2.0.7",
     "axios": "^0.21.1",
     "connect-mongo": "^4.4.1",
     "dotenv": "^8.2.0",
@@ -24,21 +39,11 @@
     "mongoose": "^5.12.3",
     "multer": "^1.4.2",
     "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "typescript": "^4.2.4"
   },
   "devDependencies": {
-    "@types/dotenv": "^8.2.0",
-    "@types/express": "^4.17.11",
-    "@types/express-mongo-sanitize": "^1.3.2",
-    "@types/express-session": "^1.17.3",
-    "@types/lusca": "^1.7.0",
-    "@types/mongodb": "^3.6.12",
-    "@types/multer": "^1.4.5",
-    "@types/node": "^14.14.37",
-    "@types/passport": "^1.0.6",
-    "@types/passport-google-oauth20": "^2.0.7",
     "concurrently": "^6.0.2",
-    "nodemon": "^2.0.7",
-    "typescript": "^4.2.4"
+    "nodemon": "^2.0.7"
   }
 }

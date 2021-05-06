@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   faList,
   faSignOutAlt,
