@@ -54,7 +54,11 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
 
   const { grade, rating, comment } = formData;
   return (
-    <form className='form' autoComplete='off' onSubmit={handleSubmit}>
+    <form
+      className='form menu-animation-down'
+      autoComplete='off'
+      onSubmit={handleSubmit}
+    >
       <section className='toolbar'>
         <RadioGroup
           horizontal

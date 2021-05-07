@@ -115,10 +115,9 @@ ul {
 }
 .container {
   max-width: 1100px;
-  min-height: 80vh;
   margin: auto;
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 .navbar {
   display: flex;
@@ -343,7 +342,7 @@ input:focus::placeholder {
 .browser-item {
   width: 500px;
   margin: auto;
-  background: var(--tertiary-bg);
+  background: var(--secondary-bg);
   border: 1px solid var(--secondary-bg);
 }
 .browser-item-main {

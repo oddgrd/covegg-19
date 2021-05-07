@@ -51,7 +51,7 @@ export const NavbarMenu = () => {
         <FontAwesomeIcon icon={faBars} className='nav-link' />
       </button>
       {menu && (
-        <div className='navbar-menu menu-animation'>
+        <div className='navbar-menu menu-animation-down'>
           {isAuthenticated && (
             <>
               <Link

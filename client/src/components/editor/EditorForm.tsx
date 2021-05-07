@@ -52,7 +52,11 @@ const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
   };
   const { title, grade, rules, rating } = formData;
   return (
-    <form className='form' autoComplete='off' onSubmit={handleSubmit}>
+    <form
+      className='form menu-animation-down'
+      autoComplete='off'
+      onSubmit={handleSubmit}
+    >
       <div className='form-group'>
         <input
           type='text'
