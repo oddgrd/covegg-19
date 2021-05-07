@@ -1,11 +1,10 @@
 import { Storage } from '@google-cloud/storage';
-import path from 'path';
 
-const serviceKey = path.join(__dirname, './herokuGcKeyFile.ts');
-
+const creds = process.env['GOOGLE_CREDENTIALS'] as string;
+const keys = JSON.parse(creds);
 const storage = new Storage({
-  keyFilename: serviceKey,
-  projectId: 'covegg19'
+  projectId: 'covegg19',
+  credentials: keys
 });
 
 export default storage;
