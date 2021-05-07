@@ -1,7 +1,7 @@
 import { Storage } from '@google-cloud/storage';
 import path from 'path';
 
-const serviceKey = path.join(__dirname, './default.json');
+const serviceKey = path.join(__dirname, './herokuGcKeyFile.ts');
 
 const storage = new Storage({
   keyFilename: serviceKey,
