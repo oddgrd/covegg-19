@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import grades from '../editor/grades';
 import { StarRating } from '../layout/StarRating';
 import { Ascent } from './browserSlice';
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {
   setBy: string;
@@ -61,32 +61,32 @@ export const ProblemTable = ({
             </>
           )}
 
-          {ascents.length === 0 && (
-            <tr>
-              <th>Suggested grade:</th>
-              <td style={{ color: `${grades[grade].color}` }}>
-                {grades[grade].grade}
-              </td>
-            </tr>
-          )}
-
-          <tr>
-            <th>Rating:</th>
-            <td>
-              <StarRating rating={consensusRating()} />
-            </td>
-          </tr>
           {expand && (
             <>
-              <tr className='menu-animation'>
+              {ascents.length === 0 && (
+                <tr className='menu-animation-down'>
+                  <th>Suggested grade:</th>
+                  <td style={{ color: `${grades[grade].color}` }}>
+                    {grades[grade].grade}
+                  </td>
+                </tr>
+              )}
+
+              <tr className='menu-animation-down'>
+                <th>Rating:</th>
+                <td>
+                  <StarRating rating={consensusRating()} />
+                </td>
+              </tr>
+              <tr className='menu-animation-down'>
                 <th>Rules:</th>
                 <td>{rules}</td>
               </tr>
-              <tr className='menu-animation'>
+              <tr className='menu-animation-down'>
                 <th>Board:</th>
                 <td>{board}</td>
               </tr>
-              <tr className='menu-animation'>
+              <tr className='menu-animation-down'>
                 <th>Date:</th>
                 <td>
                   <Moment format='DD-MM-YYYY HH:mm'>{date}</Moment>
@@ -99,14 +99,14 @@ export const ProblemTable = ({
       <div className='div-center'>
         <button
           onClick={() => toggleExpand(!expand)}
-          className='btn background-fade'
+          className='btn'
           style={{
             color: '#05ab75',
             fontSize: '1.6rem',
             width: '100%'
           }}
         >
-          <FontAwesomeIcon icon={expand ? faAngleUp : faAngleDown} />
+          <FontAwesomeIcon icon={faInfoCircle} />
         </button>
       </div>
     </>

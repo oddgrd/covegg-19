@@ -135,9 +135,11 @@ export const Problem = ({ match }: MatchProps) => {
       )}
 
       {ascentForm && (
-        <AscentForm problemId={_id} toggleForm={toggleAscentForm} />
+        <>
+          <div ref={scrollRef}></div>
+          <AscentForm problemId={_id} toggleForm={toggleAscentForm} />
+        </>
       )}
-      <div ref={scrollRef}></div>
       {ascents.length > 0 && (
         <div className='ascents'>
           <h3 style={{ textAlign: 'center', padding: '0.4rem' }}>Ascents:</h3>

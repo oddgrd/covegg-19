@@ -35,31 +35,32 @@ export const BrowserItem = ({ problem }: Props) => {
   return (
     <div className='browser-item'>
       <div className='browser-item-main'>
-        <button
-          onClick={() => toggleExpand(!expand)}
-          className='btn'
+        <div
+          className='browser-item-grade unselectable'
           style={{
-            color: '#05ab75',
-            fontSize: '1.4rem',
-            padding: '1rem',
-            maxWidth: '49.8px'
+            color: `${grades[consensusGrade()].color}`
           }}
         >
-          <FontAwesomeIcon icon={expand ? faEllipsisH : faEllipsisV} />
-        </button>
+          {grades[consensusGrade()].grade}
+        </div>
         <div className='div-center'>
           <Link className='browser-item-title' to={`/problems/${_id}`}>
             <strong>{title}</strong>
           </Link>
         </div>
-        <div className='browser-item-grade unselectable'>
-          <p
+        <div>
+          <button
+            onClick={() => toggleExpand(!expand)}
+            className='btn'
             style={{
-              color: `${grades[consensusGrade()].color}`
+              color: '#05ab75',
+              fontSize: '1.4rem',
+              padding: '1rem',
+              maxWidth: '49.8px'
             }}
           >
-            {grades[consensusGrade()].grade}
-          </p>
+            <FontAwesomeIcon icon={expand ? faEllipsisH : faEllipsisV} />
+          </button>
         </div>
       </div>
       {expand && (

@@ -5,6 +5,7 @@ import Spinner from '../layout/Spinner';
 import { BrowserItem } from './BrowserItem';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export const Browser = () => {
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.browser.status);

@@ -41,8 +41,11 @@ body {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
-
+a:hover {
+  color: var(--light);
+}
 ul {
   list-style: none;
 }
@@ -110,6 +113,13 @@ ul {
   display: flex;
   justify-content: space-between;
 }
+.container {
+  max-width: 1100px;
+  min-height: 80vh;
+  margin: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -118,6 +128,15 @@ ul {
   padding: 1rem;
   background: var(--secondary-bg);
   height: 4.5rem;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  text-align: center;
+  height: 2.5rem;
+  color: var(--primary-color);
 }
 .navbar-menu {
   display: flex;
@@ -181,12 +200,6 @@ ul {
   outline: none;
   cursor: pointer;
   box-shadow: 0 -2px 10px rgba(38, 128, 78, 0.5);
-}
-
-.container {
-  max-width: 1100px;
-  margin: auto;
-  margin-bottom: 1.5rem;
 }
 
 .editor {
@@ -320,7 +333,6 @@ input:focus::placeholder {
   padding: 0.5rem;
   border-collapse: collapse;
   margin: auto;
-  background: var(--tertiary-bg);
 }
 .browser {
   display: flex;
@@ -416,7 +428,7 @@ td {
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: translateY(-1.3rem);
+    transform: translateY(1rem);
   }
   100% {
     opacity: 1;
@@ -424,7 +436,22 @@ td {
   }
 }
 
-.menu-animation {
+.menu-animation-up {
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-animation-down {
   animation: fadeIn 0.25s ease-in-out;
 }
 

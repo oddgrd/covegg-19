@@ -55,7 +55,6 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
   const { grade, rating, comment } = formData;
   return (
     <form className='form' autoComplete='off' onSubmit={handleSubmit}>
-      <h3 style={{ textAlign: 'center', color: '#05ab75' }}>Attempts:</h3>
       <section className='toolbar'>
         <RadioGroup
           horizontal
@@ -90,11 +89,6 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
         </RadioGroup>
       </section>
       <div className='form-group'>
-        <h3
-          style={{ textAlign: 'center', padding: '0.4rem', color: '#05ab75' }}
-        >
-          Suggest Grade:
-        </h3>
         <p
           style={{
             textAlign: 'center',
@@ -117,7 +111,6 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
           />
         </div>
       </div>
-      <h3 style={{ textAlign: 'center', color: '#05ab75' }}>Rate Problem:</h3>
       <div className='star-rating'>
         <Rating
           onChange={onChangeRating}
