@@ -57,10 +57,7 @@ export const authSlice = createSlice({
       return state;
     },
     login: () => {
-      window.open(
-        'https://desolate-cove-92915.herokuapp.com/api/auth/google',
-        '_self'
-      );
+      window.open('https://covegg19.com/api/auth/google', '_self');
     }
   },
   extraReducers: (builder) => {
