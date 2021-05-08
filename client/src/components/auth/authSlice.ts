@@ -6,6 +6,11 @@ import {
 } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
+const callbackUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://covegg19.com'
+    : 'http://localhost:5000';
+
 interface User {
   name: string;
   email: string;
@@ -57,7 +62,7 @@ export const authSlice = createSlice({
       return state;
     },
     login: () => {
-      window.open('https://covegg19.com/api/auth/google', '_self');
+      window.open(`${callbackUrl}/api/auth/google`, '_self');
     }
   },
   extraReducers: (builder) => {

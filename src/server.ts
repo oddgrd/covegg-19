@@ -35,7 +35,7 @@ passport.use(
     {
       clientID: config.google.clientID as string,
       clientSecret: config.google.clientSecret as string,
-      callbackURL: 'https://covegg19.com/api/auth/google/callback'
+      callbackURL: `${config.callbackUrl}/api/auth/google/callback`
     },
     async (_accessToken, _refreshToken, profile: any, done) => {
       const user = await User.findOneAndUpdate(

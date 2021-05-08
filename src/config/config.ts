@@ -29,11 +29,23 @@ const SESSION = {
   sessionSecret: `${process.env.SESSION_SECRET}`
 };
 
+const callbackUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://covegg19.com'
+    : 'http://localhost:5000';
+
+const redirectUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://covegg19.com'
+    : 'http://localhost:3000';
+
 const config = {
   server: SERVER,
   mongo: MONGO,
   google: GOOGLE,
-  session: SESSION
+  session: SESSION,
+  callbackUrl,
+  redirectUrl
 };
 
 export default config;

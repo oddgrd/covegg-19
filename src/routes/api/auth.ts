@@ -1,5 +1,6 @@
 import express from 'express';
 import passport from 'passport';
+import config from '../../config/config';
 import auth from '../../middleware/auth';
 import User from '../../models/User';
 const router = express.Router();
@@ -39,7 +40,7 @@ router.get('/login/failed', (_req, res) => {
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    successRedirect: 'https://covegg19.com',
+    successRedirect: `${config.redirectUrl}`,
     failureRedirect: '/api/auth/login/failed'
   })
 );
@@ -49,7 +50,7 @@ router.get(
 // @access   Public
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('https://covegg19.com');
+  res.redirect(`${config.redirectUrl}`);
 });
 
 export = router;
