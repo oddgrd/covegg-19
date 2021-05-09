@@ -10,10 +10,7 @@ const router = express.Router();
 // @access   Private
 router.post(
   '/',
-  [
-    check('title', 'Title is required').not().isEmpty(),
-    check('dataUrl', 'DataUrl is required').not().isEmpty()
-  ],
+  [check('title', 'Title is required').not().isEmpty()],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
 
