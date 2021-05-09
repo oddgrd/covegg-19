@@ -10,7 +10,7 @@ import { Board, BoardSelector } from '../board/BoardSelector';
 import Spinner from '../layout/Spinner';
 
 const Editor = () => {
-  const [{ canvas }, { init, handleColor, undo }] = useCanvas();
+  const [{ canvas, coords }, { init, handleColor, undo }] = useCanvas();
   const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
 
   const boards = useAppSelector((state) => state.board.boards);
@@ -72,6 +72,7 @@ const Editor = () => {
       {editorForm && (
         <EditorForm
           handleSave={handleSave}
+          coords={coords}
           currentBoard={currentBoard ? currentBoard._id : boards[0]._id}
         />
       )}

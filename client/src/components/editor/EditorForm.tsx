@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveProblem } from './editorSlice';
 import grades from './grades';
+import { Coords } from '../../hooks/useCanvas';
 
 const initialState = {
   title: '',
@@ -21,8 +22,10 @@ const initialState = {
 interface Props {
   handleSave: () => string;
   currentBoard: string;
+  coords: Array<Coords> | undefined;
 }
-const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
+
+const EditorForm: FC<Props> = ({ handleSave, currentBoard, coords }) => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -45,6 +48,7 @@ const EditorForm: FC<Props> = ({ handleSave, currentBoard }) => {
         ...formData,
         setBy: user,
         dataUrl: dataUrl,
+        coords,
         board: currentBoard
       })
     );

@@ -16,7 +16,10 @@ interface MatchParams {
 interface MatchProps extends RouteComponentProps<MatchParams> {}
 
 export const Problem = ({ match }: MatchProps) => {
-  const [{ canvas }, { loadFromDataUrl, initViewer }] = useCanvas();
+  const [
+    { canvas },
+    { loadFromDataUrl, initViewer, loadFromCoords }
+  ] = useCanvas();
   const [ascentForm, toggleAscentForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
@@ -44,7 +47,8 @@ export const Problem = ({ match }: MatchProps) => {
     rating,
     ascents,
     _id,
-    user
+    user,
+    coords
   } = problem;
 
   const tableProps = {
@@ -65,6 +69,10 @@ export const Problem = ({ match }: MatchProps) => {
     if (!problem || !loadFromDataUrl || !initViewer) return;
     loadFromDataUrl(dataUrl);
   }, [dataUrl, initViewer, loadFromDataUrl, problem]);
+  const handleLoadCoords = useCallback(() => {
+    if (!problem || !loadFromCoords || !initViewer) return;
+    loadFromCoords(coords);
+  }, [coords, initViewer, loadFromCoords, problem]);
 
   const toggleForm = () => {
     toggleAscentForm(!ascentForm);
@@ -89,8 +97,8 @@ export const Problem = ({ match }: MatchProps) => {
   useEffect(() => {
     if (!initViewer) return;
     initViewer();
-    handleLoad();
-  }, [handleLoad, initViewer]);
+    handleLoadCoords();
+  }, [handleLoadCoords, initViewer]);
 
   return (
     <section className='container'>

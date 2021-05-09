@@ -4,6 +4,7 @@ import {
   SerializedError
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { Coords } from '../../hooks/useCanvas';
 import api from '../../utils/api';
 import { AscentData } from './AscentForm';
 
@@ -35,6 +36,7 @@ export interface Problem {
   _id: string;
   user: string;
   dataUrl: string;
+  coords: Array<Coords>;
 }
 
 interface Browser {
@@ -100,6 +102,7 @@ const initialState: Browser = {
     _id: '',
     user: '',
     ascents: [],
+    coords: [],
     date: '',
     dataUrl: ''
   }
@@ -195,7 +198,17 @@ export const browserSlice = createSlice({
 export const { clearState } = browserSlice.actions;
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
-    const { title, setBy, grade, date, rating, _id, user, ascents } = problem;
-    return { title, setBy, grade, date, rating, _id, user, ascents };
+    const {
+      title,
+      setBy,
+      grade,
+      date,
+      rating,
+      _id,
+      user,
+      ascents,
+      coords
+    } = problem;
+    return { title, setBy, grade, date, rating, _id, user, ascents, coords };
   });
 export default browserSlice.reducer;

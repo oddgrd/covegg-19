@@ -30,6 +30,22 @@ const ProblemSchema: Schema = new Schema({
     type: Number,
     required: true
   },
+  coords: [
+    {
+      x: {
+        type: Number,
+        required: true
+      },
+      y: {
+        type: Number,
+        required: true
+      },
+      color: {
+        type: String,
+        required: true
+      }
+    }
+  ],
   ascents: [
     {
       type: new Schema(

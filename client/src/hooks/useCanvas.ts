@@ -1,10 +1,14 @@
 import { useCallback, useRef, useState } from 'react';
 
-type coords = { x: number; y: number; c: string };
+export interface Coords {
+  x: number;
+  y: number;
+  color: string;
+}
 
 export const useCanvas = () => {
   const canvas = useRef<HTMLCanvasElement>();
-  const [history, setHistory] = useState<Array<coords>>([]);
+  const [coords, setCoords] = useState<Array<Coords>>([]);
   const [currentColor, setCurrentColor] = useState('#00FF00');
   const lineWidth = 2.2;
   const selectedColor = useRef('#00FF00');
@@ -33,9 +37,9 @@ export const useCanvas = () => {
       const circle = {
         x: lastX.current,
         y: lastY.current,
-        c: selectedColor.current
+        color: selectedColor.current
       };
-      setHistory((history) => [...history, circle]);
+      setCoords((coords) => [...coords, circle]);
     },
     [drawCircle]
   );
@@ -72,18 +76,18 @@ export const useCanvas = () => {
   };
 
   const undo = useCallback(() => {
-    if (!ctx.current || !canvas.current || history.length === 0) return;
+    if (!ctx.current || !canvas.current || coords.length === 0) return;
     ctx.current.clearRect(0, 0, canvas.current.width, canvas.current.height);
-    history.pop();
-    history.forEach((circle) => {
+    coords.pop();
+    coords.forEach((circle) => {
       if (!ctx.current) return;
-      ctx.current.strokeStyle = circle.c;
+      ctx.current.strokeStyle = circle.color;
       ctx.current.lineWidth = lineWidth;
       ctx.current.beginPath();
       ctx.current.arc(circle.x, circle.y, 12, 0, 2 * Math.PI);
       ctx.current.stroke();
     });
-  }, [history]);
+  }, [coords]);
 
   const loadFromDataUrl = (url: string) => {
     if (!ctx.current) return;
@@ -91,11 +95,24 @@ export const useCanvas = () => {
     img.src = url;
     img.onload = () => ctx.current?.drawImage(img, 0, 0, 360, 478);
   };
+
+  const loadFromCoords = (coords: Array<Coords>) => {
+    if (!ctx.current || !canvas.current) return;
+    coords.forEach((circle) => {
+      if (!ctx.current) return;
+      ctx.current.strokeStyle = circle.color;
+      ctx.current.lineWidth = lineWidth;
+      ctx.current.beginPath();
+      ctx.current.arc(circle.x, circle.y, 12, 0, 2 * Math.PI);
+      ctx.current.stroke();
+    });
+  };
   return [
     {
       canvas,
-      currentColor
+      currentColor,
+      coords
     },
-    { init, initViewer, handleColor, undo, loadFromDataUrl }
+    { init, initViewer, handleColor, undo, loadFromDataUrl, loadFromCoords }
   ];
 };
