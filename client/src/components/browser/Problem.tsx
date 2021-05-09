@@ -16,10 +16,7 @@ interface MatchParams {
 interface MatchProps extends RouteComponentProps<MatchParams> {}
 
 export const Problem = ({ match }: MatchProps) => {
-  const [
-    { canvas },
-    { loadFromDataUrl, initViewer, loadFromCoords }
-  ] = useCanvas();
+  const [{ canvas }, { initViewer, loadFromCoords }] = useCanvas();
   const [ascentForm, toggleAscentForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
@@ -43,7 +40,6 @@ export const Problem = ({ match }: MatchProps) => {
     rules,
     board,
     date,
-    dataUrl,
     rating,
     ascents,
     _id,
@@ -65,10 +61,6 @@ export const Problem = ({ match }: MatchProps) => {
   const alreadyTicked =
     ascents.filter((ascent) => ascent.user === currentUser).length > 0;
 
-  const handleLoad = useCallback(() => {
-    if (!problem || !loadFromDataUrl || !initViewer) return;
-    loadFromDataUrl(dataUrl);
-  }, [dataUrl, initViewer, loadFromDataUrl, problem]);
   const handleLoadCoords = useCallback(() => {
     if (!problem || !loadFromCoords || !initViewer) return;
     loadFromCoords(coords);

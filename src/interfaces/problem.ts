@@ -1,5 +1,11 @@
 import { Document, Schema } from 'mongoose';
 
+interface Coords {
+  x: number;
+  y: number;
+  color: string;
+}
+
 interface Ascent {
   user: Schema.Types.ObjectId;
   _id: Schema.Types.ObjectId;
@@ -22,7 +28,7 @@ export default interface IProblem extends Document {
   rating: number;
   board: Schema.Types.ObjectId;
   rules: string;
-  ascents: Ascent[];
-  dataUrl: string;
+  ascents: Array<Ascent>;
+  coords: Array<Coords>;
   date: Date;
 }

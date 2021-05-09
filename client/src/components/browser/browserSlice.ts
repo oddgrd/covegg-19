@@ -35,7 +35,6 @@ export interface Problem {
   date: string;
   _id: string;
   user: string;
-  dataUrl: string;
   coords: Array<Coords>;
 }
 
@@ -103,8 +102,7 @@ const initialState: Browser = {
     user: '',
     ascents: [],
     coords: [],
-    date: '',
-    dataUrl: ''
+    date: ''
   }
 };
 

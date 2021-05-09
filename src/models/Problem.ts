@@ -85,10 +85,6 @@ const ProblemSchema: Schema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  },
-  dataUrl: {
-    type: String,
-    required: true
   }
 });
 

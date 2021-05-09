@@ -20,12 +20,11 @@ const initialState = {
 };
 
 interface Props {
-  handleSave: () => string;
   currentBoard: string;
   coords: Array<Coords> | undefined;
 }
 
-const EditorForm: FC<Props> = ({ handleSave, currentBoard, coords }) => {
+const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -42,12 +41,10 @@ const EditorForm: FC<Props> = ({ handleSave, currentBoard, coords }) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const dataUrl = handleSave();
     dispatch(
       saveProblem({
         ...formData,
         setBy: user,
-        dataUrl: dataUrl,
         coords,
         board: currentBoard
       })

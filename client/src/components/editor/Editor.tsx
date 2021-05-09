@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas } from './Canvas';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Toolbar } from './Toolbar';
@@ -12,17 +12,12 @@ import Spinner from '../layout/Spinner';
 const Editor = () => {
   const [{ canvas, coords }, { init, handleColor, undo }] = useCanvas();
   const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
-
-  const boards = useAppSelector((state) => state.board.boards);
-  const status = useAppSelector((state) => state.board.status);
   const [editorForm, toggleEditorForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleSave = useCallback(() => {
-    if (!canvas || !canvas.current) return '';
-    const dataUrl = canvas.current.toDataURL('image/png');
-    return dataUrl;
-  }, [canvas]);
+  const boards = useAppSelector((state) => state.board.boards);
+  const status = useAppSelector((state) => state.board.status);
+
   const toggleForm = () => {
     toggleEditorForm(!editorForm);
   };
@@ -71,7 +66,6 @@ const Editor = () => {
       </div>
       {editorForm && (
         <EditorForm
-          handleSave={handleSave}
           coords={coords}
           currentBoard={currentBoard ? currentBoard._id : boards[0]._id}
         />
