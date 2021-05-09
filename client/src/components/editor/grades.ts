@@ -1,4 +1,5 @@
 const grades = [
+  { color: 'white', grade: '4+' },
   { color: 'white', grade: '5+' },
   { color: 'green', grade: '6A' },
   { color: 'green', grade: '6A+' },

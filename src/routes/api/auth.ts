@@ -28,6 +28,9 @@ router.get(
   })
 );
 
+// @route    GET api/auth/login/failed
+// @desc     Failed login redirect
+// @access   Public
 router.get('/login/failed', (_req, res) => {
   res.status(401).json({
     message: 'User failed to authenticate.'

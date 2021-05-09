@@ -22,11 +22,17 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
     _id,
     avatar
   } = ascent;
+  const firstName = name.split(' ').slice(0, 1);
   return (
     <div className='ascent-item'>
       <div className='ascent-item-main'>
         <div className='div-center'>
-          <img src={avatar} alt='Avatar' className='avatar' title={name} />
+          <img
+            src={avatar}
+            alt={`${firstName}`}
+            className='avatar'
+            title={name}
+          />
         </div>
         <div className='div-center'>
           <p>Attempts: </p>
@@ -64,6 +70,7 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
           ascentId={_id}
           problemId={problemId}
           createdAt={createdAt}
+          name={name}
         />
       )}
     </div>

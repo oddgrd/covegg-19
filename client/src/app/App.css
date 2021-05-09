@@ -9,12 +9,13 @@
   --tertiary-bg: #0d1117;
   --gradient: linear-gradient(
     90deg,
-    rgb(82, 180, 58) 10%,
-    rgb(28, 24, 230) 20%,
-    rgb(243, 224, 53) 30%,
-    rgb(255, 1, 1) 40%,
-    rgb(189, 0, 206) 55%,
-    #9d00ff 63%,
+    rgb(255, 255, 255) 0%,
+    rgb(82, 180, 58) 12%,
+    rgb(28, 24, 230) 25%,
+    rgb(243, 224, 53) 35%,
+    rgb(255, 1, 1) 45%,
+    rgb(189, 0, 206) 60%,
+    #9d00ff 68%,
     #ff00ff 75%,
     #00ffff 100%
   );
@@ -119,6 +120,7 @@ ul {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -388,7 +390,7 @@ input:focus::placeholder {
 .ascent-item {
   width: 100%;
   margin: 0.3rem 0;
-  background: var(--tertiary-bg);
+  background: var(--secondary-bg);
   border: 1px solid var(--secondary-bg);
 }
 .ascent-item-main {
@@ -545,6 +547,9 @@ input[type='range']:focus::-ms-fill-upper {
 @media (max-width: 600px) {
   .container {
     width: 100vw;
+  }
+  .bigscreen {
+    opacity: 0;
   }
   .editor {
     flex-direction: column;

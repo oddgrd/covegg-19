@@ -14,6 +14,7 @@ interface Props {
   ascentId: string;
   problemId: string;
   createdAt: string;
+  name: string;
 }
 
 export const AscentItemInfo = ({
@@ -22,7 +23,8 @@ export const AscentItemInfo = ({
   user,
   ascentId,
   problemId,
-  createdAt
+  createdAt,
+  name
 }: Props) => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user._id);
@@ -32,13 +34,18 @@ export const AscentItemInfo = ({
       dispatch(deleteAscent(ids));
   };
 
+  const firstName = name.split(' ').slice(0, 1);
   const isOwner = currentUser === user;
   return (
     <div className='ascent-item-info menu-animation'>
       <div className='div-space'>
-        <p style={{ fontSize: '0.8rem', textAlign: 'center' }}>
-          <Moment fromNow>{createdAt}</Moment>
-        </p>
+        <div className='div-center'>
+          <p>{firstName}</p>
+          <p style={{ fontSize: '0.8rem', textAlign: 'center' }}>
+            <Moment fromNow>{createdAt}</Moment>
+          </p>
+        </div>
+
         {isOwner && (
           <button className='btn-trash' onClick={handleDelete}>
             <FontAwesomeIcon
