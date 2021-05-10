@@ -12,7 +12,7 @@ export const Browser = () => {
   const error = useAppSelector((state) => state.browser.error);
   const problems = useAppSelector(selectProblems);
 
-  // Set timeout to ensure new problems are loaded after redirect
+  // Set timeout to ensure new problems have been added after redirect
   useEffect(() => {
     setTimeout(() => dispatch(getProblems()), 50);
     return () => {
