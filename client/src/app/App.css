@@ -176,7 +176,7 @@ ul {
   gap: 0.8rem;
   text-align: center;
   padding: 1rem;
-  color: var(--light);
+  color: var(--primary-color);
   z-index: -1;
 }
 .landing-links {
@@ -188,7 +188,7 @@ ul {
   gap: 1rem;
 }
 .landing-link {
-  color: var(--light);
+  color: var(--primary-color);
   background: var(--secondary-bg);
   width: 100%;
   min-height: 100px;
@@ -196,11 +196,10 @@ ul {
   font-size: 1.7rem;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--light);
+  border: 2px solid var(--primary-color);
   border-radius: 6px;
   outline: none;
   cursor: pointer;
-  box-shadow: 0 -2px 10px rgba(255, 255, 255, 0.384);
 }
 
 .editor {

@@ -18,7 +18,7 @@ export const Login = () => {
         <h2
           style={{
             textAlign: 'center',
-            color: '#f5f6f7',
+            color: '#05ab75',
             marginBottom: '1rem',
             width: '300px'
           }}

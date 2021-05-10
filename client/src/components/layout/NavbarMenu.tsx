@@ -5,7 +5,8 @@ import {
   faSignOutAlt,
   faBars,
   faPaintBrush,
-  faPlus
+  faPlus,
+  faSignInAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
@@ -23,11 +24,8 @@ export const NavbarMenu = () => {
   const dispatch = useAppDispatch();
   const handleLogOut = () => {
     dispatch(logout());
-    history.push('/');
-  };
-  const handleLogin = () => {
-    dispatch(login());
     toggleMenu(!menu);
+    history.push('/');
   };
 
   const handleClick = useCallback((e: any) => {
@@ -87,13 +85,18 @@ export const NavbarMenu = () => {
             <button
               onClick={() => handleLogOut()}
               className='navbar-menu-item btn'
-              style={{}}
             >
               <FontAwesomeIcon icon={faSignOutAlt} className='nav-link' /> Log
               Out
             </button>
           ) : (
-            <GoogleButton onClick={handleLogin} />
+            <Link
+              to='/login'
+              className='navbar-menu-item'
+              onClick={() => toggleMenu(!menu)}
+            >
+              <FontAwesomeIcon icon={faSignInAlt} className='nav-link' /> Login
+            </Link>
           )}
         </div>
       )}
