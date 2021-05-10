@@ -11,8 +11,10 @@ export const Browser = () => {
   const status = useAppSelector((state) => state.browser.status);
   const error = useAppSelector((state) => state.browser.error);
   const problems = useAppSelector(selectProblems);
+
+  // Set timeout to ensure new problems are loaded after redirect
   useEffect(() => {
-    dispatch(getProblems());
+    setTimeout(() => dispatch(getProblems()), 50);
     return () => {
       dispatch(clearState());
     };
