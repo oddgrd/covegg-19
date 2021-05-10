@@ -10,8 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { logout, login } from '../auth/authSlice';
-import GoogleButton from 'react-google-button';
+import { logout } from '../auth/authSlice';
 
 export const NavbarMenu = () => {
   const [menu, toggleMenu] = useState(false);
