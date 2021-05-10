@@ -1,11 +1,5 @@
 import React from 'react';
-
-export interface Board {
-  imageUrl: string;
-  boardVersion: string;
-  _id: string;
-  date: string;
-}
+import { Board } from './boardSlice';
 interface Props {
   boards: Array<Board>;
   setCurrentBoard: React.Dispatch<React.SetStateAction<Board | null>>;

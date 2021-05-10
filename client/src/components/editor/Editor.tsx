@@ -6,7 +6,8 @@ import EditorForm from './EditorForm';
 import { faUndo, faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppSelector } from '../../app/hooks';
-import { Board, BoardSelector } from '../board/BoardSelector';
+import { Board } from '../board/boardSlice';
+import { BoardSelector } from '../board/BoardSelector';
 import Spinner from '../layout/Spinner';
 
 const Editor = () => {
