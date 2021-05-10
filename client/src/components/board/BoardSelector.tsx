@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch } from '../../app/hooks';
-import { getAllBoards } from './boardSlice';
+import React from 'react';
 
 export interface Board {
   imageUrl: string;
@@ -14,11 +12,6 @@ interface Props {
 }
 
 export const BoardSelector = ({ boards, setCurrentBoard }: Props) => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getAllBoards());
-  }, [dispatch]);
-
   const handlechange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const board = boards.filter((board) => board._id === e.target.value);
     setCurrentBoard(board[0]);

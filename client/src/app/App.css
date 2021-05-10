@@ -3,9 +3,9 @@
   --primary-color: #05ab75;
   --danger-color: #dc3545;
   --success-color: #28a745;
-  --light: #f0eff3;
-  --primary-bg: #010409;
-  --secondary-bg: #161b22;
+  --light: #f5f6f7;
+  --primary-bg: #18191a;
+  --secondary-bg: #242526;
   --tertiary-bg: #0d1117;
   --gradient: linear-gradient(
     90deg,
@@ -176,7 +176,7 @@ ul {
   gap: 0.8rem;
   text-align: center;
   padding: 1rem;
-  color: var(--primary-color);
+  color: var(--light);
   z-index: -1;
 }
 .landing-links {
@@ -188,7 +188,7 @@ ul {
   gap: 1rem;
 }
 .landing-link {
-  color: var(--primary-color);
+  color: var(--light);
   background: var(--secondary-bg);
   width: 100%;
   min-height: 100px;
@@ -196,11 +196,11 @@ ul {
   font-size: 1.7rem;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--light);
   border-radius: 6px;
   outline: none;
   cursor: pointer;
-  box-shadow: 0 -2px 10px rgba(38, 128, 78, 0.5);
+  box-shadow: 0 -2px 10px rgba(255, 255, 255, 0.384);
 }
 
 .editor {
@@ -359,6 +359,7 @@ input:focus::placeholder {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
 }
 
 .browser-item-title {

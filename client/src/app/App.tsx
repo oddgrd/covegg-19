@@ -13,25 +13,27 @@ import { BoardForm } from '../components/board/BoardForm';
 // Redux
 import { useAppDispatch } from './hooks';
 import { loadUser } from '../components/auth/authSlice';
+import { getAllBoards } from '../components/board/boardSlice';
+import { Login } from '../components/auth/Login';
 
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(loadUser());
+    dispatch(getAllBoards());
   }, [dispatch]);
 
   return (
     <Router>
-      <>
-        <Navbar />
-        <Route exact path='/' component={Landing} />
-        <Switch>
-          <PrivateRoute exact path='/create' component={Editor} />
-          <PrivateRoute exact path='/problems/:id' component={Problem} />
-          <PrivateRoute exact path='/browse' component={Browser} />
-          <AdminRoute exact path='/boards/add' component={BoardForm} />
-        </Switch>
-      </>
+      <Navbar />
+      <Route exact path='/' component={Landing} />
+      <Switch>
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/browse' component={Browser} />
+        <Route exact path='/problems/:id' component={Problem} />
+        <PrivateRoute exact path='/create' component={Editor} />
+        <AdminRoute exact path='/boards/add' component={BoardForm} />
+      </Switch>
     </Router>
   );
 }

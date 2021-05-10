@@ -21,6 +21,7 @@ export const Problem = ({ match }: MatchProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user._id);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const problem = useAppSelector((state) => state.browser.currentProblem);
   const boardObj = useAppSelector((state) => state.board.currentBoard);
 
@@ -81,9 +82,6 @@ export const Problem = ({ match }: MatchProps) => {
   useEffect(() => {
     if (board === '') return;
     dispatch(getBoard(board));
-    return () => {
-      dispatch(clearState());
-    };
   }, [board, dispatch]);
 
   useEffect(() => {
@@ -114,7 +112,7 @@ export const Problem = ({ match }: MatchProps) => {
         </div>
         <ProblemTable {...tableProps} />
       </div>
-      {!alreadyTicked && (
+      {!alreadyTicked && isAuthenticated && (
         <button
           onClick={() => toggleForm()}
           className={'btn-save'}

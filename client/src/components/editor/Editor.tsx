@@ -25,6 +25,7 @@ const Editor = () => {
   useEffect(() => {
     if (editorForm) scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [editorForm]);
+
   useEffect(() => {
     if (!init) return;
     init();

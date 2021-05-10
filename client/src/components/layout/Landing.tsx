@@ -18,7 +18,7 @@ const Landing = () => {
         <div className='landing-header unselectable'>
           <h1 style={{ fontSize: '2rem' }}>Covegg-19 (BETA)</h1>
           <h3 style={{ maxWidth: '500px' }}>
-            Save and browse problems on your home climbing board
+            Create and browse problems for your home climbing board
           </h3>
         </div>
 
@@ -34,10 +34,12 @@ const Landing = () => {
             </>
           ) : (
             <>
-              <h3 style={{ textAlign: 'center' }}>
-                Register or sign in to get started:
-              </h3>
-              <GoogleButton onClick={handleLogin} />
+              <Link to='/login' className='landing-link'>
+                <strong>LOGIN</strong>
+              </Link>
+              <Link to='/browse' className='landing-link'>
+                <strong>BROWSE</strong>
+              </Link>
             </>
           )}
         </div>

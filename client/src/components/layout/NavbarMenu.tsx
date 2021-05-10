@@ -52,16 +52,16 @@ export const NavbarMenu = () => {
       </button>
       {menu && (
         <div className='navbar-menu menu-animation-down'>
+          <Link
+            to='/browse'
+            className='navbar-menu-item'
+            onClick={() => toggleMenu(!menu)}
+          >
+            <FontAwesomeIcon icon={faList} className='nav-link' /> Browse
+            Problems
+          </Link>
           {isAuthenticated && (
             <>
-              <Link
-                to='/browse'
-                className='navbar-menu-item'
-                onClick={() => toggleMenu(!menu)}
-              >
-                <FontAwesomeIcon icon={faList} className='nav-link' /> Browse
-                Problems
-              </Link>
               <Link
                 to='/create'
                 className='navbar-menu-item'
