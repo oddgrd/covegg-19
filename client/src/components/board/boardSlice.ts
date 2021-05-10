@@ -6,7 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 
-interface Board {
+export interface Board {
   imageUrl: string;
   boardVersion: string;
   _id: string;
@@ -14,19 +14,12 @@ interface Board {
 }
 
 interface BoardState {
-  currentBoard: Board;
   boards: Array<Board>;
   status: string;
   error: string | SerializedError;
 }
 
 const initialState: BoardState = {
-  currentBoard: {
-    imageUrl: '',
-    boardVersion: '',
-    _id: '',
-    date: ''
-  },
   boards: [],
   status: 'idle',
   error: ''
@@ -64,7 +57,6 @@ export const boardSlice = createSlice({
   initialState,
   reducers: {
     clearState: (state) => {
-      state.currentBoard = initialState.currentBoard;
       state.boards = [];
       state.status = 'idle';
       state.error = '';
@@ -83,21 +75,6 @@ export const boardSlice = createSlice({
       state.status = 'pending';
     });
     builder.addCase(uploadBoard.rejected, (state, action) => {
-      state.status = 'rejected';
-      state.error = action.error.message || action.error;
-    });
-
-    builder.addCase(
-      getBoard.fulfilled,
-      (state, action: PayloadAction<Board>) => {
-        state.currentBoard = action.payload;
-        state.status = 'resolved';
-      }
-    );
-    builder.addCase(getBoard.pending, (state) => {
-      state.status = 'pending';
-    });
-    builder.addCase(getBoard.rejected, (state, action) => {
       state.status = 'rejected';
       state.error = action.error.message || action.error;
     });

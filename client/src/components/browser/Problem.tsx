@@ -7,7 +7,6 @@ import { RouteComponentProps } from 'react-router-dom';
 import grades from '../editor/grades';
 import { AscentItem } from './AscentItem';
 import { ProblemTable } from './ProblemTable';
-import { getBoard } from '../board/boardSlice';
 import { AscentForm } from './AscentForm';
 import Spinner from '../layout/Spinner';
 
@@ -24,7 +23,6 @@ export const Problem = ({ match }: MatchProps) => {
   const currentUser = useAppSelector((state) => state.auth.user._id);
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const problem = useAppSelector((state) => state.browser.currentProblem);
-  const boardObj = useAppSelector((state) => state.board.currentBoard);
   const status = useAppSelector((state) => state.browser.status);
 
   const consensusGrade = () => {
@@ -41,8 +39,8 @@ export const Problem = ({ match }: MatchProps) => {
     setBy,
     grade,
     rules,
-    board,
     date,
+    board,
     rating,
     ascents,
     _id,
@@ -52,7 +50,7 @@ export const Problem = ({ match }: MatchProps) => {
   const tableProps = {
     setBy,
     rules,
-    board: boardObj.boardVersion,
+    board: board.boardVersion,
     date,
     rating,
     ascents,
@@ -82,9 +80,7 @@ export const Problem = ({ match }: MatchProps) => {
       dispatch(clearState());
     };
   }, [dispatch, match.params.id]);
-  useEffect(() => {
-    dispatch(getBoard(board));
-  }, [board, dispatch]);
+
   useEffect(() => {
     if (ascentForm) scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [ascentForm]);
@@ -108,7 +104,7 @@ export const Problem = ({ match }: MatchProps) => {
             <div
               className='board'
               style={{
-                backgroundImage: `url(${boardObj.imageUrl})`
+                backgroundImage: `url(${board.imageUrl})`
               }}
             >
               <Canvas canvasRef={canvas} />

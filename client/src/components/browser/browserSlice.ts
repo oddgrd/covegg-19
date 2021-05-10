@@ -6,6 +6,7 @@ import {
 import { RootState } from '../../app/store';
 import { Coords } from '../../hooks/useCanvas';
 import api from '../../utils/api';
+import { Board } from '../board/boardSlice';
 import { AscentData } from './AscentForm';
 
 export interface AscentIds {
@@ -29,7 +30,7 @@ export interface Problem {
   grade: number;
   setBy: string;
   rules: string;
-  board: string;
+  board: Board;
   rating: number;
   ascents: Array<Ascent>;
   date: string;
@@ -57,7 +58,8 @@ export const getProblemById = createAsyncThunk<Problem, string>(
   'browser/getProblem',
   async (id) => {
     const res = await api.get(`/problems/${id}`);
-    return res.data;
+    const board = await api.get(`/boards/${res.data.board}`);
+    return { ...res.data, board: board.data };
   }
 );
 
@@ -96,7 +98,12 @@ const initialState: Browser = {
     grade: 0,
     setBy: '',
     rules: '',
-    board: '',
+    board: {
+      imageUrl: '',
+      boardVersion: '',
+      _id: '',
+      date: ''
+    },
     rating: 0,
     _id: '',
     user: '',
@@ -133,7 +140,7 @@ export const browserSlice = createSlice({
     });
 
     builder.addCase(getProblemById.fulfilled, (state, action) => {
-      state.currentProblem = { ...state.currentProblem, ...action.payload };
+      state.currentProblem = action.payload;
       state.error = '';
       state.status = 'resolved';
     });
