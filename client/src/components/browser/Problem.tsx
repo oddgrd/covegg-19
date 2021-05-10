@@ -25,7 +25,7 @@ export const Problem = ({ match }: MatchProps) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const problem = useAppSelector((state) => state.browser.currentProblem);
   const boardObj = useAppSelector((state) => state.board.currentBoard);
-  const status = useAppSelector((state) => state.board.status);
+  const status = useAppSelector((state) => state.browser.status);
 
   const consensusGrade = () => {
     if (ascents.length === 0) return grade;
