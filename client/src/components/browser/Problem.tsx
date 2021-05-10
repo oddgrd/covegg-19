@@ -2,16 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Canvas } from '../editor/Canvas';
-import {
-  Ascent,
-  getProblemById,
-  clearState as clearBrowserState
-} from './browserSlice';
+import { Ascent, getProblemById, clearState } from './browserSlice';
 import { RouteComponentProps } from 'react-router-dom';
 import grades from '../editor/grades';
 import { AscentItem } from './AscentItem';
 import { ProblemTable } from './ProblemTable';
-import { clearState, getBoard } from '../board/boardSlice';
+import { getBoard } from '../board/boardSlice';
 import { AscentForm } from './AscentForm';
 import Spinner from '../layout/Spinner';
 
@@ -83,14 +79,11 @@ export const Problem = ({ match }: MatchProps) => {
     const id = match.params.id;
     dispatch(getProblemById(id));
     return () => {
-      dispatch(clearBrowserState());
+      dispatch(clearState());
     };
   }, [dispatch, match.params.id]);
   useEffect(() => {
     dispatch(getBoard(board));
-    return () => {
-      dispatch(clearState());
-    };
   }, [board, dispatch]);
   useEffect(() => {
     if (ascentForm) scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
