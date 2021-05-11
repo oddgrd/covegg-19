@@ -127,7 +127,7 @@ export const Problem = ({ match }: MatchProps) => {
                 fontSize: '1.2rem'
               }}
             >
-              Tick Ascent
+              Send It
             </button>
           )}
 

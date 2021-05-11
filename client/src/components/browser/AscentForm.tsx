@@ -136,7 +136,11 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
         />
       </div>
       <div className='form-group'>
-        <input type='submit' className='submit-button' value='Submit'></input>
+        <input
+          type='submit'
+          className='submit-button'
+          value='Submit Ascent'
+        ></input>
       </div>
     </form>
   );
