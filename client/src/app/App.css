@@ -212,7 +212,6 @@ ul {
   align-items: center;
   justify-content: center;
   border: 2px solid var(--primary-color);
-  border-radius: 6px;
   outline: none;
   cursor: pointer;
 }
@@ -359,7 +358,7 @@ input:focus::placeholder {
   width: 500px;
   margin: auto;
   background: var(--secondary-bg);
-  border: 1px solid var(--secondary-bg);
+  border: 1px solid rgb(83, 83, 83);
 }
 .browser-item-main {
   display: grid;
@@ -406,7 +405,7 @@ input:focus::placeholder {
   width: 100%;
   margin: 0.3rem 0;
   background: var(--secondary-bg);
-  border: 1px solid var(--secondary-bg);
+  border: 1px solid rgb(83, 83, 83);
 }
 .ascent-item-main {
   display: grid;
