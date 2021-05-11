@@ -164,6 +164,21 @@ ul {
   color: var(--primary-color);
   font-size: 2rem;
 }
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: var(--light-color);
+  color: #333;
+}
+.alert-success {
+  background: var(--success-color);
+  color: var(--light);
+}
+.alert-danger {
+  background: var(--danger-color);
+  color: var(--light);
+}
 .landing {
   margin-top: 1.5rem;
   display: flex;
