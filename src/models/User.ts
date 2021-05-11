@@ -11,7 +11,7 @@ const UserSchema: Schema = new Schema({
     required: true
   },
   avatar: {
-    url: String
+    type: String
   },
   googleId: {
     type: String,

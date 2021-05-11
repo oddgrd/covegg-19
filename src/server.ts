@@ -40,8 +40,7 @@ passport.use(
     async (_accessToken, _refreshToken, profile: any, done) => {
       const user = await User.findOneAndUpdate(
         { googleId: profile.id },
-        { $set: { avatar: profile.photos[0].value } },
-        { upsert: true }
+        { $set: { avatar: profile._json.picture } }
       );
       if (user) {
         done(null, user);
@@ -49,8 +48,8 @@ passport.use(
         try {
           const newUser = new User({
             name: profile.displayName,
-            email: profile.emails[0].value,
-            avatar: profile.photos[0].value,
+            email: profile._json.email,
+            avatar: profile._json.picture,
             googleId: profile.id
           });
           await newUser.save();
