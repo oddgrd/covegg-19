@@ -121,13 +121,10 @@ export const Problem = ({ match }: MatchProps) => {
                 marginTop: '0.8rem',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center',
-                paddingLeft: '0.8rem',
-                paddingRight: '0.8rem',
-                fontSize: '1.2rem'
+                fontSize: '1.4rem'
               }}
             >
-              Send It
+              Register Ascent
             </button>
           )}
 

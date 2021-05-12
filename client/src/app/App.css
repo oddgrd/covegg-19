@@ -297,6 +297,7 @@ input:focus::placeholder {
 }
 .submit-button {
   color: #05ab75 !important;
+  font-size: 1.4rem !important;
   border: 1px solid #05ab75 !important;
 }
 .radio > div > div > div:nth-child(2) {
