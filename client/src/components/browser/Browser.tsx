@@ -14,7 +14,7 @@ export const Browser = () => {
 
   // Set timeout to ensure new problems have been added after redirect
   useEffect(() => {
-    setTimeout(() => dispatch(getProblems()), 100);
+    setTimeout(() => dispatch(getProblems()), 150);
     return () => {
       dispatch(clearState());
     };
