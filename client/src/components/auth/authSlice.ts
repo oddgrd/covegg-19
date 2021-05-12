@@ -5,6 +5,7 @@ import {
   SerializedError
 } from '@reduxjs/toolkit';
 import api from '../../utils/api';
+import { setAlert } from '../alert/alertSlice';
 
 const callbackUrl =
   process.env.NODE_ENV === 'production'
@@ -46,9 +47,13 @@ export const loadUser = createAsyncThunk('auth/loadUser', async () => {
   return res.data;
 });
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  await api.get('/auth/logout');
-});
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (_, { dispatch }) => {
+    dispatch(setAlert({ message: 'Logout Successful', type: 'success' }));
+    await api.get('/auth/logout');
+  }
+);
 
 export const authSlice = createSlice({
   name: 'auth',
