@@ -15,6 +15,7 @@ import { useAppDispatch } from './hooks';
 import { loadUser } from '../components/auth/authSlice';
 import { getAllBoards } from '../components/board/boardSlice';
 import { Login } from '../components/auth/Login';
+import { Alert } from '../components/alert/Alert';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <Alert />
       <Route exact path='/' component={Landing} />
       <Switch>
         <Route exact path='/login' component={Login} />

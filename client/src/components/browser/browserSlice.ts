@@ -6,7 +6,9 @@ import {
 import { RootState } from '../../app/store';
 import { Coords } from '../../hooks/useCanvas';
 import api from '../../utils/api';
+import { setAlert } from '../alert/alertSlice';
 import { Board } from '../board/boardSlice';
+import { ApiError } from '../editor/editorSlice';
 import { AscentData } from './AscentForm';
 
 export interface AscentIds {
@@ -63,31 +65,69 @@ export const getProblemById = createAsyncThunk<Problem, string>(
   }
 );
 
-export const deleteProblem = createAsyncThunk<string, string>(
-  'browser/deleteProblem',
-  async (id) => {
+export const deleteProblem = createAsyncThunk<
+  string,
+  string,
+  { rejectValue: ApiError }
+>('browser/deleteProblem', async (id, { dispatch, rejectWithValue }) => {
+  try {
     await api.delete(`/problems/${id}`);
+    dispatch(setAlert({ message: 'Problem Deleted', type: 'danger' }));
     return id;
+  } catch (error) {
+    if (!error.response) {
+      throw error;
+    }
+    dispatch(setAlert({ message: error.response.statusText, type: 'danger' }));
+    return rejectWithValue({ errorMessage: error.response.statusText });
   }
-);
+});
 
-export const addAscent = createAsyncThunk<Problem, AscentData>(
-  'browser/addAscent',
-  async (data) => {
-    const { attempts, grade, rating, comment, avatar } = data;
-    const formData = { attempts, grade, rating, comment, avatar };
+export const addAscent = createAsyncThunk<
+  Problem,
+  AscentData,
+  { rejectValue: ApiError }
+>('browser/addAscent', async (data, { dispatch, rejectWithValue }) => {
+  const { attempts, grade, rating, comment, avatar } = data;
+  const formData = { attempts, grade, rating, comment, avatar };
+  try {
     const res = await api.post(`/problems/${data.problemId}`, formData);
+    dispatch(setAlert({ message: 'Ascent added', type: 'success' }));
     return res.data;
+  } catch (error) {
+    if (!error.response) {
+      throw error;
+    }
+    if (error.response.status === 422) {
+      dispatch(
+        setAlert({ message: error.response.data.error, type: 'danger' })
+      );
+    } else {
+      dispatch(
+        setAlert({ message: error.response.statusText, type: 'danger' })
+      );
+    }
+    return rejectWithValue({ errorMessage: error.response.statusText });
   }
-);
+});
 
-export const deleteAscent = createAsyncThunk<AscentIds, AscentIds>(
-  'browser/deleteAscent',
-  async (ids) => {
+export const deleteAscent = createAsyncThunk<
+  AscentIds,
+  AscentIds,
+  { rejectValue: ApiError }
+>('browser/deleteAscent', async (ids, { dispatch, rejectWithValue }) => {
+  try {
     await api.delete(`/problems/${ids.problemId}/${ids.ascentId}`);
+    dispatch(setAlert({ message: 'Ascent Deleted', type: 'danger' }));
     return ids;
+  } catch (error) {
+    if (!error.response) {
+      throw error;
+    }
+    dispatch(setAlert({ message: error.response.statusText, type: 'danger' }));
+    return rejectWithValue({ errorMessage: error.response.statusText });
   }
-);
+});
 
 const initialState: Browser = {
   status: 'idle',
@@ -165,7 +205,11 @@ export const browserSlice = createSlice({
     });
     builder.addCase(deleteProblem.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = action.error.message || action.error;
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = action.error.message || action.error;
+      }
     });
 
     builder.addCase(addAscent.fulfilled, (state, action) => {
@@ -179,7 +223,11 @@ export const browserSlice = createSlice({
     });
     builder.addCase(addAscent.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = action.error.message || action.error;
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = action.error.message || action.error;
+      }
     });
 
     builder.addCase(deleteAscent.fulfilled, (state, action) => {
@@ -195,7 +243,11 @@ export const browserSlice = createSlice({
     });
     builder.addCase(deleteAscent.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = action.error.message || action.error;
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = action.error.message || action.error;
+      }
     });
   }
 });
@@ -203,17 +255,8 @@ export const browserSlice = createSlice({
 export const { clearState } = browserSlice.actions;
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
-    const {
-      title,
-      setBy,
-      grade,
-      date,
-      rating,
-      _id,
-      user,
-      ascents,
-      coords
-    } = problem;
+    const { title, setBy, grade, date, rating, _id, user, ascents, coords } =
+      problem;
     return { title, setBy, grade, date, rating, _id, user, ascents, coords };
   });
 export default browserSlice.reducer;

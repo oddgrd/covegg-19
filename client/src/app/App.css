@@ -2,7 +2,7 @@
 :root {
   --primary-color: #05ab75;
   --danger-color: #dc3545;
-  --success-color: #28a745;
+  --success-color: #24943e;
   --light: #f5f6f7;
   --primary-bg: #18191a;
   --secondary-bg: #242526;
@@ -165,8 +165,9 @@ ul {
   font-size: 2rem;
 }
 .alert {
-  padding: 0.8rem;
-  margin: 1rem 0;
+  padding: 0.5rem;
+  margin: 1rem auto;
+  max-width: 500px;
   opacity: 0.9;
   background: var(--light-color);
   color: #333;
@@ -562,8 +563,8 @@ input[type='range']:focus::-ms-fill-upper {
   .container {
     width: 100vw;
   }
-  .bigscreen {
-    opacity: 0;
+  .alert {
+    max-width: 350px;
   }
   .editor {
     flex-direction: column;
