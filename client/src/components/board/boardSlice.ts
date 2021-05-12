@@ -5,6 +5,8 @@ import {
   SerializedError
 } from '@reduxjs/toolkit';
 import api from '../../utils/api';
+import { setAlert } from '../alert/alertSlice';
+import { ApiError } from '../editor/editorSlice';
 
 export interface Board {
   imageUrl: string;
@@ -25,16 +27,26 @@ const initialState: BoardState = {
   error: ''
 };
 
-export const uploadBoard = createAsyncThunk<Board, FormData>(
-  'boards/uploadBoard',
-  async (formData) => {
+export const uploadBoard = createAsyncThunk<
+  Board,
+  FormData,
+  { rejectValue: ApiError }
+>('boards/uploadBoard', async (formData, { dispatch, rejectWithValue }) => {
+  try {
     const upload = await api.post('/boards/upload', formData);
     const { boardVersion, imageUrl } = upload.data;
     const boardFields = { imageUrl, boardVersion };
     const res = await api.post('/boards', boardFields);
+    dispatch(setAlert({ message: 'Board Uploaded', type: 'success' }));
     return res.data;
+  } catch (error) {
+    if (!error.response) {
+      throw error;
+    }
+    dispatch(setAlert({ message: error.response.statusText, type: 'danger' }));
+    return rejectWithValue({ errorMessage: error.response.statusText });
   }
-);
+});
 
 export const getBoard = createAsyncThunk<Board, string>(
   'boards/getBoard',
@@ -76,7 +88,11 @@ export const boardSlice = createSlice({
     });
     builder.addCase(uploadBoard.rejected, (state, action) => {
       state.status = 'rejected';
-      state.error = action.error.message || action.error;
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = action.error.message || action.error;
+      }
     });
 
     builder.addCase(
