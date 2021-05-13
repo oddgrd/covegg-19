@@ -357,16 +357,15 @@ input:focus::placeholder {
   padding: 0.3rem;
 }
 .browser-item {
-  width: 500px;
   margin: auto;
+  width: 360px;
   background: var(--secondary-bg);
   border: 1px solid rgb(83, 83, 83);
 }
 .browser-item-main {
   display: grid;
-  width: 500px;
   padding: 0.4rem;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 60px 180px 34px 40px;
   gap: 0.5rem;
 }
 .div-center {
@@ -378,13 +377,11 @@ input:focus::placeholder {
 }
 
 .browser-item-title {
-  width: 220px;
+  width: 180px;
   color: var(--light);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  align-self: center;
-  text-align: center;
 }
 
 .browser-item-grade {
@@ -393,7 +390,7 @@ input:focus::placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 60px;
 }
 .browser-item-info {
   padding: 0.6rem;

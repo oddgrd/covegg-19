@@ -4,12 +4,14 @@ import grades from '../editor/grades';
 import {
   faEllipsisV,
   faEllipsisH,
-  faCheck
+  faCheck,
+  faCheckSquare
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserItemInfo } from './BrowserItemInfo';
 import { Ascent } from './browserSlice';
 import { useAppSelector } from '../../app/hooks';
+import { faSquare as faSquareReg } from '@fortawesome/free-regular-svg-icons';
 
 interface Props {
   problem: {
@@ -36,15 +38,26 @@ export const BrowserItem = ({ problem }: Props) => {
     );
     return Math.round(averageGrade / suggestedGrades.length);
   };
-
   const ticked = () => {
-    if (ascents.length === 0) return '';
+    if (ascents.length === 0)
+      return (
+        <FontAwesomeIcon
+          icon={faSquareReg}
+          style={{ color: '#05ab75', fontSize: '1.2rem', opacity: '0.7' }}
+        />
+      );
     const ticks = ascents.filter((ascent) => ascent.user === currentUser);
-    if (ticks.length === 0) return '';
+    if (ticks.length === 0)
+      return (
+        <FontAwesomeIcon
+          icon={faSquareReg}
+          style={{ color: '#05ab75', fontSize: '1.2rem', opacity: '0.7' }}
+        />
+      );
     return (
       <FontAwesomeIcon
-        icon={faCheck}
-        style={{ color: '#28a745', fontSize: '1.2rem' }}
+        icon={faCheckSquare}
+        style={{ color: '#05ab75', fontSize: '1.2rem' }}
       />
     );
   };
@@ -64,8 +77,11 @@ export const BrowserItem = ({ problem }: Props) => {
         </div>
         <div className='div-center'>
           <Link className='browser-item-title' to={`/problems/${_id}`}>
-            <strong>{title}</strong> {ticked()}
+            <strong>{title}</strong>
           </Link>
+        </div>
+        <div className='div-center' style={{ width: '34px' }}>
+          {ticked()}
         </div>
         <div>
           <button
@@ -75,7 +91,7 @@ export const BrowserItem = ({ problem }: Props) => {
               color: '#05ab75',
               fontSize: '1.4rem',
               padding: '1rem',
-              maxWidth: '49.8px'
+              width: '40px'
             }}
           >
             <FontAwesomeIcon icon={expand ? faEllipsisH : faEllipsisV} />

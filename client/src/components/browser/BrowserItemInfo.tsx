@@ -31,23 +31,12 @@ export const BrowserItemInfo = ({ setBy, date, id, user, ascents }: Props) => {
     );
     return Math.round(averageRating / suggestedRatings.length);
   };
-  const ticked = () => {
-    if (ascents.length === 0) return <FontAwesomeIcon icon={faSquare} />;
-    const ticks = ascents.filter((ascent) => ascent.user === currentUser);
-    if (ticks.length === 0) return <FontAwesomeIcon icon={faSquare} />;
-    return (
-      <FontAwesomeIcon icon={faCheckSquare} style={{ color: '#28a745' }} />
-    );
-  };
 
   const isOwner = currentUser === user;
   return (
     <div className='browser-item-info menu-animation-down'>
-      <div className='div-space'>
-        <div>
-          <strong>Set by:</strong> {isOwner ? 'You' : setBy}
-        </div>
-        <div style={{ paddingRight: '0.3rem' }}>{ticked()}</div>
+      <div>
+        <strong>Set by:</strong> {isOwner ? 'You' : setBy}
       </div>
 
       <div className='div-space'>
