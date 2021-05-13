@@ -11,8 +11,8 @@ const router = express.Router();
 router.post(
   '/',
   [
-    check('title', 'Title is required').not().isEmpty(),
-    check('rules', 'Problem Rules are required').not().isEmpty()
+    check('title', 'Title is required').not().isEmpty().trim().escape(),
+    check('rules', 'Problem Rules are required').not().isEmpty().trim().escape()
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
@@ -32,7 +32,26 @@ router.post(
 // @route    PUT api/problems/:id
 // @desc     Edit problem
 // @access   Private
-router.put('/:id', auth, controller.editProblem);
+router.put(
+  '/:id',
+  [
+    check('title', 'Title is required').not().isEmpty().trim().escape(),
+    check('rules', 'Problem Rules are required').not().isEmpty().trim().escape()
+  ],
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const error = validationResult(req).formatWith(({ msg }) => msg);
+
+    const hasError = !error.isEmpty();
+
+    if (hasError) {
+      res.status(422).json({ error: error.array() });
+    } else {
+      next();
+    }
+  },
+  auth,
+  controller.addProblem
+);
 
 // @route    GET api/problems
 // @desc     Get all problems
@@ -52,7 +71,8 @@ router.post(
   [
     check('attempts', 'Attempts is required').not().isEmpty(),
     check('rating', 'Rating is required').not().isEmpty(),
-    check('grade', 'Rating is required').not().isEmpty()
+    check('grade', 'Rating is required').not().isEmpty(),
+    check('comment').optional().trim().escape()
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
@@ -77,7 +97,8 @@ router.put(
   [
     check('attempts', 'Attempts is required').not().isEmpty(),
     check('rating', 'Rating is required').not().isEmpty(),
-    check('grade', 'Rating is required').not().isEmpty()
+    check('grade', 'Rating is required').not().isEmpty(),
+    check('comment').optional().trim().escape()
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
