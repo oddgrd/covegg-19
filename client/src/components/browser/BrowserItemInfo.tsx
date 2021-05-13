@@ -5,7 +5,6 @@ import { StarRating } from '../layout/StarRating';
 import { Ascent, deleteProblem } from './browserSlice';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 
 interface Props {
   setBy: string;

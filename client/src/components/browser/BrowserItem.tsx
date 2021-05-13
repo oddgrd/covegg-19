@@ -4,7 +4,6 @@ import grades from '../editor/grades';
 import {
   faEllipsisV,
   faEllipsisH,
-  faCheck,
   faCheckSquare
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
