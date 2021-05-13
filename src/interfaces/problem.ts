@@ -25,7 +25,6 @@ export default interface IProblem extends Document {
   setBy: string;
   firstAscent: string;
   attempts: string;
-  rating: number;
   board: Schema.Types.ObjectId;
   rules: string;
   ascents: Array<Ascent>;

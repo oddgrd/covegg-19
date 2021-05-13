@@ -10,20 +10,12 @@ import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 interface Props {
   setBy: string;
   date: string;
-  rating: number;
   ascents: Ascent[];
   id: string;
   user: string;
 }
 
-export const BrowserItemInfo = ({
-  setBy,
-  date,
-  rating,
-  id,
-  user,
-  ascents
-}: Props) => {
+export const BrowserItemInfo = ({ setBy, date, id, user, ascents }: Props) => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user._id);
 
@@ -33,7 +25,6 @@ export const BrowserItemInfo = ({
   };
 
   const consensusRating = () => {
-    if (ascents.length === 0) return rating;
     const suggestedRatings = ascents.map((ascent: Ascent) => ascent.rating);
     const averageRating = suggestedRatings.reduce(
       (val: number, acc: number) => acc + val
@@ -69,7 +60,11 @@ export const BrowserItemInfo = ({
             />
           </button>
         )}
-        <StarRating rating={consensusRating()} />
+        {ascents.length === 0 ? (
+          'Unrated'
+        ) : (
+          <StarRating rating={consensusRating()} />
+        )}
       </div>
     </div>
   );

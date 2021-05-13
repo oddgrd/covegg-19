@@ -10,7 +10,6 @@ interface Props {
   rules: string;
   board: string;
   date: string;
-  rating: number;
   grade: number;
   user: string;
   ascents: Ascent[];
@@ -20,14 +19,12 @@ export const ProblemTable = ({
   rules,
   board,
   date,
-  rating,
   ascents,
   grade,
   user
 }: Props) => {
   const [expand, toggleExpand] = useState(false);
   const consensusRating = () => {
-    if (ascents.length === 0) return rating;
     const suggestedRatings = ascents.map((ascent: Ascent) => ascent.rating);
     const averageRating = suggestedRatings.reduce(
       (val: number, acc: number) => acc + val
@@ -60,7 +57,10 @@ export const ProblemTable = ({
               )}
             </>
           )}
-
+          <tr className='menu-animation-down'>
+            <th>Rules:</th>
+            <td>{rules}</td>
+          </tr>
           {expand && (
             <>
               {ascents.length === 0 && (
@@ -71,16 +71,15 @@ export const ProblemTable = ({
                   </td>
                 </tr>
               )}
-
               <tr className='menu-animation-down'>
                 <th>Rating:</th>
                 <td>
-                  <StarRating rating={consensusRating()} />
+                  {ascents.length === 0 ? (
+                    'Unrated'
+                  ) : (
+                    <StarRating rating={consensusRating()} />
+                  )}
                 </td>
-              </tr>
-              <tr className='menu-animation-down'>
-                <th>Rules:</th>
-                <td>{rules}</td>
               </tr>
               <tr className='menu-animation-down'>
                 <th>Board:</th>

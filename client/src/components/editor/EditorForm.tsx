@@ -1,9 +1,5 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Rating from 'react-rating';
-import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { saveProblem } from './editorSlice';
 import grades from './grades';
@@ -14,7 +10,6 @@ const initialState = {
   grade: 0,
   setBy: '',
   rules: 'Feet follow hands',
-  rating: 3,
   board: '',
   date: new Date().toISOString()
 };
@@ -35,9 +30,6 @@ const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
   const onChangeGrade = (e: any) => {
     setFormData({ ...formData, grade: e.target.value });
   };
-  const onChangeRating = (value: number) => {
-    setFormData({ ...formData, rating: value });
-  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -51,7 +43,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
     );
     history.push('/browse');
   };
-  const { title, grade, rules, rating } = formData;
+  const { title, grade, rules } = formData;
   return (
     <form
       className='form menu-animation-down'
@@ -100,14 +92,6 @@ const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
             required
           />
         </div>
-      </div>
-      <div className='star-rating'>
-        <Rating
-          onChange={onChangeRating}
-          initialRating={rating}
-          emptySymbol={<FontAwesomeIcon icon={faStar} size='3x' />}
-          fullSymbol={<FontAwesomeIcon icon={faStarS} size='3x' />}
-        />
       </div>
       <div className='form-group'>
         <input

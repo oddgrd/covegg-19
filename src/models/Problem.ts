@@ -26,10 +26,6 @@ const ProblemSchema: Schema = new Schema({
     type: Number,
     required: true
   },
-  rating: {
-    type: Number,
-    required: true
-  },
   coords: [
     {
       x: {

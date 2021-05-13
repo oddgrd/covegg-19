@@ -33,7 +33,6 @@ export interface Problem {
   setBy: string;
   rules: string;
   board: Board;
-  rating: number;
   ascents: Array<Ascent>;
   date: string;
   _id: string;
@@ -144,7 +143,6 @@ const initialState: Browser = {
       _id: '',
       date: ''
     },
-    rating: 0,
     _id: '',
     user: '',
     ascents: [],
@@ -255,8 +253,7 @@ export const browserSlice = createSlice({
 export const { clearState } = browserSlice.actions;
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
-    const { title, setBy, grade, date, rating, _id, user, ascents, coords } =
-      problem;
-    return { title, setBy, grade, date, rating, _id, user, ascents, coords };
+    const { title, setBy, grade, date, _id, user, ascents, coords } = problem;
+    return { title, setBy, grade, date, _id, user, ascents, coords };
   });
 export default browserSlice.reducer;

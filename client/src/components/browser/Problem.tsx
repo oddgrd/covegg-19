@@ -41,7 +41,6 @@ export const Problem = ({ match }: MatchProps) => {
     rules,
     date,
     board,
-    rating,
     ascents,
     _id,
     user,
@@ -52,7 +51,6 @@ export const Problem = ({ match }: MatchProps) => {
     rules,
     board: board.boardVersion,
     date,
-    rating,
     ascents,
     grade,
     user
@@ -98,7 +96,9 @@ export const Problem = ({ match }: MatchProps) => {
                 className='grade'
                 style={{ color: `${grades[consensusGrade()].color}` }}
               >
-                {grades[consensusGrade()].grade}
+                {ascents.length === 0
+                  ? grades[consensusGrade()].grade + '?'
+                  : grades[consensusGrade()].grade}
               </h3>
             </div>
             <div
