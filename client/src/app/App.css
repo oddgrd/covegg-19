@@ -242,8 +242,7 @@ ul {
 .options {
   width: 350px;
   margin: auto;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   gap: 0.3rem;
 }
 .form {
@@ -251,8 +250,8 @@ ul {
   width: 350px;
   flex-direction: column;
   margin: auto;
+  margin-top: 0.7rem;
   gap: 1rem;
-  margin-top: 1rem;
 }
 input[type='text'],
 input[type='password'],

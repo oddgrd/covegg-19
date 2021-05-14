@@ -2,13 +2,20 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Canvas } from '../editor/Canvas';
-import { Ascent, getProblemById, clearState } from './browserSlice';
-import { RouteComponentProps } from 'react-router-dom';
+import {
+  Ascent,
+  getProblemById,
+  clearState,
+  deleteProblem
+} from './browserSlice';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import grades from '../editor/grades';
 import { AscentItem } from './AscentItem';
 import { ProblemTable } from './ProblemTable';
 import { AscentForm } from './AscentForm';
 import Spinner from '../layout/Spinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTools, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface MatchParams {
   id: string;
@@ -19,20 +26,12 @@ export const Problem = ({ match }: MatchProps) => {
   const [{ canvas }, { initViewer, loadFromCoords }] = useCanvas();
   const [ascentForm, toggleAscentForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const history = useHistory();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user._id);
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const problem = useAppSelector((state) => state.browser.currentProblem);
   const status = useAppSelector((state) => state.browser.status);
-
-  const consensusGrade = () => {
-    if (ascents.length === 0) return grade;
-    const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
-    const averageGrade = suggestedGrades.reduce(
-      (val: number, acc: number) => acc + val
-    );
-    return Math.round(averageGrade / suggestedGrades.length);
-  };
 
   const {
     title,
@@ -56,8 +55,18 @@ export const Problem = ({ match }: MatchProps) => {
     user
   };
 
+  const isOwner = currentUser === user;
   const alreadyTicked =
     ascents.filter((ascent) => ascent.user === currentUser).length > 0;
+
+  const consensusGrade = () => {
+    if (ascents.length === 0) return grade;
+    const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
+    const averageGrade = suggestedGrades.reduce(
+      (val: number, acc: number) => acc + val
+    );
+    return Math.round(averageGrade / suggestedGrades.length);
+  };
   const handleLoadCoords = useCallback(() => {
     if (!problem || !loadFromCoords || !initViewer) return;
     loadFromCoords(coords);
@@ -65,12 +74,18 @@ export const Problem = ({ match }: MatchProps) => {
   const toggleForm = () => {
     toggleAscentForm(!ascentForm);
   };
+  const handleDelete = () => {
+    if (window.confirm('Are you sure? Deletion is permanent.'))
+      dispatch(deleteProblem(_id));
+    history.push('/browse');
+  };
 
   useEffect(() => {
     if (!initViewer) return;
     initViewer();
     handleLoadCoords();
   }, [handleLoadCoords, initViewer]);
+
   useEffect(() => {
     const id = match.params.id;
     dispatch(getProblemById(id));
@@ -109,6 +124,20 @@ export const Problem = ({ match }: MatchProps) => {
             >
               <Canvas canvasRef={canvas} />
             </div>
+            {isOwner && (
+              <div className='options'>
+                <button onClick={handleDelete} className='btn-save btn-undo'>
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </button>
+                <button
+                  className='btn-save'
+                  style={{ opacity: '0.4' }}
+                  disabled
+                >
+                  <FontAwesomeIcon icon={faTools} />
+                </button>
+              </div>
+            )}
             <ProblemTable {...tableProps} />
           </div>
           {!alreadyTicked && isAuthenticated && (
