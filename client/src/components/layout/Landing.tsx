@@ -1,17 +1,11 @@
 import React from 'react';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
-import { login } from '../auth/authSlice';
-import GoogleButton from 'react-google-button';
 import { Footer } from './Footer';
 
 const Landing = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useAppDispatch();
 
-  const handleLogin = () => {
-    dispatch(login());
-  };
   return (
     <section className='container'>
       <div className='landing'>

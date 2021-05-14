@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
 import grades from '../editor/grades';
 import { AscentItemInfo } from './AscentItemInfo';
 import { Ascent } from './browserSlice';

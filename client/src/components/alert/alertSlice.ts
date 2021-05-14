@@ -42,8 +42,7 @@ export const alertSlice = createSlice({
         (alert) => alert.id !== action.payload
       );
     }
-  },
-  extraReducers: (builder) => {}
+  }
 });
 
 export const { addAlert, removeAlert } = alertSlice.actions;

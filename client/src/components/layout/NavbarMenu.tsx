@@ -16,17 +16,18 @@ export const NavbarMenu = () => {
   const [menu, toggleMenu] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const history = useHistory();
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const email = useAppSelector((state) => state.auth.user.email);
-  const isAdmin = email === 'oddgrd@gmail.com';
 
   const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const email = useAppSelector((state) => state.auth.user.email);
+
+  const isAdmin = email === 'oddgrd@gmail.com';
+
   const handleLogOut = () => {
     dispatch(logout());
     toggleMenu(!menu);
     history.push('/');
   };
-
   const handleClick = useCallback((e: any) => {
     if (!dropdownRef.current) return;
     if (dropdownRef.current.contains(e.target)) {
@@ -34,6 +35,7 @@ export const NavbarMenu = () => {
     }
     toggleMenu(false);
   }, []);
+
   useEffect(() => {
     document.addEventListener('mousedown', (e) => handleClick(e));
 
