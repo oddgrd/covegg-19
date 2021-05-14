@@ -57,7 +57,7 @@ export const ProblemTable = ({
               )}
             </>
           )}
-          <tr className='menu-animation-down'>
+          <tr>
             <th>Rules:</th>
             <td>{rules}</td>
           </tr>

@@ -1,7 +1,7 @@
-import React, { FC, FormEvent, useState } from 'react';
+import React, { FC, FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { saveProblem } from './editorSlice';
+import { clearState, saveProblem } from './editorSlice';
 import grades from './grades';
 import { Coords } from '../../hooks/useCanvas';
 
@@ -21,16 +21,17 @@ interface Props {
 
 const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
   const [formData, setFormData] = useState(initialState);
-  const dispatch = useAppDispatch();
   const history = useHistory();
+
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user.name);
+  const status = useAppSelector((state) => state.editor.status);
 
   const onChange = (e: any) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onChangeGrade = (e: any) => {
     setFormData({ ...formData, grade: e.target.value });
   };
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     dispatch(
@@ -41,8 +42,17 @@ const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
         board: currentBoard
       })
     );
-    history.push('/browse');
   };
+
+  useEffect(() => {
+    if (status === 'resolved') {
+      history.push('/browse');
+    }
+    return () => {
+      dispatch(clearState());
+    };
+  }, [status, history, dispatch]);
+
   const { title, grade, rules } = formData;
   return (
     <form
