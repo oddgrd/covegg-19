@@ -40,7 +40,8 @@ passport.use(
     async (_accessToken, _refreshToken, profile: any, done) => {
       const user = await User.findOneAndUpdate(
         { googleId: profile.id },
-        { $set: { avatar: profile._json.picture } }
+        { $set: { avatar: profile._json.picture } },
+        { new: true }
       );
       if (user) {
         done(null, user);
