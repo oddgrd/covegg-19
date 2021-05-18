@@ -41,7 +41,7 @@ export const BrowserItemInfo = ({ setBy, date, id, user, ascents }: Props) => {
       <div className='div-space'>
         <Moment fromNow>{date}</Moment>
         {isOwner && (
-          <button onClick={handleDelete} className='btn-trash'>
+          <button onClick={handleDelete} className='btn-small btn-delete'>
             <FontAwesomeIcon
               icon={faTrashAlt}
               style={{ width: '100%', height: '70%' }}

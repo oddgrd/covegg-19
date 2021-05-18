@@ -87,14 +87,20 @@ ul {
   border: 1px solid var(--danger-color);
   color: var(--danger-color);
 }
-.btn-trash {
+.btn-small {
   outline: none;
   cursor: pointer;
-  border: 1px solid var(--danger-color);
   height: 30px;
   width: 45px;
-  color: var(--danger-color);
   background: var(--secondary-bg);
+}
+.btn-delete {
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color);
+}
+.btn-edit {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 .avatar {
   border-radius: 50%;
@@ -231,9 +237,13 @@ ul {
   display: flex;
   gap: 0.3rem;
 }
+.options-small {
+  display: flex;
+  gap: 0.3rem;
+}
 .form {
   display: flex;
-  width: 350px;
+  max-width: 350px;
   flex-direction: column;
   margin: auto;
   margin-top: 0.7rem;
@@ -252,13 +262,11 @@ select {
   border: 1px solid rgb(68, 68, 68);
   background: var(--tertiary-bg);
   color: #c4c4c4;
-  transition: background-color 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25),
-    transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25),
+  transition: transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25),
     border 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
 }
 input[type='text']:focus,
 textarea:focus {
-  background: var(--secondary-bg);
   transform: scale(1.02);
   border: 1px solid var(--primary-color);
   outline: none;
@@ -267,7 +275,8 @@ textarea {
   resize: none;
   font-size: 1rem;
 }
-input:focus::placeholder {
+input:focus::placeholder,
+textarea:focus::placeholder {
   color: transparent;
 }
 .board-selector {

@@ -22,7 +22,18 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
     _id,
     avatar
   } = ascent;
+  const ascentItemInfoProps = {
+    rating,
+    user,
+    ascentId: _id,
+    problemId,
+    createdAt,
+    name,
+    grade,
+    comment
+  };
   const firstName = name.split(' ').slice(0, 1);
+
   return (
     <div className='ascent-item'>
       <div className='ascent-item-main'>
@@ -62,17 +73,7 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
         </div>
       </div>
 
-      {expand && (
-        <AscentItemInfo
-          comment={comment ? comment : ''}
-          rating={rating}
-          user={user}
-          ascentId={_id}
-          problemId={problemId}
-          createdAt={createdAt}
-          name={name}
-        />
-      )}
+      {expand && <AscentItemInfo ascentItemInfoProps={ascentItemInfoProps} />}
     </div>
   );
 };

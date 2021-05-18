@@ -1,11 +1,11 @@
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faStarS } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import Rating from 'react-rating';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import grades from '../editor/grades';
-import { addAscent } from './browserSlice';
+import { addAscent, editAscent } from './browserSlice';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 const initialState = {
@@ -19,6 +19,7 @@ const initialState = {
 
 export interface AscentData {
   problemId: string;
+  ascentId?: string;
   attempts: string;
   grade: number;
   rating: number;
@@ -26,14 +27,29 @@ export interface AscentData {
   comment?: string;
 }
 
+interface EditProps {
+  ascentId: string;
+  comment?: string;
+  grade: number;
+  rating: number;
+}
 interface Props {
   problemId: string;
   toggleForm: React.Dispatch<React.SetStateAction<boolean>>;
+  edit?: EditProps;
 }
-export const AscentForm = ({ problemId, toggleForm }: Props) => {
+export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
   const [formData, setFormData] = useState<AscentData>(initialState);
+
+  // In case of editing, load pre-edit values
+  useEffect(() => {
+    if (!edit) return;
+    setFormData({ ...initialState, ...edit });
+  }, [edit]);
+
   const dispatch = useAppDispatch();
   const avatar = useAppSelector((state) => state.auth.user.avatar);
+
   const onChange = (e: any) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onChangeGrade = (e: any) => {
@@ -48,7 +64,13 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(addAscent({ ...formData, problemId, avatar }));
+    if (!edit) {
+      dispatch(addAscent({ ...formData, problemId, avatar }));
+    } else {
+      dispatch(
+        editAscent({ ...formData, problemId, ascentId: edit.ascentId, avatar })
+      );
+    }
     toggleForm(false);
   };
 
@@ -59,7 +81,10 @@ export const AscentForm = ({ problemId, toggleForm }: Props) => {
       autoComplete='off'
       onSubmit={handleSubmit}
     >
-      <section className='toolbar'>
+      <section
+        className='toolbar'
+        style={{ width: `${edit ? '100%' : '350px'}` }}
+      >
         <RadioGroup
           horizontal
           className='radio'

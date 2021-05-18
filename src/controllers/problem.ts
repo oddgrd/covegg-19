@@ -154,9 +154,7 @@ const addAscent = async (req: Request, res: Response, _next: NextFunction) => {
 // @method - PUT
 const editAscent = async (req: Request, res: Response, _next: NextFunction) => {
   logging.info(NAMESPACE, `Editing ascent`);
-  // const { _id, name } = req.user as IUser;
-  const { attempts, rating, grade, comment } = req.body;
-  // const asc = { attempts, rating, grade, user: _id, name, ...rest };
+  const { attempts, rating, grade, comment, avatar } = req.body;
   try {
     const problem = await Problem.findOneAndUpdate(
       {
@@ -165,7 +163,8 @@ const editAscent = async (req: Request, res: Response, _next: NextFunction) => {
       },
       {
         $set: {
-          'ascents.$_id': req.params.ascent_id,
+          'ascents.$._id': req.params.ascent_id,
+          'ascents.$.avatar': avatar,
           'ascents.$.attempts': attempts,
           'ascents.$.rating': rating,
           'ascents.$.grade': grade,

@@ -112,6 +112,35 @@ export const addAscent = createAsyncThunk<
   }
 });
 
+export const editAscent = createAsyncThunk<
+  Problem,
+  AscentData,
+  { rejectValue: ApiError }
+>('browser/editAscent', async (data, { dispatch, rejectWithValue }) => {
+  const { attempts, grade, rating, comment, avatar, problemId, ascentId } =
+    data;
+  const formData = { attempts, grade, rating, comment, avatar };
+  try {
+    const res = await api.put(`/problems/${problemId}/${ascentId}`, formData);
+    dispatch(setAlert({ message: 'Ascent edited', type: 'success' }));
+    return res.data;
+  } catch (error) {
+    if (!error.response) {
+      throw error;
+    }
+    if (error.response.status === 422) {
+      dispatch(
+        setAlert({ message: error.response.data.error, type: 'danger' })
+      );
+    } else {
+      dispatch(
+        setAlert({ message: error.response.statusText, type: 'danger' })
+      );
+    }
+    return rejectWithValue({ errorMessage: error.response.statusText });
+  }
+});
+
 export const deleteAscent = createAsyncThunk<
   AscentIds,
   AscentIds,
@@ -226,6 +255,24 @@ export const browserSlice = createSlice({
       state.status = 'pending';
     });
     builder.addCase(addAscent.rejected, (state, action) => {
+      state.status = 'rejected';
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = action.error.message || action.error;
+      }
+    });
+
+    builder.addCase(editAscent.fulfilled, (state, action) => {
+      state.currentProblem.ascents = action.payload.ascents;
+      state.problems = initialState.problems;
+      state.error = '';
+      state.status = 'resolved';
+    });
+    builder.addCase(editAscent.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(editAscent.rejected, (state, action) => {
       state.status = 'rejected';
       if (action.payload) {
         state.error = action.payload.errorMessage;
