@@ -1,7 +1,8 @@
 import {
   createSlice,
   createAsyncThunk,
-  SerializedError
+  SerializedError,
+  PayloadAction
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Coords } from '../../hooks/useCanvas';
@@ -45,6 +46,7 @@ interface Browser {
   problems: Array<Problem>;
   status: string;
   error: string | SerializedError;
+  scrollIdx: number;
 }
 
 export const getProblems = createAsyncThunk<Array<Problem>>(
@@ -148,7 +150,8 @@ const initialState: Browser = {
     ascents: [],
     coords: [],
     date: ''
-  }
+  },
+  scrollIdx: 0
 };
 
 export const browserSlice = createSlice({
@@ -161,6 +164,9 @@ export const browserSlice = createSlice({
       state.error = '';
       state.currentProblem = initialState.currentProblem;
       return state;
+    },
+    setScrollLocation: (state, action: PayloadAction<number>) => {
+      state.scrollIdx = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -250,7 +256,7 @@ export const browserSlice = createSlice({
   }
 });
 
-export const { clearState } = browserSlice.actions;
+export const { clearState, setScrollLocation } = browserSlice.actions;
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
     const { title, setBy, grade, date, _id, user, ascents, coords } = problem;

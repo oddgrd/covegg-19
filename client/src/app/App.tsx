@@ -32,7 +32,7 @@ function App() {
       <Switch>
         <Route exact path='/login' component={Login} />
         <Route exact path='/browse' component={Browser} />
-        <Route exact path='/problems/:id' component={Problem} />
+        <Route exact path='/browse/:id' component={Problem} />
         <PrivateRoute exact path='/create' component={Editor} />
         <AdminRoute exact path='/boards/add' component={BoardForm} />
       </Switch>

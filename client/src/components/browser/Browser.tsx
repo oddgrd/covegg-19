@@ -1,6 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getProblems, clearState, selectProblems } from './browserSlice';
+import {
+  getProblems,
+  clearState,
+  selectProblems,
+  setScrollLocation
+} from './browserSlice';
 import Spinner from '../layout/Spinner';
 import { BrowserItem } from './BrowserItem';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +15,7 @@ export const Browser = () => {
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.browser.status);
   const error = useAppSelector((state) => state.browser.error);
+  const scrollIdx = useAppSelector((state) => state.browser.scrollIdx);
   const problems = useAppSelector(selectProblems);
 
   useEffect(() => {
@@ -18,6 +24,18 @@ export const Browser = () => {
       dispatch(clearState());
     };
   }, [dispatch]);
+
+  // Save scroll location after DOM mutations, return to it on "go back"
+  useLayoutEffect(() => {
+    return () => {
+      dispatch(setScrollLocation(window.scrollY));
+    };
+  }, [dispatch]);
+  useEffect(() => {
+    if (status === 'resolved') {
+      window.scroll({ top: scrollIdx, left: 0, behavior: 'smooth' });
+    }
+  }, [scrollIdx, status]);
 
   return (
     <section className='container'>

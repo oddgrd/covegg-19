@@ -75,7 +75,7 @@ export const BrowserItem = ({ problem }: Props) => {
             : grades[consensusGrade()].grade}
         </div>
         <div className='div-center'>
-          <Link className='browser-item-title' to={`/problems/${_id}`}>
+          <Link className='browser-item-title' to={`/browse/${_id}`}>
             <strong>{title}</strong>
           </Link>
         </div>
