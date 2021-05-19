@@ -4,6 +4,21 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { clearState, saveProblem } from './editorSlice';
 import grades from './grades';
 import { Coords } from '../../hooks/useCanvas';
+import { editProblem, getProblemById } from '../browser/browserSlice';
+
+export interface EditProps {
+  title: string;
+  rules: string;
+  grade: number;
+  problemId: string;
+  ascentsLength?: number;
+}
+interface Props {
+  currentBoard: string;
+  coords: Array<Coords> | undefined;
+  toggleForm?: React.Dispatch<React.SetStateAction<boolean>>;
+  edit?: EditProps;
+}
 
 const initialState = {
   title: '',
@@ -13,13 +28,7 @@ const initialState = {
   board: '',
   date: new Date().toISOString()
 };
-
-interface Props {
-  currentBoard: string;
-  coords: Array<Coords> | undefined;
-}
-
-const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
+const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
   const [formData, setFormData] = useState(initialState);
   const history = useHistory();
 
@@ -34,15 +43,34 @@ const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
   };
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(
-      saveProblem({
-        ...formData,
-        setBy: user,
-        coords,
-        board: currentBoard
-      })
-    );
+    if (!edit) {
+      dispatch(
+        saveProblem({
+          ...formData,
+          setBy: user,
+          coords,
+          board: currentBoard
+        })
+      );
+    } else {
+      dispatch(
+        editProblem({
+          title,
+          rules,
+          grade,
+          problemId: edit.problemId
+        })
+      );
+      if (toggleForm) toggleForm(false);
+      dispatch(getProblemById(edit.problemId));
+    }
   };
+
+  // In case of editing, load pre-edit values
+  useEffect(() => {
+    if (!edit) return;
+    setFormData({ ...initialState, ...edit });
+  }, [edit]);
 
   useEffect(() => {
     if (status === 'resolved') {
@@ -107,7 +135,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords }) => {
         <input
           type='submit'
           className='submit-button'
-          value='Save Problem'
+          value={edit ? 'Edit Problem' : 'Save Problem'}
         ></input>
       </div>
     </form>

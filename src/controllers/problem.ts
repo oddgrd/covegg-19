@@ -41,16 +41,17 @@ const editProblem = async (
   _next: NextFunction
 ) => {
   logging.info(NAMESPACE, `Editing problem`);
-  const { _id: userId, name } = req.user as IUser;
-  const problemFields = {
-    user: userId,
-    setBy: name,
-    ...req.body
-  };
+  const { title, grade, rules } = req.body;
   try {
     const problem = await Problem.findOneAndUpdate(
       { _id: req.params.id as any },
-      { $set: problemFields },
+      {
+        $set: {
+          title: title,
+          rules: rules,
+          grade: grade
+        }
+      },
       { new: true }
     );
     if (!problem) {

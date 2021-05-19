@@ -9,6 +9,7 @@ import { Coords } from '../../hooks/useCanvas';
 import api from '../../utils/api';
 import { setAlert } from '../alert/alertSlice';
 import { Board } from '../board/boardSlice';
+import { EditProps } from '../editor/EditorForm';
 import { ApiError } from '../editor/editorSlice';
 import { AscentData } from './AscentForm';
 
@@ -65,6 +66,34 @@ export const getProblemById = createAsyncThunk<Problem, string>(
     return { ...res.data, board: board.data };
   }
 );
+
+export const editProblem = createAsyncThunk<
+  Problem,
+  EditProps,
+  { rejectValue: ApiError }
+>('browser/editProblem', async (data, { dispatch, rejectWithValue }) => {
+  const { rules, title, grade, problemId } = data;
+  const formData = { rules, title, grade };
+  try {
+    const res = await api.put(`/problems/${problemId}`, formData);
+    dispatch(setAlert({ message: 'Problem edited', type: 'success' }));
+    return res.data;
+  } catch (error) {
+    if (!error.response) {
+      throw error;
+    }
+    if (error.response.status === 422) {
+      dispatch(
+        setAlert({ message: error.response.data.error, type: 'danger' })
+      );
+    } else {
+      dispatch(
+        setAlert({ message: error.response.statusText, type: 'danger' })
+      );
+    }
+    return rejectWithValue({ errorMessage: error.response.statusText });
+  }
+});
 
 export const deleteProblem = createAsyncThunk<
   string,
@@ -223,6 +252,24 @@ export const browserSlice = createSlice({
     builder.addCase(getProblemById.rejected, (state, action) => {
       state.status = 'rejected';
       state.error = action.error.message || action.error;
+    });
+
+    builder.addCase(editProblem.fulfilled, (state, action) => {
+      state.currentProblem = action.payload;
+      state.problems = initialState.problems;
+      state.error = '';
+      state.status = 'resolved';
+    });
+    builder.addCase(editProblem.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(editProblem.rejected, (state, action) => {
+      state.status = 'rejected';
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = action.error.message || action.error;
+      }
     });
 
     builder.addCase(deleteProblem.fulfilled, (state, action) => {

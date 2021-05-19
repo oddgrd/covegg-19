@@ -58,7 +58,7 @@ router.put(
     }
   },
   auth,
-  controller.addProblem
+  controller.editProblem
 );
 
 // @route    GET api/problems
