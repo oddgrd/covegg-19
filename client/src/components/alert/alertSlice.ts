@@ -22,7 +22,7 @@ export const setAlert = createAsyncThunk<void, AlertPayload>(
     const newAlert = { ...alert, id };
     dispatch(addAlert(newAlert));
     const remove = async () =>
-      setTimeout(() => dispatch(removeAlert(id)), 4000);
+      setTimeout(() => dispatch(removeAlert(id)), 5000);
     await remove();
   }
 );
