@@ -37,7 +37,7 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
   return (
     <div className='ascent-item'>
       <div className='ascent-item-main'>
-        <div className='div-center'>
+        <div className='div-center' onClick={() => toggleExpand(!expand)}>
           <img
             src={avatar}
             alt={`${firstName}`}
@@ -45,11 +45,17 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
             title={name}
           />
         </div>
-        <div className='div-center'>
+        <div
+          className='div-center unselectable'
+          onClick={() => toggleExpand(!expand)}
+        >
           <p>Attempts: </p>
           <strong>{attempts}</strong>
         </div>
-        <div className='div-center'>
+        <div
+          className='div-center unselectable'
+          onClick={() => toggleExpand(!expand)}
+        >
           <p
             style={{
               color: `${grades[grade].color}`
