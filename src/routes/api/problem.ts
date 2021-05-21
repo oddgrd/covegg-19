@@ -11,12 +11,16 @@ const router = express.Router();
 router.post(
   '/',
   [
-    check('title', 'Title is required').not().isEmpty().trim().escape(),
+    check('title', 'Title is required')
+      .not()
+      .isEmpty()
+      .trim()
+      .blacklist('<>&/{}'),
     check('rules', 'Problem Rules are required')
       .not()
       .isEmpty()
       .trim()
-      .escape(),
+      .blacklist('<>&/{}'),
     check('coords', 'Mark at least two holds and at most 30 holds').isArray({
       min: 2,
       max: 30
@@ -43,8 +47,16 @@ router.post(
 router.put(
   '/:id',
   [
-    check('title', 'Title is required').not().isEmpty().trim().escape(),
-    check('rules', 'Problem Rules are required').not().isEmpty().trim().escape()
+    check('title', 'Title is required')
+      .not()
+      .isEmpty()
+      .trim()
+      .blacklist('<>&/{}'),
+    check('rules', 'Problem Rules are required')
+      .not()
+      .isEmpty()
+      .trim()
+      .blacklist('<>&/{}')
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
@@ -80,7 +92,7 @@ router.post(
     check('attempts', 'Attempts is required').not().isEmpty(),
     check('rating', 'Rating is required').not().isEmpty(),
     check('grade', 'Rating is required').not().isEmpty(),
-    check('comment').optional().trim().escape()
+    check('comment').optional().trim().blacklist('<>&/{}')
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
@@ -106,7 +118,7 @@ router.put(
     check('attempts', 'Attempts is required').not().isEmpty(),
     check('rating', 'Rating is required').not().isEmpty(),
     check('grade', 'Rating is required').not().isEmpty(),
-    check('comment').optional().trim().escape()
+    check('comment').optional().trim().blacklist('<>&/{}')
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);
