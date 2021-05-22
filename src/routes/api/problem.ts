@@ -56,7 +56,11 @@ router.put(
       .not()
       .isEmpty()
       .trim()
-      .blacklist('<>&/{}')
+      .blacklist('<>&/{}'),
+    check('coords', 'Mark at least two holds and at most 30 holds').isArray({
+      min: 2,
+      max: 30
+    })
   ],
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const error = validationResult(req).formatWith(({ msg }) => msg);

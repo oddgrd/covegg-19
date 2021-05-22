@@ -16,6 +16,7 @@ import { loadUser } from '../components/auth/authSlice';
 import { getAllBoards } from '../components/board/boardSlice';
 import { Login } from '../components/auth/Login';
 import { Alert } from '../components/alert/Alert';
+import EditProblem from '../components/editor/EditProblem';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ function App() {
         <Route exact path='/browse' component={Browser} />
         <Route exact path='/browse/:id' component={Problem} />
         <PrivateRoute exact path='/create' component={Editor} />
+        <PrivateRoute exact path='/edit/:id' component={EditProblem} />
         <AdminRoute exact path='/boards/add' component={BoardForm} />
       </Switch>
     </Router>

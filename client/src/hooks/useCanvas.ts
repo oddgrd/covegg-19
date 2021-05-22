@@ -89,14 +89,7 @@ export const useCanvas = () => {
     });
   }, [coords]);
 
-  const loadFromDataUrl = (url: string) => {
-    if (!ctx.current) return;
-    const img = new Image();
-    img.src = url;
-    img.onload = () => ctx.current?.drawImage(img, 0, 0, 360, 478);
-  };
-
-  const loadFromCoords = (coords: Array<Coords>) => {
+  const loadFromCoords = useCallback((coords: Array<Coords>) => {
     if (!ctx.current || !canvas.current) return;
     coords.forEach((circle) => {
       if (!ctx.current) return;
@@ -106,13 +99,20 @@ export const useCanvas = () => {
       ctx.current.arc(circle.x, circle.y, 12, 0, 2 * Math.PI);
       ctx.current.stroke();
     });
-  };
+  }, []);
   return [
     {
       canvas,
       currentColor,
       coords
     },
-    { init, initViewer, handleColor, undo, loadFromDataUrl, loadFromCoords }
+    {
+      init,
+      initViewer,
+      handleColor,
+      undo,
+      loadFromCoords,
+      setCoords
+    }
   ];
 };

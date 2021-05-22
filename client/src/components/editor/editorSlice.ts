@@ -5,6 +5,8 @@ import {
 } from '@reduxjs/toolkit';
 import api from '../../utils/api';
 import { setAlert } from '../alert/alertSlice';
+import { Problem } from '../browser/browserSlice';
+import { EditProps } from './EditorForm';
 
 interface Editor {
   status: string;
@@ -44,6 +46,33 @@ export const saveProblem = createAsyncThunk<
   }
 });
 
+export const editProblem = createAsyncThunk<
+  Problem,
+  EditProps,
+  { rejectValue: ApiError }
+>('editor/editProblem', async (data, { dispatch, rejectWithValue }) => {
+  const { rules, title, grade, problemId, coords } = data;
+  const formData = { rules, title, grade, coords };
+  try {
+    const res = await api.put(`/problems/${problemId}`, formData);
+    dispatch(setAlert({ message: 'Problem edited', type: 'success' }));
+    return res.data;
+  } catch (error) {
+    if (!error.response) {
+      throw error;
+    }
+    if (error.response.status === 422) {
+      dispatch(
+        setAlert({ message: error.response.data.error, type: 'danger' })
+      );
+    } else {
+      dispatch(
+        setAlert({ message: error.response.statusText, type: 'danger' })
+      );
+    }
+    return rejectWithValue({ errorMessage: error.response.statusText });
+  }
+});
 export const editorSlice = createSlice({
   name: 'editor',
   initialState,
@@ -63,6 +92,22 @@ export const editorSlice = createSlice({
       state.status = 'pending';
     });
     builder.addCase(saveProblem.rejected, (state, action) => {
+      state.status = 'rejected';
+      if (action.payload) {
+        state.error = action.payload.errorMessage;
+      } else {
+        state.error = action.error.message || action.error;
+      }
+    });
+
+    builder.addCase(editProblem.fulfilled, (state) => {
+      state.error = '';
+      state.status = 'resolved';
+    });
+    builder.addCase(editProblem.pending, (state) => {
+      state.status = 'pending';
+    });
+    builder.addCase(editProblem.rejected, (state, action) => {
       state.status = 'rejected';
       if (action.payload) {
         state.error = action.payload.errorMessage;

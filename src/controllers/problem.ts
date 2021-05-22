@@ -41,7 +41,7 @@ const editProblem = async (
   _next: NextFunction
 ) => {
   logging.info(NAMESPACE, `Editing problem`);
-  const { title, grade, rules } = req.body;
+  const { title, grade, rules, coords } = req.body;
   try {
     const problem = await Problem.findOneAndUpdate(
       { _id: req.params.id as any },
@@ -49,7 +49,8 @@ const editProblem = async (
         $set: {
           title: title,
           rules: rules,
-          grade: grade
+          grade: grade,
+          coords: coords
         }
       },
       { new: true }

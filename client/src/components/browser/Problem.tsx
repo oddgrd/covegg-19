@@ -16,7 +16,6 @@ import { AscentForm } from './AscentForm';
 import Spinner from '../layout/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTools, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import EditorForm from '../editor/EditorForm';
 
 interface MatchParams {
   id: string;
@@ -26,7 +25,6 @@ interface MatchProps extends RouteComponentProps<MatchParams> {}
 export const Problem = ({ match }: MatchProps) => {
   const [{ canvas }, { initViewer, loadFromCoords }] = useCanvas();
   const [ascentForm, toggleAscentForm] = useState(false);
-  const [editorForm, toggleEditorForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const history = useHistory();
   const dispatch = useAppDispatch();
@@ -47,13 +45,6 @@ export const Problem = ({ match }: MatchProps) => {
     user,
     coords
   } = problem;
-  const editProps = {
-    title,
-    rules,
-    grade,
-    problemId: _id,
-    ascentsLength: ascents.length
-  };
   const tableProps = {
     setBy,
     rules,
@@ -86,7 +77,9 @@ export const Problem = ({ match }: MatchProps) => {
   const handleDelete = () => {
     if (window.confirm('Are you sure? Deletion is permanent.'))
       dispatch(deleteProblem(_id));
-    history.push('/browse');
+    setTimeout(() => {
+      history.push('/browse');
+    }, 200);
   };
 
   useEffect(() => {
@@ -140,19 +133,11 @@ export const Problem = ({ match }: MatchProps) => {
                 </button>
                 <button
                   className='btn-save'
-                  onClick={() => toggleEditorForm(!editorForm)}
+                  onClick={() => history.push(`/edit/${_id}`)}
                 >
                   <FontAwesomeIcon icon={faTools} />
                 </button>
               </div>
-            )}
-            {editorForm && (
-              <EditorForm
-                coords={coords}
-                currentBoard={board._id}
-                edit={editProps}
-                toggleForm={toggleEditorForm}
-              />
             )}
             <ProblemTable {...tableProps} />
           </div>

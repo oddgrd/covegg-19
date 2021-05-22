@@ -4,13 +4,14 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { clearState, saveProblem } from './editorSlice';
 import grades from './grades';
 import { Coords } from '../../hooks/useCanvas';
-import { editProblem, getProblemById } from '../browser/browserSlice';
+import { editProblem } from './editorSlice';
 
 export interface EditProps {
   title: string;
   rules: string;
   grade: number;
   problemId: string;
+  coords?: Array<Coords> | undefined;
   ascentsLength?: number;
 }
 interface Props {
@@ -30,6 +31,7 @@ const initialState = {
 };
 const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
   const [formData, setFormData] = useState(initialState);
+  const [firstRender, toggleFirstRender] = useState(true);
   const history = useHistory();
 
   const dispatch = useAppDispatch();
@@ -58,19 +60,23 @@ const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
           title,
           rules,
           grade,
+          coords,
           problemId: edit.problemId
         })
       );
       if (toggleForm) toggleForm(false);
-      dispatch(getProblemById(edit.problemId));
     }
   };
 
-  // In case of editing, load pre-edit values
+  // In case of editing, load pre-edit values on first render
   useEffect(() => {
-    if (!edit) return;
-    setFormData({ ...initialState, ...edit });
-  }, [edit]);
+    if (!edit || !firstRender) return;
+    setFormData({
+      ...initialState,
+      ...edit
+    });
+    toggleFirstRender(!firstRender);
+  }, [edit, firstRender]);
 
   useEffect(() => {
     if (status === 'resolved') {
