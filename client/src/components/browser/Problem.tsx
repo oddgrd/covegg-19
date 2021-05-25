@@ -74,17 +74,17 @@ export const Problem = ({ match }: MatchProps) => {
   };
 
   useEffect(() => {
-    if (!initViewer) return;
-    initViewer();
-    handleLoadCoords();
-  }, [handleLoadCoords, initViewer]);
-  useEffect(() => {
     const id = match.params.id;
     dispatch(getProblemById(id));
     return () => {
       dispatch(clearState());
     };
   }, [dispatch, match.params.id]);
+  useEffect(() => {
+    if (!initViewer) return;
+    initViewer();
+    handleLoadCoords();
+  }, [handleLoadCoords, initViewer]);
   useEffect(() => {
     if (ascentForm) scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [ascentForm]);

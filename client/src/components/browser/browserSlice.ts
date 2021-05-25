@@ -243,13 +243,14 @@ export const browserSlice = createSlice({
       getProblemById.fulfilled,
       (state, action: PayloadAction<Problem>) => {
         state.currentProblem = action.payload;
-        if (action.payload.ascents.length > 0)
+        if (action.payload.ascents.length > 0) {
           state.currentProblem.consensusGrade = getConsensusGrade(
             action.payload.ascents
           );
-        state.currentProblem.consensusRating = getConsensusRating(
-          action.payload.ascents
-        );
+          state.currentProblem.consensusRating = getConsensusRating(
+            action.payload.ascents
+          );
+        }
         state.error = '';
         state.status = 'resolved';
       }
