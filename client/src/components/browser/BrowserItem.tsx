@@ -20,6 +20,8 @@ interface Props {
   date: string;
   user: string;
   ascents: Ascent[];
+  consensusGrade?: number;
+  consensusRating?: number;
 }
 
 export const BrowserItem = ({
@@ -29,19 +31,14 @@ export const BrowserItem = ({
   setBy,
   date,
   user,
-  ascents
+  ascents,
+  consensusRating,
+  consensusGrade
 }: Props) => {
   const [expand, toggleExpand] = useState(false);
   const currentUser = useAppSelector((state) => state.auth.user._id);
-  const browserItemInfoProps = { setBy, date, id: _id, user, ascents };
-  const consensusGrade = () => {
-    if (ascents.length === 0) return grade;
-    const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
-    const averageGrade = suggestedGrades.reduce(
-      (val: number, acc: number) => acc + val
-    );
-    return Math.round(averageGrade / suggestedGrades.length);
-  };
+  const browserItemInfoProps = { setBy, date, id: _id, user, consensusRating };
+
   const ticked = () => {
     if (ascents.length === 0)
       return (
@@ -72,12 +69,12 @@ export const BrowserItem = ({
         <div
           className='browser-item-grade unselectable'
           style={{
-            color: `${grades[consensusGrade()].color}`
+            color: `${grades[consensusGrade || grade].color}`
           }}
         >
-          {ascents.length === 0
-            ? grades[consensusGrade()].grade + '?'
-            : grades[consensusGrade()].grade}
+          {consensusGrade
+            ? grades[consensusGrade].grade
+            : grades[grade].grade + '?'}
         </div>
         <div className='div-center'>
           <Link className='browser-item-title' to={`/browse/${_id}`}>

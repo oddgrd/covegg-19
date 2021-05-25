@@ -38,6 +38,8 @@ interface AscentData {
 export interface Problem {
   title: string;
   grade: number;
+  consensusGrade?: number;
+  consensusRating?: number;
   setBy: string;
   rules: string;
   board: Board;
@@ -188,7 +190,20 @@ const initialState: Browser = {
   },
   scrollIdx: 0
 };
-
+const getConsensusGrade = (ascents: Array<Ascent>) => {
+  const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
+  const averageGrade = suggestedGrades.reduce(
+    (val: number, acc: number) => acc + val
+  );
+  return Math.round(averageGrade / suggestedGrades.length);
+};
+const getConsensusRating = (ascents: Array<Ascent>) => {
+  const suggestedRatings = ascents.map((ascent: Ascent) => ascent.rating);
+  const averageRating = suggestedRatings.reduce(
+    (val: number, acc: number) => acc + val
+  );
+  return Math.round(averageRating / suggestedRatings.length);
+};
 export const browserSlice = createSlice({
   name: 'browser',
   initialState,
@@ -206,7 +221,13 @@ export const browserSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getProblems.fulfilled, (state, action) => {
-      state.problems = action.payload;
+      state.problems = action.payload.map((problem) => {
+        if (problem.ascents.length > 0) {
+          problem.consensusGrade = getConsensusGrade(problem.ascents);
+          problem.consensusRating = getConsensusRating(problem.ascents);
+        }
+        return problem;
+      });
       state.error = '';
       state.status = 'resolved';
     });
@@ -218,11 +239,21 @@ export const browserSlice = createSlice({
       state.error = action.error.message || action.error;
     });
 
-    builder.addCase(getProblemById.fulfilled, (state, action) => {
-      state.currentProblem = action.payload;
-      state.error = '';
-      state.status = 'resolved';
-    });
+    builder.addCase(
+      getProblemById.fulfilled,
+      (state, action: PayloadAction<Problem>) => {
+        state.currentProblem = action.payload;
+        if (action.payload.ascents.length > 0)
+          state.currentProblem.consensusGrade = getConsensusGrade(
+            action.payload.ascents
+          );
+        state.currentProblem.consensusRating = getConsensusRating(
+          action.payload.ascents
+        );
+        state.error = '';
+        state.status = 'resolved';
+      }
+    );
     builder.addCase(getProblemById.pending, (state) => {
       state.status = 'pending';
     });
@@ -312,7 +343,27 @@ export const browserSlice = createSlice({
 export const { clearState, setScrollLocation } = browserSlice.actions;
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
-    const { title, setBy, grade, date, _id, user, ascents, coords } = problem;
-    return { title, setBy, grade, date, _id, user, ascents, coords };
+    const {
+      title,
+      setBy,
+      grade,
+      date,
+      _id,
+      user,
+      ascents,
+      consensusGrade,
+      consensusRating
+    } = problem;
+    return {
+      title,
+      setBy,
+      grade,
+      date,
+      _id,
+      user,
+      ascents,
+      consensusGrade,
+      consensusRating
+    };
   });
 export default browserSlice.reducer;

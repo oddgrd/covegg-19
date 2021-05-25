@@ -2,12 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Canvas } from '../editor/Canvas';
-import {
-  Ascent,
-  getProblemById,
-  clearState,
-  deleteProblem
-} from './browserSlice';
+import { getProblemById, clearState, deleteProblem } from './browserSlice';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import grades from '../editor/grades';
 import { AscentItem } from './AscentItem';
@@ -27,6 +22,7 @@ export const Problem = ({ match }: MatchProps) => {
   const [ascentForm, toggleAscentForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const history = useHistory();
+
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user._id);
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -43,13 +39,16 @@ export const Problem = ({ match }: MatchProps) => {
     ascents,
     _id,
     user,
-    coords
+    coords,
+    consensusGrade,
+    consensusRating
   } = problem;
   const tableProps = {
     setBy,
     rules,
     board: board.boardVersion,
     date,
+    consensusRating,
     ascents,
     grade,
     user
@@ -59,14 +58,6 @@ export const Problem = ({ match }: MatchProps) => {
   const alreadyTicked =
     ascents.filter((ascent) => ascent.user === currentUser).length > 0;
 
-  const consensusGrade = () => {
-    if (ascents.length === 0) return grade;
-    const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
-    const averageGrade = suggestedGrades.reduce(
-      (val: number, acc: number) => acc + val
-    );
-    return Math.round(averageGrade / suggestedGrades.length);
-  };
   const handleLoadCoords = useCallback(() => {
     if (!problem || !loadFromCoords || !initViewer) return;
     loadFromCoords(coords);
@@ -87,7 +78,6 @@ export const Problem = ({ match }: MatchProps) => {
     initViewer();
     handleLoadCoords();
   }, [handleLoadCoords, initViewer]);
-
   useEffect(() => {
     const id = match.params.id;
     dispatch(getProblemById(id));
@@ -95,7 +85,6 @@ export const Problem = ({ match }: MatchProps) => {
       dispatch(clearState());
     };
   }, [dispatch, match.params.id]);
-
   useEffect(() => {
     if (ascentForm) scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [ascentForm]);
@@ -111,11 +100,11 @@ export const Problem = ({ match }: MatchProps) => {
               <h3 className='view-title'>{title}</h3>
               <h3
                 className='grade'
-                style={{ color: `${grades[consensusGrade()].color}` }}
+                style={{ color: `${grades[consensusGrade || grade].color}` }}
               >
-                {ascents.length === 0
-                  ? grades[consensusGrade()].grade + '?'
-                  : grades[consensusGrade()].grade}
+                {consensusGrade
+                  ? grades[consensusGrade].grade
+                  : grades[grade].grade + '?'}
               </h3>
             </div>
             <div

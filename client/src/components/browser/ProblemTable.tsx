@@ -13,6 +13,7 @@ interface Props {
   grade: number;
   user: string;
   ascents: Ascent[];
+  consensusRating?: number;
 }
 export const ProblemTable = ({
   setBy,
@@ -21,16 +22,11 @@ export const ProblemTable = ({
   date,
   ascents,
   grade,
+  consensusRating,
   user
 }: Props) => {
   const [expand, toggleExpand] = useState(false);
-  const consensusRating = () => {
-    const suggestedRatings = ascents.map((ascent: Ascent) => ascent.rating);
-    const averageRating = suggestedRatings.reduce(
-      (val: number, acc: number) => acc + val
-    );
-    return Math.round(averageRating / suggestedRatings.length);
-  };
+
   const setterFa = ascents.length > 0 && ascents[0].user === user;
   return (
     <>
@@ -74,10 +70,10 @@ export const ProblemTable = ({
               <tr className='menu-animation-down'>
                 <th>Rating:</th>
                 <td>
-                  {ascents.length === 0 ? (
-                    'Unrated'
+                  {consensusRating ? (
+                    <StarRating rating={consensusRating} />
                   ) : (
-                    <StarRating rating={consensusRating()} />
+                    'Unrated'
                   )}
                 </td>
               </tr>
