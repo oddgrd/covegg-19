@@ -100,9 +100,17 @@ export const Problem = ({ match }: MatchProps) => {
               <h3 className='view-title'>{title}</h3>
               <h3
                 className='grade'
-                style={{ color: `${grades[consensusGrade || grade].color}` }}
+                style={{
+                  color: `${
+                    grades[
+                      consensusGrade || consensusGrade === 0
+                        ? consensusGrade
+                        : grade
+                    ].color
+                  }`
+                }}
               >
-                {consensusGrade
+                {consensusGrade || consensusGrade === 0
                   ? grades[consensusGrade].grade
                   : grades[grade].grade + '?'}
               </h3>
