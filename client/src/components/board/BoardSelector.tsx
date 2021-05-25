@@ -1,5 +1,6 @@
 import React from 'react';
 import { Board } from './boardSlice';
+
 interface Props {
   boards: Array<Board>;
   setCurrentBoard: React.Dispatch<React.SetStateAction<Board | null>>;

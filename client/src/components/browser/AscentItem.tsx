@@ -79,7 +79,7 @@ export const AscentItem = ({ ascent, problemId }: Props) => {
         </div>
       </div>
 
-      {expand && <AscentItemInfo ascentItemInfoProps={ascentItemInfoProps} />}
+      {expand && <AscentItemInfo {...ascentItemInfoProps} />}
     </div>
   );
 };

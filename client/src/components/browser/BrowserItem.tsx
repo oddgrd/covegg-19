@@ -13,22 +13,27 @@ import { useAppSelector } from '../../app/hooks';
 import { faSquare as faSquareReg } from '@fortawesome/free-regular-svg-icons';
 
 interface Props {
-  problem: {
-    setBy: string;
-    _id: string;
-    title: string;
-    grade: number;
-    date: string;
-    user: string;
-    ascents: Ascent[];
-  };
+  setBy: string;
+  _id: string;
+  title: string;
+  grade: number;
+  date: string;
+  user: string;
+  ascents: Ascent[];
 }
 
-export const BrowserItem = ({ problem }: Props) => {
+export const BrowserItem = ({
+  title,
+  _id,
+  grade,
+  setBy,
+  date,
+  user,
+  ascents
+}: Props) => {
   const [expand, toggleExpand] = useState(false);
-  const { title, _id, grade, setBy, date, user, ascents } = problem;
   const currentUser = useAppSelector((state) => state.auth.user._id);
-
+  const browserItemInfoProps = { setBy, date, id: _id, user, ascents };
   const consensusGrade = () => {
     if (ascents.length === 0) return grade;
     const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
@@ -97,15 +102,7 @@ export const BrowserItem = ({ problem }: Props) => {
           </button>
         </div>
       </div>
-      {expand && (
-        <BrowserItemInfo
-          setBy={setBy}
-          date={date}
-          id={_id}
-          user={user}
-          ascents={ascents}
-        />
-      )}
+      {expand && <BrowserItemInfo {...browserItemInfoProps} />}
     </div>
   );
 };

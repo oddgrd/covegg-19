@@ -10,7 +10,6 @@ import api from '../../utils/api';
 import { setAlert } from '../alert/alertSlice';
 import { Board } from '../board/boardSlice';
 import { ApiError } from '../editor/editorSlice';
-import { AscentData } from './AscentForm';
 
 export interface AscentIds {
   ascentId: string;
@@ -27,7 +26,15 @@ export interface Ascent {
   comment?: string;
   createdAt: string;
 }
-
+interface AscentData {
+  problemId: string;
+  ascentId?: string;
+  attempts: string;
+  grade: number;
+  rating: number;
+  avatar: string;
+  comment?: string;
+}
 export interface Problem {
   title: string;
   grade: number;
@@ -40,7 +47,6 @@ export interface Problem {
   user: string;
   coords: Array<Coords>;
 }
-
 interface Browser {
   currentProblem: Problem;
   problems: Array<Problem>;

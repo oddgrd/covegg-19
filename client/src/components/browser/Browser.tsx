@@ -52,7 +52,7 @@ export const Browser = () => {
         ) : status === 'resolved' ? (
           <>
             {problems.map((problem, idx) => (
-              <BrowserItem problem={problem} key={idx} />
+              <BrowserItem {...problem} key={idx} />
             ))}
           </>
         ) : (

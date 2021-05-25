@@ -8,15 +8,6 @@ import grades from '../editor/grades';
 import { addAscent, editAscent } from './browserSlice';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
-export interface AscentData {
-  problemId: string;
-  ascentId?: string;
-  attempts: string;
-  grade: number;
-  rating: number;
-  avatar: string;
-  comment?: string;
-}
 interface EditProps {
   ascentId: string;
   comment?: string;
@@ -38,7 +29,7 @@ const initialState = {
   problemId: ''
 };
 export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
-  const [formData, setFormData] = useState<AscentData>(initialState);
+  const [formData, setFormData] = useState(initialState);
 
   // In case of editing, load pre-edit values
   useEffect(() => {

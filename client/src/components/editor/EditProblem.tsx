@@ -31,6 +31,7 @@ const EditProblem = ({ match }: MatchProps) => {
     problemId: _id,
     ascentsLength: ascents.length
   };
+
   useEffect(() => {
     dispatch(getProblemById(match.params.id));
   }, [dispatch, match.params.id]);
@@ -46,6 +47,7 @@ const EditProblem = ({ match }: MatchProps) => {
     if (!loadFromCoords) return;
     loadFromCoords(problem.coords);
   }, [problem.coords, loadFromCoords]);
+
   return (
     <section className='container'>
       {status === 'pending' ? (

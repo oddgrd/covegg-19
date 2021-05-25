@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { StarRating } from '../layout/StarRating';
 import { deleteAscent } from './browserSlice';
@@ -13,24 +12,29 @@ import Moment from 'react-moment';
 import { AscentForm } from './AscentForm';
 
 interface Props {
-  ascentItemInfoProps: {
-    rating: number;
-    user: string;
-    ascentId: string;
-    problemId: string;
-    createdAt: string;
-    name: string;
-    grade: number;
-    comment: string | undefined;
-  };
+  rating: number;
+  user: string;
+  ascentId: string;
+  problemId: string;
+  createdAt: string;
+  name: string;
+  grade: number;
+  comment: string | undefined;
 }
 
-export const AscentItemInfo = ({ ascentItemInfoProps }: Props) => {
+export const AscentItemInfo = ({
+  ascentId,
+  user,
+  rating,
+  problemId,
+  createdAt,
+  name,
+  grade,
+  comment
+}: Props) => {
   const dispatch = useAppDispatch();
   const [ascentForm, toggleAscentForm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { ascentId, user, rating, problemId, createdAt, name, grade, comment } =
-    ascentItemInfoProps;
 
   const currentUser = useAppSelector((state) => state.auth.user._id);
   const handleDelete = () => {
