@@ -5,7 +5,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import Rating from 'react-rating';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import grades from '../editor/grades';
-import { addAscent, editAscent } from './browserSlice';
+import { addAscent, editAscent, getProblemById } from './browserSlice';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 interface EditProps {
@@ -62,6 +62,9 @@ export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
       );
     }
     toggleForm(false);
+    setTimeout(() => {
+      dispatch(getProblemById(problemId));
+    }, 200);
   };
 
   const { grade, rating, comment } = formData;
