@@ -2,7 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useCanvas } from '../../hooks/useCanvas';
 import { Canvas } from '../editor/Canvas';
-import { getProblemById, clearState, deleteProblem } from './browserSlice';
+import {
+  getProblemById,
+  clearCurrentProblem,
+  deleteProblem
+} from './browserSlice';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import grades from '../editor/grades';
 import { AscentItem } from './AscentItem';
@@ -77,7 +81,7 @@ export const Problem = ({ match }: MatchProps) => {
     const id = match.params.id;
     dispatch(getProblemById(id));
     return () => {
-      dispatch(clearState());
+      dispatch(clearCurrentProblem());
     };
   }, [dispatch, match.params.id]);
   useEffect(() => {

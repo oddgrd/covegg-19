@@ -6,6 +6,12 @@ import {
 } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { Coords } from '../../hooks/useCanvas';
+import {
+  compareGradeAscending,
+  compareGradeDescending,
+  compareRatingAscending,
+  compareRatingDescending
+} from '../../misc/compareFunctions';
 import api from '../../utils/api';
 import { setAlert } from '../alert/alertSlice';
 import { Board } from '../board/boardSlice';
@@ -49,12 +55,18 @@ export interface Problem {
   user: string;
   coords: Array<Coords>;
 }
+interface SortState {
+  grade: string;
+  rating: string;
+}
+
 interface Browser {
   currentProblem: Problem;
   problems: Array<Problem>;
   status: string;
   error: string | SerializedError;
   scrollIdx: number;
+  sortState: SortState;
 }
 
 export const getProblems = createAsyncThunk<Array<Problem>>(
@@ -188,7 +200,11 @@ const initialState: Browser = {
     coords: [],
     date: ''
   },
-  scrollIdx: 0
+  scrollIdx: 0,
+  sortState: {
+    grade: '',
+    rating: ''
+  }
 };
 const getConsensusGrade = (ascents: Array<Ascent>) => {
   const suggestedGrades = ascents.map((ascent: Ascent) => ascent.grade);
@@ -213,10 +229,36 @@ export const browserSlice = createSlice({
       state.status = 'idle';
       state.error = '';
       state.currentProblem = initialState.currentProblem;
-      return state;
+    },
+    clearCurrentProblem: (state) => {
+      state.currentProblem = initialState.currentProblem;
     },
     setScrollLocation: (state, action: PayloadAction<number>) => {
       state.scrollIdx = action.payload;
+    },
+    sortGradeAscending: (state) => {
+      state.problems = state.problems.sort(compareGradeAscending);
+      state.sortState.grade = 'Ascending';
+      state.sortState.rating = '';
+    },
+    sortGradeDescending: (state) => {
+      state.problems = state.problems.sort(compareGradeDescending);
+      state.sortState.grade = 'Descending';
+      state.sortState.rating = '';
+    },
+    sortRatingAscending: (state) => {
+      state.problems = state.problems.sort(compareRatingAscending);
+      state.sortState.rating = 'Ascending';
+      state.sortState.grade = '';
+    },
+    sortRatingDescending: (state) => {
+      state.problems = state.problems.sort(compareRatingDescending);
+      state.sortState.rating = 'Descending';
+      state.sortState.grade = '';
+    },
+    clearSortState: (state) => {
+      state.sortState = initialState.sortState;
+      state.scrollIdx = 0;
     }
   },
   extraReducers: (builder) => {
@@ -228,6 +270,18 @@ export const browserSlice = createSlice({
         }
         return problem;
       });
+      if (state.sortState.grade === 'Ascending') {
+        state.problems = state.problems.sort(compareGradeAscending);
+      }
+      if (state.sortState.grade === 'Descending') {
+        state.problems = state.problems.sort(compareGradeDescending);
+      }
+      if (state.sortState.rating === 'Ascending') {
+        state.problems = state.problems.sort(compareRatingAscending);
+      }
+      if (state.sortState.rating === 'Descending') {
+        state.problems = state.problems.sort(compareRatingDescending);
+      }
       state.error = '';
       state.status = 'resolved';
     });
@@ -341,7 +395,17 @@ export const browserSlice = createSlice({
   }
 });
 
-export const { clearState, setScrollLocation } = browserSlice.actions;
+export const {
+  clearState,
+  setScrollLocation,
+  clearSortState,
+  sortGradeAscending,
+  sortGradeDescending,
+  sortRatingAscending,
+  sortRatingDescending,
+  clearCurrentProblem
+} = browserSlice.actions;
+
 export const selectProblems = (state: RootState) =>
   state.browser.problems.map((problem) => {
     const {
