@@ -69,11 +69,7 @@ export const BrowserItem = ({
         <div
           className='browser-item-grade unselectable'
           style={{
-            color: `${
-              grades[
-                consensusGrade || consensusGrade === 0 ? consensusGrade : grade
-              ].color
-            }`
+            color: `${grades[consensusGrade ?? grade].color}`
           }}
         >
           {consensusGrade || consensusGrade === 0
