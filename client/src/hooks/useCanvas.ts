@@ -8,7 +8,7 @@ export interface Coords {
 
 export const useCanvas = () => {
   const canvas = useRef<HTMLCanvasElement>();
-  const [coords, setCoords] = useState<Array<Coords>>([]);
+  const coordsRef = useRef<Array<Coords>>([]);
   const [currentColor, setCurrentColor] = useState('#00FF00');
   const lineWidth = 2.2;
   const selectedColor = useRef('#00FF00');
@@ -39,7 +39,7 @@ export const useCanvas = () => {
         y: lastY.current,
         color: selectedColor.current
       };
-      setCoords((coords) => [...coords, circle]);
+      coordsRef.current.push(circle);
     },
     [drawCircle]
   );
@@ -76,10 +76,11 @@ export const useCanvas = () => {
   };
 
   const undo = useCallback(() => {
-    if (!ctx.current || !canvas.current || coords.length === 0) return;
+    if (!ctx.current || !canvas.current || coordsRef.current.length === 0)
+      return;
     ctx.current.clearRect(0, 0, canvas.current.width, canvas.current.height);
-    coords.pop();
-    coords.forEach((circle) => {
+    coordsRef.current.pop();
+    coordsRef.current.forEach((circle) => {
       if (!ctx.current) return;
       ctx.current.strokeStyle = circle.color;
       ctx.current.lineWidth = lineWidth;
@@ -87,7 +88,7 @@ export const useCanvas = () => {
       ctx.current.arc(circle.x, circle.y, 12, 0, 2 * Math.PI);
       ctx.current.stroke();
     });
-  }, [coords]);
+  }, [coordsRef]);
 
   const loadFromCoords = useCallback((coords: Array<Coords>) => {
     if (!ctx.current || !canvas.current) return;
@@ -104,15 +105,14 @@ export const useCanvas = () => {
     {
       canvas,
       currentColor,
-      coords
+      coords: coordsRef
     },
     {
       init,
       initViewer,
       handleColor,
       undo,
-      loadFromCoords,
-      setCoords
+      loadFromCoords
     }
   ];
 };

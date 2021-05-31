@@ -16,10 +16,8 @@ interface MatchParams {
 interface MatchProps extends RouteComponentProps<MatchParams> {}
 
 const EditProblem = ({ match }: MatchProps) => {
-  const [
-    { canvas, coords },
-    { init, handleColor, undo, setCoords, loadFromCoords }
-  ] = useCanvas();
+  const [{ canvas, coords }, { init, handleColor, undo, loadFromCoords }] =
+    useCanvas();
   const dispatch = useAppDispatch();
   const status = useAppSelector((state) => state.browser.status);
   const problem = useAppSelector((state) => state.browser.currentProblem);
@@ -40,9 +38,9 @@ const EditProblem = ({ match }: MatchProps) => {
     if (status === 'resolved') init();
   }, [init, status]);
   useEffect(() => {
-    if (!setCoords) return;
-    setCoords([...problem.coords]);
-  }, [problem.coords, setCoords]);
+    if (!coords || !coords.current) return;
+    coords.current = [...problem.coords];
+  }, [coords, problem.coords]);
   useEffect(() => {
     if (!loadFromCoords) return;
     loadFromCoords(problem.coords);
@@ -72,7 +70,7 @@ const EditProblem = ({ match }: MatchProps) => {
           </div>
 
           <EditorForm
-            coords={coords}
+            coords={coords?.current}
             currentBoard={problem.board._id}
             edit={editProps}
           />

@@ -59,22 +59,22 @@ export const Problem = ({ match }: MatchProps) => {
   };
 
   const isOwner = currentUser === user;
-  const alreadyTicked =
+  const alreadySent =
     ascents.filter((ascent) => ascent.user === currentUser).length > 0;
 
   const handleLoadCoords = useCallback(() => {
     if (!problem || !loadFromCoords || !initViewer) return;
     loadFromCoords(coords);
   }, [coords, initViewer, loadFromCoords, problem]);
-  const toggleForm = () => {
-    toggleAscentForm(!ascentForm);
-  };
   const handleDelete = () => {
     if (window.confirm('Are you sure? Deletion is permanent.'))
       dispatch(deleteProblem(_id));
     setTimeout(() => {
       history.push('/browse');
     }, 200);
+  };
+  const toggleForm = () => {
+    toggleAscentForm(!ascentForm);
   };
 
   useEffect(() => {
@@ -142,7 +142,7 @@ export const Problem = ({ match }: MatchProps) => {
             )}
             <ProblemTable {...tableProps} />
           </div>
-          {!alreadyTicked && isAuthenticated && (
+          {!alreadySent && isAuthenticated && (
             <button
               onClick={() => toggleForm()}
               className={'btn-save'}

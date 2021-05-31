@@ -49,7 +49,7 @@ const Editor = () => {
           </div>
 
           <EditorForm
-            coords={coords}
+            coords={coords?.current}
             currentBoard={currentBoard ? currentBoard._id : boards[0]._id}
           />
         </>

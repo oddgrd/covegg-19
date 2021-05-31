@@ -3,14 +3,22 @@ import {
   createAsyncThunk,
   SerializedError
 } from '@reduxjs/toolkit';
+import { Coords } from '../../hooks/useCanvas';
 import api from '../../utils/api';
 import { setAlert } from '../alert/alertSlice';
 import { Problem } from '../browser/browserSlice';
-import { EditProps } from './EditorForm';
 
 interface Editor {
   status: string;
   error: string | SerializedError;
+}
+export interface EditProps {
+  title: string;
+  rules: string;
+  grade: number;
+  problemId: string;
+  coords?: Array<Coords> | undefined;
+  ascentsLength?: number;
 }
 export interface ApiError {
   errorMessage: string;
