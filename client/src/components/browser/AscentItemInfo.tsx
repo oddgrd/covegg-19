@@ -8,7 +8,7 @@ import {
   faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Moment from 'react-moment';
+import { DateTime } from 'luxon';
 import { AscentForm } from './AscentForm';
 
 interface Props {
@@ -45,19 +45,21 @@ export const AscentItemInfo = ({
 
   const firstName = name.split(' ').slice(0, 1);
   const isOwner = currentUser === user;
+  const dateObject = new Date(createdAt);
 
   const editProps = { comment, rating, grade, ascentId };
 
   useEffect(() => {
     if (ascentForm) scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [ascentForm]);
+
   return (
     <div className='ascent-item-info menu-animation'>
       <div className='div-space'>
         <div className='div-center'>
           <p>{firstName}</p>
           <p style={{ fontSize: '0.8rem', textAlign: 'center' }}>
-            <Moment fromNow>{createdAt}</Moment>
+            <p>{DateTime.fromJSDate(dateObject).toRelative()}</p>
           </p>
         </div>
 

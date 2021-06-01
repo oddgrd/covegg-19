@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Moment from 'react-moment';
+import { DateTime } from 'luxon';
 import grades from '../editor/grades';
 import { StarRating } from '../layout/StarRating';
 import { Ascent } from './browserSlice';
@@ -28,6 +28,7 @@ export const ProblemTable = ({
   const [expand, toggleExpand] = useState(false);
 
   const setterFa = ascents.length > 0 && ascents[0].user === user;
+  const dateObject = new Date(date);
   return (
     <>
       <table className='problem-table '>
@@ -84,7 +85,11 @@ export const ProblemTable = ({
               <tr className='menu-animation-down'>
                 <th>Date:</th>
                 <td>
-                  <Moment format='DD-MM-YYYY HH:mm'>{date}</Moment>
+                  <p>
+                    {DateTime.fromJSDate(dateObject).toLocaleString(
+                      DateTime.DATE_FULL
+                    )}
+                  </p>
                 </td>
               </tr>
             </>

@@ -1,10 +1,10 @@
 import React from 'react';
-import Moment from 'react-moment';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { StarRating } from '../layout/StarRating';
 import { deleteProblem } from './browserSlice';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DateTime } from 'luxon';
 
 interface Props {
   setBy: string;
@@ -30,6 +30,7 @@ export const BrowserItemInfo = ({
   };
 
   const isOwner = currentUser === user;
+  const dateObject = new Date(date);
   return (
     <div className='browser-item-info menu-animation-down'>
       <div>
@@ -37,7 +38,7 @@ export const BrowserItemInfo = ({
       </div>
 
       <div className='div-space'>
-        <Moment fromNow>{date}</Moment>
+        <p>{DateTime.fromJSDate(dateObject).toRelative()}</p>
         {isOwner && (
           <button onClick={handleDelete} className='btn-small btn-delete'>
             <FontAwesomeIcon
