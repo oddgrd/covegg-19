@@ -9,7 +9,8 @@ export const uploadImage = (file: Express.Multer.File) =>
 
     const blob = bucket.file(originalname.replace(/ /g, '_'));
     const blobStream = blob.createWriteStream({
-      resumable: false
+      resumable: false,
+      gzip: true
     });
     blobStream
       .on('finish', () => {
