@@ -42,9 +42,7 @@ export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
 
   const onChange = (e: any) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  const onChangeGrade = (e: any) => {
-    setFormData({ ...formData, grade: e.target.value });
-  };
+
   const onChangeRating = (value: number) => {
     setFormData({ ...formData, rating: value });
   };
@@ -128,7 +126,7 @@ export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
             min={0}
             max={grades.length - 1}
             value={grade}
-            onChange={(e) => onChangeGrade(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>

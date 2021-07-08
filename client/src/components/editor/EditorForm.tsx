@@ -32,9 +32,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
 
   const onChange = (e: any) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  const onChangeGrade = (e: any) => {
-    setFormData({ ...formData, grade: e.target.value });
-  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!edit) {
@@ -124,7 +122,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
             min={0}
             max={grades.length - 1}
             value={grade}
-            onChange={(e) => onChangeGrade(e)}
+            onChange={(e) => onChange(e)}
             required
           />
         </div>
