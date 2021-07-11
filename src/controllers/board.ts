@@ -12,7 +12,7 @@ const upload = async (req: Request, res: Response, _next: NextFunction) => {
   try {
     const { boardVersion } = req.body;
     const myFile = req.file;
-    const imageUrl = await uploadImage(myFile);
+    const imageUrl = await uploadImage(myFile as Express.Multer.File);
 
     res.status(200).json({
       message: 'Upload was successful',

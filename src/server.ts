@@ -78,6 +78,9 @@ app.use(
     secret: config.session.sessionSecret,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production'
+    },
     store: MongoStore.create({
       mongoUrl: config.mongo.url,
       stringify: false,
