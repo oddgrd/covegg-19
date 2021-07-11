@@ -144,6 +144,9 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST PUT');
     res.status(200).json({});
   }
+  console.log(req.headers['x-forwarded-proto']);
+  console.log(req.protocol);
+  console.log(req.headers.cookie);
   next();
 });
 
