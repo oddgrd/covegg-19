@@ -82,7 +82,8 @@ app.use(
     proxy: true,
     cookie: {
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 5184000000
+      maxAge: 5184000000,
+      sameSite: 'lax'
     },
     store: MongoStore.create({
       mongoUrl: config.mongo.url,
