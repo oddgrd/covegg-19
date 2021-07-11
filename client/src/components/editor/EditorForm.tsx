@@ -84,7 +84,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
       autoComplete='off'
       onSubmit={handleSubmit}
     >
-      <div className='form-group'>
+      <div>
         <input
           type='text'
           placeholder='Title'
@@ -94,7 +94,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
           required
         />
       </div>
-      <div className='form-group'>
+      <div>
         <input
           type='text'
           placeholder='Feet follow hands?'
@@ -104,7 +104,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
           required
         />
       </div>
-      <div className='form-group'>
+      <div>
         <p
           style={{
             textAlign: 'center',
@@ -127,7 +127,7 @@ const EditorForm: FC<Props> = ({ currentBoard, coords, toggleForm, edit }) => {
           />
         </div>
       </div>
-      <div className='form-group'>
+      <div>
         <input
           type='submit'
           className='submit-button'

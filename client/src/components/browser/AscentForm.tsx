@@ -108,7 +108,7 @@ export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
           </RadioButton>
         </RadioGroup>
       </section>
-      <div className='form-group'>
+      <div>
         <p
           style={{
             textAlign: 'center',
@@ -139,7 +139,7 @@ export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
           fullSymbol={<FontAwesomeIcon icon={faStarS} size='3x' />}
         />
       </div>
-      <div className='form-group'>
+      <div>
         <textarea
           maxLength={90}
           rows={3}
@@ -151,7 +151,7 @@ export const AscentForm = ({ problemId, edit, toggleForm }: Props) => {
           style={{ marginTop: '1.3rem' }}
         />
       </div>
-      <div className='form-group'>
+      <div>
         <input type='submit' className='submit-button' value='Submit'></input>
       </div>
     </form>
