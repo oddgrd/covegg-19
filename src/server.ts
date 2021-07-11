@@ -102,6 +102,7 @@ const multerMid = multer({
 });
 app.use(multerMid.single('file'));
 
+app.disable('x-powered-by');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(lusca.xframe('SAMEORIGIN'));
