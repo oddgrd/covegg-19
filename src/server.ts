@@ -73,6 +73,7 @@ passport.deserializeUser((id, done) => {
 });
 
 // Configure express-session with mongoDB store
+app.set('trust proxy', 1);
 app.use(
   session({
     secret: config.session.sessionSecret,
