@@ -79,8 +79,10 @@ app.use(
     secret: config.session.sessionSecret,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
-      secure: process.env.NODE_ENV === 'production'
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 5184000000
     },
     store: MongoStore.create({
       mongoUrl: config.mongo.url,
