@@ -4,43 +4,43 @@ import IProblem from '../interfaces/problem';
 const ProblemSchema: Schema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'users',
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   setBy: {
     type: String,
-    required: true
+    required: true,
   },
   board: {
     type: Schema.Types.ObjectId,
-    ref: 'boards'
+    ref: 'boards',
   },
   rules: {
     type: String,
-    required: true
+    required: true,
   },
   grade: {
     type: Number,
-    required: true
+    required: true,
   },
   coords: [
     {
       x: {
         type: Number,
-        required: true
+        required: true,
       },
       y: {
         type: Number,
-        required: true
+        required: true,
       },
       color: {
         type: String,
-        required: true
-      }
-    }
+        required: true,
+      },
+    },
   ],
   ascents: [
     {
@@ -48,42 +48,42 @@ const ProblemSchema: Schema = new Schema({
         {
           user: {
             type: Schema.Types.ObjectId,
-            ref: 'users'
+            ref: 'users',
           },
           name: {
             type: String,
-            required: true
+            required: true,
           },
           attempts: {
             type: String,
-            required: true
+            required: true,
           },
           grade: {
             type: Number,
-            required: true
+            required: true,
           },
           avatar: {
             type: String,
-            required: true
+            required: true,
           },
           rating: {
             type: Number,
-            required: true
+            required: true,
           },
           comment: {
-            type: String
-          }
+            type: String,
+          },
         },
         { timestamps: true }
-      )
-    }
+      ),
+    },
   ],
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-const Problem: Model<IProblem> = model('Problem', ProblemSchema);
+const Problem: Model<IProblem> = model<IProblem>('Problem', ProblemSchema);
 
 export default Problem;

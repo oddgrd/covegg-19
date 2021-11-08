@@ -4,18 +4,18 @@ import IBoard from '../interfaces/board';
 const BoardSchema: Schema = new Schema({
   imageUrl: {
     type: String,
-    required: true
+    required: true,
   },
   boardVersion: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-const Board: Model<IBoard> = model('Board', BoardSchema);
+const Board: Model<IBoard> = model<IBoard>('Board', BoardSchema);
 
 export default Board;

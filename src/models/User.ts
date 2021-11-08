@@ -4,25 +4,25 @@ import IUser from '../interfaces/user';
 const UserSchema: Schema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   avatar: {
-    type: String
+    type: String,
   },
   googleId: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-const User: Model<IUser> = model('User', UserSchema);
+const User: Model<IUser> = model<IUser>('User', UserSchema);
 
 export default User;
