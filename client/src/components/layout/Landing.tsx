@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 import { Footer } from './Footer';
@@ -9,12 +8,25 @@ const Landing = () => {
   return (
     <section className='container'>
       <div className='landing'>
-        <div className='landing-header unselectable'>
-          <h1 style={{ fontSize: '2rem' }}>Covegg-19 (BETA)</h1>
+        <div className='landing-header'>
+          <h1 style={{ fontSize: '2rem' }}>Covegg-19 (DEPRECATED)</h1>
           <h3 style={{ maxWidth: '500px' }}>
             Create and browse problems for your home climbing board
           </h3>
+          <h3>This project is no longer developed, new version at: </h3>
         </div>
+        <a
+          href='https://myhomeboard.no/'
+          target='_blank'
+          rel='noreferrer'
+          style={{
+            color: '#05ab75',
+            fontSize: '25px',
+            textDecoration: 'underline',
+          }}
+        >
+          myhomeboard.no
+        </a>
 
         <div className='landing-links'>
           {isAuthenticated ? (
